@@ -1,0 +1,20 @@
+{
+    "bracketSpacing": true,
+    "bracketSameLine": true,
+    "endOfLine": "auto",
+    "htmlWhitespaceSensitivity": "strict",
+    "printWidth": 80,
+    "singleQuote": true,
+    "singleAttributePerLine": true,
+    "semi": true,
+    "trailingComma": "all",
+    "tabWidth": 4,
+    "overrides": [
+        {
+            "files": "*.scss",
+            "options": {
+                "singleQuote": false
+            }
+        }
+    ]
+}

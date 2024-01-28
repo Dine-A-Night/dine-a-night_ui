@@ -5,15 +5,25 @@
 
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 ::ng-deep {
-  .mdc-button__label {
+    .mdc-button__label {
+        color: white !important;
+    }
+}
+.mat-raised-button {
     color: white !important;
-  }
 }
-.mat-raised-button{
-  color: white !important;
+.mat-mdc-raised-button.color-button {
+    background-color: green;
+    color: purple;
+    border: 1px solid orange;
 }
-.mat-mdc-raised-button.color-button { background-color: green; color: purple; border: 1px solid orange; }

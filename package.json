@@ -6,7 +6,10 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "prepare": "husky",
+    "format": "npx prettier . --write src/app/",
+    "format-check": "npx prettier . --check src/app/"
   },
   "private": true,
   "dependencies": {
@@ -30,13 +33,16 @@
     "@angular/compiler-cli": "^16.2.0",
     "@types/jasmine": "~4.3.0",
     "autoprefixer": "^10.4.17",
+    "husky": "^9.0.6",
     "jasmine-core": "~4.6.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "lint-staged": "^15.2.0",
     "postcss": "^8.4.33",
+    "prettier": "3.2.4",
     "tailwindcss": "^3.4.1",
     "typescript": "~5.1.3"
   }
