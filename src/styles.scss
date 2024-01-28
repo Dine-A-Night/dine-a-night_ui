@@ -3,15 +3,87 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nerko+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Arima:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+@import "custom-fonts.scss";
+
+/* Colors */
+$color-primary: white;
+$color-secondary: rgba(5, 5, 131, 0.862);
+$color-accent: #ffa500;
+
+$text-color-primary: black;
+$text-color-light: white;
+
+/* Fonts */
+/* $font-primary: 'Poppins', sans-serif; */
+$font-primary: "Brandon Text", sans-serif;
+$font-secondary: Roboto, "Helvetica Neue", sans-serif;
+$font-headings: "Bree Serif", serif;
+$font-fancy: "Arima", "Times New Roman", Times, serif, cursive;
+
 /* You can add global styles to this file, and also import other style files */
+
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
 
 html,
 body {
     height: 100%;
-}
-body {
     margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    padding: 0;
+    font-family: $font-primary;
+}
+
+.container-80 {
+    width: min(1000px, 80%);
+    margin: auto;
+}
+
+.container-50 {
+    width: min(1000px, 50%);
+    margin: auto;
+}
+
+/* Color + Font Classes */
+.font-primary {
+    font-family: $font-primary;
+}
+.font-secondary {
+    font-family: $font-secondary;
+}
+.font-headings {
+    font-family: $font-headings;
+}
+.font-fancy {
+    font-family: $font-fancy;
+}
+
+.color-primary {
+    background-color: $color-primary;
+}
+.color-secondary {
+    background-color: $color-secondary;
+}
+.color-accent {
+    background-color: $color-accent;
+}
+
+.text-color-primary {
+    color: $text-color-primary;
+}
+.text-color-secondary {
+    color: $color-secondary;
+}
+.text-color-light {
+    color: $text-color-light;
 }
 
 ::ng-deep {

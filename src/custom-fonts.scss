@@ -1,0 +1,97 @@
+/* fonts.css or font-faces.scss */
+
+@font-face {
+    font-family: "Brandon Text";
+    src: url("./assets/fonts/brandon-text-font-family/HvDTrial_Brandon_Text_Black-BF6514e9eb54e57.otf")
+        format("opentype");
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Brandon Text";
+    src: url("./assets/fonts/brandon-text-font-family/HvDTrial_Brandon_Text_Black_Italic-BF6514e9eb74ba6.otf")
+        format("opentype");
+    font-weight: 900;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Brandon Text";
+    src: url("./assets/fonts/brandon-text-font-family/HvDTrial_Brandon_Text_Bold-BF6514e9eb720dc.otf")
+        format("opentype");
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Brandon Text";
+    src: url("./assets/fonts/brandon-text-font-family/HvDTrial_Brandon_Text_Bold_Italic-BF6514e9eb4fc07.otf")
+        format("opentype");
+    font-weight: 700;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Brandon Text";
+    src: url("./assets/fonts/brandon-text-font-family/HvDTrial_Brandon_Text_Medium-BF6514e9eb272a3.otf")
+        format("opentype");
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Brandon Text";
+    src: url("./assets/fonts/brandon-text-font-family/HvDTrial_Brandon_Text_Medium_Italic-BF6514e9eb2abb6.otf")
+        format("opentype");
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Brandon Text";
+    src: url("./assets/fonts/brandon-text-font-family/HvDTrial_Brandon_Text_Regular-BF6514e9eb617a0.otf")
+        format("opentype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Brandon Text";
+    src: url("./assets/fonts/brandon-text-font-family/HvDTrial_Brandon_Text_Regular_Italic-BF6514e9eb6a5a1.otf")
+        format("opentype");
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Brandon Text";
+    src: url("./assets/fonts/brandon-text-font-family/HvDTrial_Brandon_Text_Light-BF6514e9eb80fbd.otf")
+        format("opentype");
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Brandon Text";
+    src: url("./assets/fonts/brandon-text-font-family/HvDTrial_Brandon_Text_Light_Italic-BF6514e9ea886e7.otf")
+        format("opentype");
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Brandon Text";
+    src: url("./assets/fonts/brandon-text-font-family/HvDTrial_Brandon_Text_Thin-BF6514e9eb4f386.otf")
+        format("opentype");
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Brandon Text";
+    src: url("./assets/fonts/brandon-text-font-family/HvDTrial_brandon_Text_Thin_Italic-BF6514e9eb27295.otf")
+        format("opentype");
+    font-weight: 100;
+    font-style: italic;
+}
