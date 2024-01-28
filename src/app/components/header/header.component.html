@@ -14,7 +14,9 @@
                         alt="Brand Logo"
                 /></a>
                 <!-- App Name -->
-                <p class="text-xl md:text-2xl font-bold">{{ appTitle }}</p>
+                <p class="text-xl md:text-2xl font-bold hidden md:block">{{
+                    appTitle
+                }}</p>
             </div>
         </li>
 
@@ -106,25 +108,16 @@
                 [routerLink]="['about']"
                 (click)="toggleSideMenu()"
                 matRipple
-                >About Diabetes</a
+                >About</a
             >
         </li>
         <li>
             <a
                 class="block p-2 hover:no-underline hover:bg-sky-100 focus:bg-sky-100"
-                [routerLink]="['doctors']"
+                [routerLink]="['contact-us']"
                 (click)="toggleSideMenu()"
                 matRipple
-                >Health-care providers</a
-            >
-        </li>
-        <li>
-            <a
-                class="block p-2 hover:no-underline hover:bg-sky-100 focus:bg-sky-100"
-                [routerLink]="['awareness']"
-                (click)="toggleSideMenu()"
-                matRipple
-                >How your data can help</a
+                >Contact Us</a
             >
         </li>
 

@@ -8,6 +8,7 @@ import { AppRoutingModule } from './routing/app-routing.module';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatRippleModule } from '@angular/material/core';
 import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
@@ -19,6 +20,7 @@ import { HeaderComponent } from './components/header/header.component';
         MatButtonModule,
         MatIconModule,
         MatTooltipModule,
+        MatRippleModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
