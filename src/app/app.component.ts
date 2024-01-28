@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
     title = 'dine-a-night-ui';
+
+    get showHeader() {
+        return true; // for now
+    }
 }

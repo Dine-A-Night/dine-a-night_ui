@@ -1,11 +1,13 @@
+import { MatIconModule } from '@angular/material/icon';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './routing/app-routing.module';
-import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './routing/app-routing.module';
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
@@ -15,6 +17,8 @@ import { HeaderComponent } from './components/header/header.component';
         AppRoutingModule,
         BrowserAnimationsModule,
         MatButtonModule,
+        MatIconModule,
+        MatTooltipModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

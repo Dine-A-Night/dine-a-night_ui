@@ -39,7 +39,11 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: $font-primary;
+    font-family: $font-secondary;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 .container-80 {

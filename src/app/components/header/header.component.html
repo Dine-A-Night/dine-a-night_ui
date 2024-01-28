@@ -1,1 +1,133 @@
-<p>header works!</p>
+<nav class="relative px-5 border flex justify-between items-center">
+    <ul class="nav-header flex items-center h-full gap-10 flex-wrap">
+        <!-- Brand Logo -->
+        <li>
+            <div class="flex items-center">
+                <a
+                    routerLink="/home"
+                    class="app-brand"
+                    aria-label="Click to go to home page"
+                    ><img
+                        matTooltip="Home"
+                        src="../../../assets/images/brandImage.png"
+                        width="96"
+                        alt="Brand Logo"
+                /></a>
+                <!-- App Name -->
+                <p class="text-xl md:text-2xl font-bold">{{ appTitle }}</p>
+            </div>
+        </li>
+
+        <!-- Links -->
+        <li class="hidden lg:inline">
+            <ul class="flex gap-10">
+                <li class="text-color-secondary text-lg">
+                    <a [routerLink]="['about']">About</a>
+                </li>
+                <li class="text-color-secondary text-lg">
+                    <a
+                        [routerLink]="['contact-us']"
+                        class="cursor-pointer"
+                        >Contact Us</a
+                    >
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <!-- Right Part -->
+    <div>
+        <div class="hidden md:block">
+            <button
+                *ngIf="isLandingPage"
+                mat-raised-button
+                color="accent"
+                style="border-radius: 25px; padding: 1.5em">
+                <mat-icon>login</mat-icon>
+                Login
+            </button>
+        </div>
+        <div class="md:hidden">
+            <button
+                mat-icon-button
+                matTooltip="{{ sideMenuOpen ? 'Close' : 'Open' }} Menu"
+                (click)="toggleSideMenu()">
+                <mat-icon>menu</mat-icon>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<div
+    class="responsive-menu"
+    [ngClass]="{
+        'responsive-menu-open': sideMenuOpen,
+        'responsive-menu-closed': !sideMenuOpen && sideMenuTouched
+    }">
+    <div class="flex justify-between mb-2 p-3">
+        <h2 class="text-2xl">Pages</h2>
+        <button
+            class="flex items-center rounded p-1"
+            matRipple
+            title="Close"
+            matTooltip="Close"
+            (click)="toggleSideMenu()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <hr />
+
+    <ul>
+        <li>
+            <a
+                class="flex items-center gap-2 p-2 hover:no-underline bg-sky-100 hover:bg-sky-200 focus:bg-sky-200"
+                [routerLink]="['/']"
+                (click)="toggleSideMenu()"
+                matRipple>
+                <mat-icon>home</mat-icon>
+                Home
+            </a>
+        </li>
+        <li>
+            <a
+                href="#"
+                class="flex items-center gap-2 p-2 hover:no-underline bg-sky-100 hover:bg-sky-200 cursor-pointer focus:bg-sky-200"
+                matRipple>
+                <mat-icon>login</mat-icon>
+                Login
+            </a>
+        </li>
+
+        <hr />
+
+        <li>
+            <a
+                class="block p-2 hover:no-underline hover:bg-sky-100 focus:bg-sky-100"
+                [routerLink]="['about']"
+                (click)="toggleSideMenu()"
+                matRipple
+                >About Diabetes</a
+            >
+        </li>
+        <li>
+            <a
+                class="block p-2 hover:no-underline hover:bg-sky-100 focus:bg-sky-100"
+                [routerLink]="['doctors']"
+                (click)="toggleSideMenu()"
+                matRipple
+                >Health-care providers</a
+            >
+        </li>
+        <li>
+            <a
+                class="block p-2 hover:no-underline hover:bg-sky-100 focus:bg-sky-100"
+                [routerLink]="['awareness']"
+                (click)="toggleSideMenu()"
+                matRipple
+                >How your data can help</a
+            >
+        </li>
+
+        <hr />
+    </ul>
+</div>
