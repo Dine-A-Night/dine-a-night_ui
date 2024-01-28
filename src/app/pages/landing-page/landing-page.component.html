@@ -1,0 +1,45 @@
+<div class="w-full h-screen bg-secondary">
+    <div class="container-80 h-full flex justify-center items-center">
+        <!-- Get Started Button  -->
+        <button
+            mat-raised-button
+            color="accent"
+            style="border-radius: 25px; padding: 1.5em">
+            <mat-icon>home</mat-icon>
+            Get Started
+        </button>
+
+        <!-- Cards -->
+        <div
+            [ngClass]="{ 'fade-top-left': playTransition }"
+            class="bg-white p-4 w-48 h-48 absolute-center border-2 rounded-xl flex items-center bg-slate-100 shadow">
+            <p class="text-2xl font-bold text-center"
+                >Tired of waiting outside a busy Restaurant?</p
+            >
+        </div>
+
+        <div
+            [ngClass]="{ 'fade-top-right': playTransition }"
+            class="bg-white p-4 w-48 h-48 absolute-center border-2 rounded-xl flex items-center bg-slate-100 shadow">
+            <p class="text-2xl font-bold text-center"
+                >Tired of waiting outside a busy Restaurant?</p
+            >
+        </div>
+
+        <div
+            [ngClass]="{ 'fade-bottom-left': playTransition }"
+            class="bg-white p-4 w-48 h-48 absolute-center border-2 rounded-xl flex items-center bg-slate-100 shadow">
+            <p class="text-2xl font-bold text-center"
+                >Tired of waiting outside a busy Restaurant?</p
+            >
+        </div>
+
+        <div
+            [ngClass]="{ 'fade-bottom-right': playTransition }"
+            class="bg-white p-4 w-48 h-48 absolute-center border-2 rounded-xl flex items-center bg-slate-100 shadow">
+            <p class="text-2xl font-bold text-center"
+                >Tired of waiting outside a busy Restaurant?</p
+            >
+        </div>
+    </div>
+</div>

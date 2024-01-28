@@ -1,0 +1,68 @@
+.transform-transition {
+    transition: transform 300ms ease-in-out;
+}
+
+.translate-top-left {
+    transform: translate(-30vw, -25vh);
+}
+
+.fade-top-left {
+    animation: fadeTopLeft 750ms ease-in-out forwards;
+}
+
+.fade-top-right {
+    animation: fadeTopRight 750ms ease-in-out forwards;
+}
+
+.fade-bottom-left {
+    animation: fadeBottomLeft 750ms ease-in-out forwards;
+}
+
+.fade-bottom-right {
+    animation: fadeBottomRight 750ms ease-in-out forwards;
+}
+
+// Animations
+@keyframes fadeTopLeft {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) rotate(45deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-30vw, -25vh) rotate(0deg);
+    }
+}
+
+@keyframes fadeTopRight {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) rotate(-45deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(15vw, -25vh) rotate(0deg);
+    }
+}
+
+@keyframes fadeBottomLeft {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) rotate(45deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-30vw, 25vh) rotate(0deg);
+    }
+}
+
+@keyframes fadeBottomRight {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) rotate(-45deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(15vw, 25vh) rotate(0deg);
+    }
+}

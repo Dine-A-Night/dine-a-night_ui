@@ -10,9 +10,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRippleModule } from '@angular/material/core';
 import { HeaderComponent } from './components/header/header.component';
+import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 
 @NgModule({
-    declarations: [AppComponent, HeaderComponent],
+    declarations: [AppComponent, HeaderComponent, LandingPageComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,

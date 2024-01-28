@@ -13,8 +13,11 @@
 
 /* Colors */
 $color-primary: white;
-$color-secondary: rgba(5, 5, 131, 0.862);
-$color-accent: #ffa500;
+// $color-secondary: rgba(5, 5, 131, 0.862);
+// $color-secondary: #001f3f;
+$color-links: rgba(5, 5, 131, 0.862);
+$color-secondary: #f7d390;
+$color-accent: #d17341;
 
 $text-color-primary: black;
 $text-color-light: white;
@@ -39,7 +42,7 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: $font-secondary;
+    font-family: $font-primary;
 }
 
 a:hover {
@@ -56,6 +59,14 @@ a:hover {
     margin: auto;
 }
 
+/* Positioning */
+.absolute-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 /* Color + Font Classes */
 .font-primary {
     font-family: $font-primary;
@@ -70,13 +81,13 @@ a:hover {
     font-family: $font-fancy;
 }
 
-.color-primary {
+.bg-primary {
     background-color: $color-primary;
 }
-.color-secondary {
+.bg-secondary {
     background-color: $color-secondary;
 }
-.color-accent {
+.bg-accent {
     background-color: $color-accent;
 }
 
