@@ -8,6 +8,7 @@ import { AppRoutingModule } from './routing/app-routing.module';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatRippleModule } from '@angular/material/core';
 import { HeaderComponent } from './components/header/header.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
@@ -21,6 +22,7 @@ import { LandingPageComponent } from './pages/landing-page/landing-page.componen
         MatButtonModule,
         MatIconModule,
         MatTooltipModule,
+        MatDividerModule,
         MatRippleModule,
     ],
     providers: [],
