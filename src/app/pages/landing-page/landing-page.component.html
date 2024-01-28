@@ -1,16 +1,16 @@
-<div class="w-full h-screen bg-landing">
+<div class="w-full min-h-screen md:h-screen py-10 bg-landing">
     <div class="container-80 h-full flex justify-center items-center">
         <!-- Get Started Button  -->
         <button
             mat-raised-button
             color="accent"
-            class="font-bold"
+            class="font-bold hidden md:inline-flex"
             style="border-radius: 25px; padding: 1.5em; font-size: 1.5rem">
             <mat-icon class="scale-150">home</mat-icon>
             Get Started
         </button>
 
-        <!-- Cards -->
+        <!-- Cards Desktop -->
         <div class="hidden md:block">
             <div
                 [ngClass]="{ 'fade-top-left': playTransition }"
@@ -47,6 +47,57 @@
             <div
                 [ngClass]="{ 'fade-bottom-right': playTransition }"
                 class="bg-white p-4 w-64 h-56 absolute-center border-2 rounded-xl flex flex-col justify-center items-center gap-5 bg-slate-100 shadow scale-on-hover cursor-grab active:cursor-grabbing">
+                <mat-icon class="scale-125">star</mat-icon>
+                <hr class="color-accent w-full border-black" />
+                <p class="text-2xl font-bold text-center"
+                    >Dine A Night is the Solution!</p
+                >
+            </div>
+        </div>
+
+        <!-- Cards Mobile -->
+        <div class="md:hidden flex flex-col gap-10">
+            <div
+                class="bg-white p-4 w-64 h-56 border-2 rounded-xl flex flex-col justify-center items-center gap-5 bg-slate-100 shadow scale-on-hover cursor-grab active:cursor-grabbing">
+                <mat-icon class="scale-125">access_time</mat-icon>
+                <hr class="color-accent w-full border-black" />
+                <p class="text-2xl font-bold text-center"
+                    >Tired of waiting outside a busy Restaurant?</p
+                >
+            </div>
+
+            <div
+                class="bg-white p-4 w-64 h-56 border-2 rounded-xl flex flex-col justify-center items-center gap-5 bg-slate-100 shadow scale-on-hover cursor-grab active:cursor-grabbing">
+                <mat-icon class="scale-125"
+                    >sentiment_very_dissatisfied</mat-icon
+                >
+                <hr class="color-accent w-full border-black" />
+                <p class="text-2xl font-bold text-center"
+                    >Didn't get the table you were expecting?</p
+                >
+            </div>
+
+            <!-- Get Started Button  -->
+            <button
+                mat-raised-button
+                color="accent"
+                class="font-bold"
+                style="border-radius: 25px; padding: 1.5em; font-size: 1.5rem">
+                <mat-icon class="scale-150">home</mat-icon>
+                Get Started
+            </button>
+
+            <div
+                class="bg-white p-4 w-64 h-56 border-2 rounded-xl flex flex-col justify-center items-center gap-5 bg-slate-100 shadow scale-on-hover cursor-grab active:cursor-grabbing">
+                <mat-icon class="scale-125">restaurant</mat-icon>
+                <hr class="color-accent w-full border-black" />
+                <p class="text-2xl font-bold text-center"
+                    >Guaranteed Reservations at your favourite Restaurant</p
+                >
+            </div>
+
+            <div
+                class="bg-white p-4 w-64 h-56 border-2 rounded-xl flex flex-col justify-center items-center gap-5 bg-slate-100 shadow scale-on-hover cursor-grab active:cursor-grabbing">
                 <mat-icon class="scale-125">star</mat-icon>
                 <hr class="color-accent w-full border-black" />
                 <p class="text-2xl font-bold text-center"
