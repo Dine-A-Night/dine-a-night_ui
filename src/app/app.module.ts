@@ -1,3 +1,6 @@
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireModule } from '@angular/fire/compat';
+
 import { MatIconModule } from '@angular/material/icon';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -13,6 +16,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { HeaderComponent } from './components/header/header.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { LoginComponent } from './components/login/login.component';
+import { environment } from 'src/environments/environment.development';
 
 @NgModule({
     declarations: [
@@ -30,6 +34,8 @@ import { LoginComponent } from './components/login/login.component';
         MatTooltipModule,
         MatDividerModule,
         MatRippleModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireAuthModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
