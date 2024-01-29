@@ -43,10 +43,20 @@ body {
     margin: 0;
     padding: 0;
     font-family: $font-primary;
+    scroll-behavior: smooth;
+}
+
+a {
+    color: $color-accent;
 }
 
 a:hover {
     text-decoration: underline;
+}
+
+.container-50 {
+    width: min(1000px, 50%);
+    margin: auto;
 }
 
 .container-80 {
@@ -54,8 +64,8 @@ a:hover {
     margin: auto;
 }
 
-.container-50 {
-    width: min(1000px, 50%);
+.container-90 {
+    width: min(1000px, 90%);
     margin: auto;
 }
 
@@ -99,6 +109,11 @@ a:hover {
 }
 .text-color-light {
     color: $text-color-light;
+}
+
+.highlight-accent {
+    font-weight: bold;
+    color: $color-accent;
 }
 
 ::ng-deep {
