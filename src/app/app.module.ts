@@ -13,6 +13,17 @@ import { MatRippleModule } from '@angular/material/core';
 import { HeaderComponent } from './components/header/header.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { LoginComponent } from './components/login/login.component';
+import { AngularFireModule } from '@angular/fire/compat';
+import { environment } from 'src/environments/environment';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { FirebaseUIModule } from 'firebaseui-angular';
+import { firebaseUiAuthConfig } from './config/firebase-auth.config';
+
+const FirebaseModules = [
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
+    FirebaseUIModule.forRoot(firebaseUiAuthConfig),
+];
 
 @NgModule({
     declarations: [
@@ -30,6 +41,7 @@ import { LoginComponent } from './components/login/login.component';
         MatTooltipModule,
         MatDividerModule,
         MatRippleModule,
+        ...FirebaseModules,
     ],
     providers: [],
     bootstrap: [AppComponent],
