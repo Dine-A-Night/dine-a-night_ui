@@ -1,5 +1,5 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-header',
@@ -12,20 +12,24 @@ export class HeaderComponent implements OnInit {
     sideMenuTouched = false;
     sideMenuOpen: boolean = false;
 
-    constructor(private router: Router) {}
+    constructor(private location: Location) {}
 
     ngOnInit(): void {}
 
     get isLandingPage() {
-        return this.router.url.startsWith('/home');
+        return this.currentUrl === '/home';
     }
 
     get isSurvey() {
-        return this.router.url === '/survey';
+        return this.currentUrl === '/survey';
     }
 
     get isRisk() {
-        return this.router.url === '/risk';
+        return this.currentUrl === '/risk';
+    }
+
+    get currentUrl(): string {
+        return this.location.path().split('?')[0];
     }
 
     toggleSideMenu(open?: boolean) {
