@@ -49,11 +49,21 @@
         <div class="hidden md:block">
             <button
                 *ngIf="isLandingPage"
+                [routerLink]="['login']"
                 mat-raised-button
                 color="accent"
                 style="border-radius: 25px; padding: 1.5em">
                 <mat-icon>login</mat-icon>
                 Login
+            </button>
+            <button
+                *ngIf="!isLandingPage"
+                [routerLink]="['home']"
+                mat-fab
+                matTooltip="Home"
+                color="accent"
+                style="border-radius: 25px">
+                <mat-icon>home</mat-icon>
             </button>
         </div>
         <div class="md:hidden">
@@ -99,6 +109,8 @@
         </li>
         <li>
             <a
+                [routerLink]="['login']"
+                (click)="toggleSideMenu()"
                 href="#"
                 class="flex items-center gap-2 p-2 hover:no-underline bg-sky-100 hover:bg-sky-200 cursor-pointer focus:bg-sky-200 text-color-primary"
                 matRipple>

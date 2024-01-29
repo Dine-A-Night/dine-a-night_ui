@@ -12,9 +12,15 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatRippleModule } from '@angular/material/core';
 import { HeaderComponent } from './components/header/header.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
-    declarations: [AppComponent, HeaderComponent, LandingPageComponent],
+    declarations: [
+        AppComponent,
+        HeaderComponent,
+        LandingPageComponent,
+        LoginComponent,
+    ],
     imports: [
         BrowserModule,
         AppRoutingModule,
