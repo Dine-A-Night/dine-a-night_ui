@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
     ngOnInit(): void {}
 
     get isLandingPage() {
-        return this.router.url === '/home';
+        return this.router.url.startsWith('/home');
     }
 
     get isSurvey() {
