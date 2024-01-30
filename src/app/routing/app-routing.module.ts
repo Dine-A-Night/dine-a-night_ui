@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LandingPageComponent } from '../pages/landing-page/landing-page.component';
-import { LoginComponent } from '../components/login/login.component';
+import { LoginComponent } from '../components/auth/login/login.component';
+import { RegisterComponent } from '../components/auth/register/register.component';
 
 const routes: Routes = [
     {
@@ -13,6 +14,11 @@ const routes: Routes = [
         path: 'login',
         pathMatch: 'full',
         component: LoginComponent,
+    },
+    {
+        path: 'register',
+        pathMatch: 'full',
+        component: RegisterComponent,
     },
     {
         path: '',

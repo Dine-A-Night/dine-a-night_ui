@@ -1,3 +1,6 @@
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireModule } from '@angular/fire/compat';
+
 import { MatIconModule } from '@angular/material/icon';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -10,9 +13,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatRippleModule } from '@angular/material/core';
+import { MatCardModule } from '@angular/material/card';
 import { HeaderComponent } from './components/header/header.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { environment } from 'src/environments/environment.development';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { RegisterComponent } from './components/auth/register/register.component';
 
 @NgModule({
     declarations: [
@@ -20,6 +30,7 @@ import { LoginComponent } from './components/login/login.component';
         HeaderComponent,
         LandingPageComponent,
         LoginComponent,
+        RegisterComponent,
     ],
     imports: [
         BrowserModule,
@@ -30,6 +41,13 @@ import { LoginComponent } from './components/login/login.component';
         MatTooltipModule,
         MatDividerModule,
         MatRippleModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireAuthModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

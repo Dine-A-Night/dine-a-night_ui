@@ -1,0 +1,73 @@
+<div class="container-80 flex justify-center items-center min-h-screen">
+    <div
+        *ngIf="loginForm"
+        class="login-wrapper"
+        fxLayout="row"
+        fxLayoutAlign="center center"
+        ><mat-card class="box">
+            <img
+                class="w-48 block m-auto"
+                src="assets/images/brandImage.png"
+                alt="Brand Image" />
+            <mat-card-header>
+                <mat-card-title>Log in</mat-card-title> </mat-card-header
+            ><form
+                (submit)="$event.preventDefault()"
+                [formGroup]="loginForm"
+                class="login-form">
+                <mat-card-content>
+                    <mat-form-field
+                        color="accent"
+                        class="w-full mb-5">
+                        <input
+                            formControlName="email"
+                            matInput
+                            placeholder="Username" />
+                        <mat-error
+                            *ngIf="
+                                loginForm.get('email')?.hasError('required')
+                            ">
+                            Email is required
+                        </mat-error>
+                        <mat-error
+                            *ngIf="loginForm.get('email')?.hasError('email')">
+                            Invalid email address
+                        </mat-error></mat-form-field
+                    >
+
+                    <mat-form-field
+                        color="accent"
+                        class="w-full mb-5">
+                        <input
+                            formControlName="password"
+                            matInput
+                            placeholder="Password" />
+                        <mat-error
+                            *ngIf="
+                                loginForm.get('password')?.hasError('required')
+                            ">
+                            Password is required
+                        </mat-error>
+                    </mat-form-field>
+                </mat-card-content>
+                <button
+                    type="submit"
+                    (click)="onLogin()"
+                    [disabled]="loginDisabled"
+                    mat-stroked-button
+                    color="accent"
+                    class="w-full font-bold"
+                    >Log in</button
+                >
+            </form>
+
+            <div class="flex justify-center mt-3">
+                <a
+                    class="text-color-accent"
+                    routerLink="/register"
+                    >Don't have an account? Sign Up.</a
+                >
+            </div>
+        </mat-card></div
+    >
+</div>
