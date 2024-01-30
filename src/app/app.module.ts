@@ -18,10 +18,11 @@ import { HeaderComponent } from './components/header/header.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent } from './components/auth/login/login.component';
 import { environment } from 'src/environments/environment.development';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { RegisterComponent } from './components/auth/register/register.component';
 
 @NgModule({
     declarations: [
@@ -29,6 +30,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         HeaderComponent,
         LandingPageComponent,
         LoginComponent,
+        RegisterComponent,
     ],
     imports: [
         BrowserModule,
