@@ -24,12 +24,8 @@ export class HeaderComponent implements OnInit {
         return this.currentUrl === '/home';
     }
 
-    get isSurvey() {
-        return this.currentUrl === '/survey';
-    }
-
-    get isRisk() {
-        return this.currentUrl === '/risk';
+    get isLoginPage() {
+        return this.currentUrl === '/login';
     }
 
     get currentUrl(): string {

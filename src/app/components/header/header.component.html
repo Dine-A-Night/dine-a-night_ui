@@ -47,6 +47,18 @@
     <!-- Right Part -->
     <div>
         <div class="hidden md:flex gap-5">
+            <mat-divider [vertical]="true"></mat-divider>
+
+            <button
+                *ngIf="!(user$ | async) && !isLoginPage"
+                [routerLink]="['login']"
+                mat-raised-button
+                color="accent"
+                style="border-radius: 25px; padding: 1.5em">
+                <mat-icon>login</mat-icon>
+                Login
+            </button>
+
             <button
                 *ngIf="!isLandingPage"
                 [routerLink]="['home']"
@@ -55,18 +67,6 @@
                 color="accent"
                 style="border-radius: 25px">
                 <mat-icon>home</mat-icon>
-            </button>
-
-            <mat-divider [vertical]="true"></mat-divider>
-
-            <button
-                *ngIf="!(user$ | async)"
-                [routerLink]="['login']"
-                mat-raised-button
-                color="accent"
-                style="border-radius: 25px; padding: 1.5em">
-                <mat-icon>login</mat-icon>
-                Login
             </button>
             <button
                 *ngIf="user$ | async"
