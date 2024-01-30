@@ -1,5 +1,6 @@
 <div class="container-80 flex justify-center items-center min-h-screen">
     <div
+        *ngIf="loginForm"
         class="login-wrapper"
         fxLayout="row"
         fxLayoutAlign="center center"
@@ -10,23 +11,31 @@
                 alt="Brand Image" />
             <mat-card-header>
                 <mat-card-title>Log in</mat-card-title> </mat-card-header
-            ><form class="example-form">
+            ><form
+                (submit)="$event.preventDefault()"
+                [formGroup]="loginForm"
+                class="login-form">
                 <mat-card-content>
                     <mat-form-field
                         color="accent"
                         class="w-full">
                         <input
+                            formControlName="email"
                             matInput
                             placeholder="Username" /> </mat-form-field
                     ><mat-form-field
                         color="accent"
                         class="w-full">
                         <input
+                            formControlName="password"
                             matInput
                             placeholder="Password" />
                     </mat-form-field>
                 </mat-card-content>
                 <button
+                    type="submit"
+                    (click)="onLogin()"
+                    [disabled]="loginDisabled"
                     mat-stroked-button
                     color="accent"
                     class="w-full font-bold"

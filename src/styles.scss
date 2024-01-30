@@ -46,6 +46,11 @@ body {
     scroll-behavior: smooth;
 }
 
+::selection {
+    background-color: $color-accent;
+    color: $color-primary;
+}
+
 a {
     color: $color-accent;
 }

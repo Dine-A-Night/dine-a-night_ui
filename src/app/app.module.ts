@@ -20,6 +20,8 @@ import { MatInputModule } from '@angular/material/input';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { LoginComponent } from './components/login/login.component';
 import { environment } from 'src/environments/environment.development';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
     declarations: [
@@ -42,6 +44,8 @@ import { environment } from 'src/environments/environment.development';
         MatInputModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
