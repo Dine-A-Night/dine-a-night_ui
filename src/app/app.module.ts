@@ -13,7 +13,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatRippleModule } from '@angular/material/core';
+import { MatCardModule } from '@angular/material/card';
 import { HeaderComponent } from './components/header/header.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { LoginComponent } from './components/login/login.component';
 import { environment } from 'src/environments/environment.development';
@@ -34,6 +37,9 @@ import { environment } from 'src/environments/environment.development';
         MatTooltipModule,
         MatDividerModule,
         MatRippleModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
     ],
