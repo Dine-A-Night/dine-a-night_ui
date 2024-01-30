@@ -56,7 +56,6 @@ export class LoginComponent implements OnInit {
             this.openSnackBar('Invalid Credentials', 'Oops');
         }
     }
-
     openSnackBar(message: string, action: string) {
         this._snackBar.open(message, action, {
             duration: 5000,
