@@ -72,6 +72,7 @@
                 *ngIf="user$ | async"
                 mat-fab
                 (click)="logout()"
+                matTooltip="{{ (user$ | async).email }}"
                 color="accent"
                 style="border-radius: 25px">
                 <mat-icon>person</mat-icon>
