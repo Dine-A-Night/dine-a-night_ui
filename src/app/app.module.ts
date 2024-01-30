@@ -23,6 +23,7 @@ import { LandingPageComponent } from './pages/landing-page/landing-page.componen
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
     declarations: [
@@ -31,6 +32,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
         LandingPageComponent,
         LoginComponent,
         RegisterComponent,
+        FooterComponent,
     ],
     imports: [
         BrowserModule,

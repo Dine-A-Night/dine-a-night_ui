@@ -1,0 +1,70 @@
+.page-footer {
+    background-color: white;
+    padding-top: 4px;
+    padding-bottom: 6px;
+    color: black;
+
+    .page-footer__list {
+        font-size: 18px;
+        text-align: left;
+        font-weight: bold;
+    }
+
+    @media screen and (min-width: 659px) {
+        .resto-card-container {
+            width: 100px;
+        }
+    }
+
+    .resto-card-container {
+        margin: 60px auto 0;
+        width: 306px;
+
+        @media screen and (min-width: 659px) {
+            width: calc(306px * 2);
+        }
+    }
+
+    .justify-content-between {
+        justify-content: space-between;
+    }
+
+    .flex-column {
+        flex-direction: column;
+        -webkit-box-orient: vertical;
+        -ms-flex-direction: column;
+    }
+
+    .flex-row {
+        flex-direction: row;
+        -ms-flex-direction: row;
+    }
+
+    .d-flex {
+        display: flex;
+        display: -webkit-box;
+        display: -ms-flexbox;
+    }
+
+    @media (min-width: 768px) {
+        .Footer__bottom .Footer__col-left,
+        .Footer__bottom .Footer__col-right {
+            align-items: start;
+        }
+    }
+
+    .Footer__bottom__copyright {
+        font-size: 17px;
+        letter-spacing: -0.2px;
+        line-height: 14px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .Footer__col-left {
+        align-items: center;
+        display: flex;
+        flex-flow: column;
+        width: 100%;
+    }
+}
