@@ -66,28 +66,26 @@ export class RegisterComponent {
         console.log(this.personalDetailsForm.value);
     }
 
-    async onLogin() {
-        // try {
-        //     const res = await this.authService.login(
-        //         this.loginForm.get('email')?.value,
-        //         this.loginForm.get('password')?.value,
-        //     );
-        //     if (isDefNotNull(res.user)) {
-        //         this.router.navigate(['home']);
-        //         this.openSnackBar(
-        //             `Successfully logged in as ${res.user?.displayName}`,
-        //             'Ok',
-        //         );
-        //     } else {
-        //         this.openSnackBar(
-        //             `Incorrect Credentials/User not found`,
-        //             'Try Again!',
-        //         );
-        //     }
-        //     console.log(res);
-        // } catch (err: any) {
-        //     this.openSnackBar('Invalid Credentials', 'Oops');
-        // }
+    async onRegister() {
+        try {
+            const res = await this.authService.register(
+                this.credentialsForm.get('email')?.value,
+                this.credentialsForm.get('password')?.value,
+            );
+            if (isDefNotNull(res.user)) {
+                this.router.navigate(['home']);
+                this.openSnackBar(
+                    `Successfully created user with email as ${res.user?.email}`,
+                    'Ok',
+                );
+            } else {
+                this.openSnackBar(`Couldn't create the user!`, 'Try Again!');
+            }
+            console.log(res);
+        } catch (err: any) {
+            console.error(err);
+            this.openSnackBar(`Couldn't create the user!`, 'Try Again!');
+        }
     }
 
     openSnackBar(message: string, action: string) {
