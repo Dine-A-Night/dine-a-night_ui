@@ -1,1 +1,281 @@
-<p>register works!</p>
+<div class="container-80 flex justify-center items-center min-h-screen">
+    <mat-stepper
+        class="border rounded-lg"
+        [orientation]="(stepperOrientation | async)!"
+        [linear]="true"
+        #stepper>
+        <mat-step [stepControl]="personalDetailsForm">
+            <form
+                class="w-full"
+                [formGroup]="personalDetailsForm">
+                <ng-template matStepLabel>Personal Details</ng-template>
+                <fieldset class="border border-solid border-gray-300 p-3">
+                    <legend>
+                        <img
+                            class="w-24"
+                            src="assets/images/brandImage.png"
+                            alt="Brand Image" />
+                    </legend>
+
+                    <h2 class="text-2xl font-bold">Register User</h2>
+
+                    <!-- Personal Details Inputs -->
+                    <div class="py-5">
+                        <div class="flex flex-col md:flex-row md:gap-10">
+                            <!-- First Name -->
+                            <mat-form-field color="accent">
+                                <mat-label>First Name</mat-label>
+                                <input
+                                    matInput
+                                    placeholder="First Name"
+                                    formControlName="firstName" />
+                                <mat-error
+                                    *ngIf="
+                                        personalDetailsForm
+                                            .get('firstName')
+                                            ?.hasError('required')
+                                    ">
+                                    First Name is required
+                                </mat-error>
+                            </mat-form-field>
+
+                            <!-- Last Name -->
+                            <mat-form-field color="accent">
+                                <mat-label>Last Name</mat-label>
+                                <input
+                                    matInput
+                                    placeholder="Last Name"
+                                    formControlName="lastName" />
+                                <mat-error
+                                    *ngIf="
+                                        personalDetailsForm
+                                            .get('lastName')
+                                            ?.hasError('required')
+                                    ">
+                                    Last Name is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Phone -->
+                        <mat-form-field
+                            color="accent"
+                            class="w-full">
+                            <mat-label>Phone</mat-label>
+                            <input
+                                matInput
+                                placeholder="Phone"
+                                formControlName="phone" />
+                            <mat-error
+                                *ngIf="
+                                    personalDetailsForm
+                                        .get('phone')
+                                        ?.hasError('required');
+                                    else phoneValidationErrors
+                                ">
+                                Phone is required
+                            </mat-error>
+                            <ng-template #phoneValidationErrors>
+                                <mat-error
+                                    *ngIf="
+                                        personalDetailsForm
+                                            .get('phone')
+                                            ?.hasError('pattern') ||
+                                        personalDetailsForm
+                                            .get('phone')
+                                            ?.hasError('maxlength') ||
+                                        personalDetailsForm
+                                            .get('phone')
+                                            ?.hasError('minlength')
+                                    ">
+                                    Phone number not valid
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+
+                        <mat-radio-group
+                            class="mt-3"
+                            formControlName="role"
+                            aria-label="Select user role">
+                            <p class="font-bold">User Role:</p>
+                            <mat-radio-button
+                                color="accent"
+                                value="1"
+                                >Admin</mat-radio-button
+                            >
+                            <mat-radio-button
+                                color="accent"
+                                value="2"
+                                >Customer</mat-radio-button
+                            >
+                        </mat-radio-group>
+                    </div>
+                </fieldset>
+                <div class="mt-3">
+                    <button
+                        mat-raised-button
+                        color="accent"
+                        matStepperNext
+                        >Next</button
+                    >
+                </div>
+            </form>
+        </mat-step>
+        <mat-step
+            [stepControl]="credentialsForm"
+            label="Fill out your address">
+            <form
+                class="w-full"
+                [formGroup]="credentialsForm">
+                <ng-template matStepLabel>Setup Credentials</ng-template>
+                <fieldset class="border border-solid border-gray-300 p-3">
+                    <legend>
+                        <img
+                            class="w-24"
+                            src="assets/images/brandImage.png"
+                            alt="Brand Image" />
+                    </legend>
+
+                    <h2 class="text-2xl font-bold">Register User</h2>
+
+                    <!-- Credentials Inputs -->
+                    <div class="py-5">
+                        <!-- Email -->
+                        <mat-form-field
+                            class="w-full"
+                            color="accent">
+                            <mat-label>Email</mat-label>
+                            <input
+                                matInput
+                                placeholder="Email"
+                                formControlName="email" />
+                            <mat-error
+                                *ngIf="
+                                    credentialsForm
+                                        .get('email')
+                                        ?.hasError('required');
+                                    else emailValidationErrors
+                                ">
+                                Email is required
+                            </mat-error>
+                            <ng-template #emailValidationErrors>
+                                <mat-error
+                                    *ngIf="
+                                        credentialsForm
+                                            .get('email')
+                                            ?.hasError('email')
+                                    ">
+                                    Email has to be valid
+                                </mat-error>
+                            </ng-template>
+                        </mat-form-field>
+
+                        <!-- Passw -->
+                        <mat-form-field
+                            class="w-full"
+                            color="accent">
+                            <mat-label>Password</mat-label>
+                            <input
+                                matInput
+                                placeholder="Password"
+                                formControlName="password" />
+                            <mat-error
+                                *ngIf="
+                                    credentialsForm
+                                        .get('password')
+                                        ?.hasError('required')
+                                ">
+                                Password is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </fieldset>
+                <div class="mt-3">
+                    <button
+                        mat-raised-button
+                        color="accent"
+                        matStepperNext
+                        >Next</button
+                    >
+                </div>
+            </form>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Summary</ng-template>
+
+            <img
+                class="block w-48 block md:m-auto"
+                src="assets/images/brandImage.png"
+                alt="Brand Image" />
+
+            <div class="container-80">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Left column: Personal Details summary -->
+                    <div>
+                        <h2 class="text-2xl font-bold">Personal Details</h2>
+                        <div class="flex flex-col gap-2 py-2">
+                            <p
+                                ><strong>First Name:</strong>
+                                {{
+                                    personalDetailsForm.get('firstName')?.value
+                                }}</p
+                            >
+                            <p
+                                ><strong>Last Name:</strong>
+                                {{
+                                    personalDetailsForm.get('lastName')?.value
+                                }}</p
+                            >
+                            <p
+                                ><strong>Phone:</strong>
+                                {{ personalDetailsForm.get('phone')?.value }}</p
+                            >
+                            <p
+                                ><strong>User Role:</strong>
+                                {{
+                                    personalDetailsForm.get('role')?.value ===
+                                    '1'
+                                        ? 'Admin'
+                                        : 'Customer'
+                                }}</p
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Right column: Credentials summary -->
+                    <div>
+                        <h2 class="text-2xl font-bold">Credentials</h2>
+                        <div class="flex flex-col gap-2 py-2">
+                            <p
+                                ><strong>Email:</strong>
+                                {{ credentialsForm.get('email')?.value }}</p
+                            >
+                            <p><strong>Password:</strong> ********</p>
+                            <!-- Displaying asterisks for security -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-4">
+                    <button
+                        mat-raised-button
+                        color="accent"
+                        matStepperPrevious
+                        >Back</button
+                    >
+                    <button
+                        mat-raised-button
+                        color="accent"
+                        (click)="stepper.reset()"
+                        >Reset</button
+                    >
+                    <button
+                        mat-raised-button
+                        color="accent"
+                        >Register User</button
+                    >
+                </div>
+            </div>
+        </mat-step>
+    </mat-stepper>
+</div>

@@ -20,6 +20,8 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { HeaderComponent } from './components/header/header.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
@@ -50,6 +52,8 @@ import { FooterComponent } from './components/footer/footer.component';
         AngularFireAuthModule,
         ReactiveFormsModule,
         MatSnackBarModule,
+        MatStepperModule,
+        MatRadioModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
