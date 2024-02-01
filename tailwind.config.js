@@ -6,4 +6,5 @@ module.exports = {
   },
   plugins: [],
   important: true,
+  preflight: false,
 };
