@@ -14,13 +14,17 @@ export class HeaderComponent implements OnInit {
     sideMenuTouched = false;
     sideMenuOpen: boolean = false;
 
+    userInfoAvailable: boolean = false;
+
     constructor(
         private location: Location,
         private authService: AuthService,
     ) {}
 
     async ngOnInit() {
-        console.log((await firstValueFrom(this.authService.userState())).uid);
+        this.user$.subscribe((user) => {
+            this.userInfoAvailable = true;
+        });
     }
 
     get isLandingPage() {
