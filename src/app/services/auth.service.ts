@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Observable } from 'rxjs';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { Observable, config } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '../models/user';
@@ -14,6 +15,8 @@ export class AuthService {
     constructor(
         private afAuth: AngularFireAuth,
         private router: Router,
+        private notificationsService: MatSnackBar,
+        private afStorage: AngularFireStorage,
     ) {
         // Get the auth state
         this.user$ = afAuth.authState;
@@ -40,7 +43,18 @@ export class AuthService {
     }
 
     async logout() {
-        await this.afAuth.signOut();
+        try {
+            await this.afAuth.signOut();
+
+            this.notificationsService.open('Successfully logged out!', 'Ok', {
+                duration: 2000,
+            });
+            this.router.navigate(['/logout']);
+        } catch (err) {
+            if (err instanceof Error) {
+                this.notificationsService.open('Error: ', err.message);
+            }
+        }
     }
 
     userState() {
