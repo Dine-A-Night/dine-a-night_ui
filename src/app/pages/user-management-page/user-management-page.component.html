@@ -2,6 +2,7 @@
     <mat-card class="h-full my-auto container-80 max-w-xl">
         <mat-card-content>
             <form
+                *ngIf="personalDetailsForm; else fetchingDataLoader"
                 class="w-full"
                 [formGroup]="personalDetailsForm">
                 <fieldset class="border border-solid border-gray-300 p-3">
@@ -119,12 +120,12 @@
                             <p class="font-bold">User Role:</p>
                             <mat-radio-button
                                 color="accent"
-                                value="1"
+                                value="Admin"
                                 >Admin</mat-radio-button
                             >
                             <mat-radio-button
                                 color="accent"
-                                value="2"
+                                value="Customer"
                                 >Customer</mat-radio-button
                             >
                         </mat-radio-group>
@@ -132,6 +133,7 @@
                 </fieldset>
                 <div class="mt-3">
                     <button
+                        [disabled]="saveDisabled"
                         mat-raised-button
                         color="accent">
                         <mat-icon>save</mat-icon>
@@ -141,4 +143,12 @@
             </form>
         </mat-card-content>
     </mat-card>
+
+    <ng-template #fetchingDataLoader>
+        <div
+            class="min-h-screen flex flex-col gap-10 items-center justify-center">
+            <h2 class="text-2xl font-bold">Fetching User Data</h2>
+            <mat-icon>cloud_download</mat-icon>
+        </div>
+    </ng-template>
 </div>
