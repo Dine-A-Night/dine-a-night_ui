@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { user } from '@angular/fire/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { firstValueFrom } from 'rxjs';
 import { ProfileUser } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -13,14 +14,18 @@ import { UserService } from 'src/app/services/user.service';
     styleUrls: ['./user-management-page.component.scss'],
 })
 export class UserManagementPageComponent implements OnInit {
+    // Services
     userService = inject(UserService);
     authService = inject(AuthService);
     afAuth = inject(AngularFireAuth);
     fb = inject(FormBuilder);
 
+    // Props
     currentUser: ProfileUser;
 
     personalDetailsForm: FormGroup;
+
+    constructor(private notificationService: MatSnackBar) {}
 
     ngOnInit(): void {
         this.populateUserData();
@@ -54,6 +59,38 @@ export class UserManagementPageComponent implements OnInit {
             ],
             role: [this.currentUser.role, [Validators.required]],
         });
+    }
+
+    updateUserData() {
+        const newUser = new ProfileUser({
+            uid: this.currentUser.uid,
+            email: this.currentUser.email,
+            ...this.personalDetailsForm.value,
+        });
+
+        this.userService
+            .updateUserById(this.currentUser.uid!, newUser)
+            .subscribe({
+                next: () => {
+                    this.notificationService.open(
+                        'User updated successfully!',
+                        undefined,
+                        {
+                            duration: 3000,
+                        },
+                    );
+                },
+                error: (err) => {
+                    this.notificationService.open(
+                        "Couldn't update the user!",
+                        undefined,
+                        {
+                            duration: 3000,
+                        },
+                    );
+                    console.error(err);
+                },
+            });
     }
 
     get saveDisabled(): boolean {
