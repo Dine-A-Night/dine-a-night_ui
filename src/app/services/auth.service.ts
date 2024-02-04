@@ -1,11 +1,21 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { Observable, config, firstValueFrom, map } from 'rxjs';
+import {
+    Observable,
+    config,
+    firstValueFrom,
+    from,
+    map,
+    of,
+    switchMap,
+    throwError,
+} from 'rxjs';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProfileUser } from '../models/user';
 import { UserService } from './user.service';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root',
@@ -23,6 +33,34 @@ export class AuthService {
         // Get the auth state
         this.user$ = afAuth.authState;
     }
+
+    //#region Auth Header functions
+
+    private getIdToken(): Observable<string> {
+        return this.afAuth.authState.pipe(
+            switchMap((user) => {
+                if (!user) {
+                    return throwError(() => 'User is null');
+                }
+                return from(user.getIdToken());
+            }),
+        );
+    }
+
+    getAuthHeaders(): Observable<HttpHeaders> {
+        return this.getIdToken().pipe(
+            switchMap((idToken) => {
+                const headers = new HttpHeaders({
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${idToken}`,
+                    // Add any other headers if needed
+                });
+                return of(headers);
+            }),
+        );
+    }
+
+    //#endregion
 
     login(email: string, password: string) {
         return this.afAuth.signInWithEmailAndPassword(email, password);
@@ -64,13 +102,6 @@ export class AuthService {
                 this.notificationsService.open('Error: ', err.message);
             }
         }
-    }
-
-    getIdToken() {
-        return this.afAuth.authState.pipe(
-            // Using map to transform the user to the ID token
-            map((user) => (user ? user.getIdToken() : null)),
-        );
     }
 
     userState() {
