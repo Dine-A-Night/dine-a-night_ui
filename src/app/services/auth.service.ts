@@ -1,3 +1,4 @@
+import { User } from '@angular/fire/auth';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
@@ -21,7 +22,7 @@ import { HttpHeaders } from '@angular/common/http';
     providedIn: 'root',
 })
 export class AuthService {
-    private user$: Observable<any>;
+    private user$: Observable<any | null>;
 
     constructor(
         private afAuth: AngularFireAuth,

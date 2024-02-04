@@ -60,4 +60,14 @@ export class UserService {
             }),
         );
     }
+
+    getUserById(uid: string): Observable<any> {
+        const url = `${this.API_URL}/api/users/${uid}`;
+
+        return this.getAuthHeaders().pipe(
+            switchMap((headers) => {
+                return this.http.get<any>(url, { headers });
+            }),
+        );
+    }
 }
