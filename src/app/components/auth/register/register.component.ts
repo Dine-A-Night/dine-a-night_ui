@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
-import { User } from 'src/app/models/user';
+import { ProfileUser } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { isDefNotNull } from 'src/app/utils/helper-functions';
 
@@ -60,7 +60,7 @@ export class RegisterComponent {
 
     async onRegister() {
         try {
-            const newUser = new User({
+            const newUser = new ProfileUser({
                 firstName: this.personalDetailsForm.value.firstName,
                 lastName: this.personalDetailsForm.value.lastName,
                 phone: this.personalDetailsForm.value.phone,

@@ -100,12 +100,12 @@
                             <p class="font-bold">User Role:</p>
                             <mat-radio-button
                                 color="accent"
-                                value="1"
+                                value="Admin"
                                 >Admin</mat-radio-button
                             >
                             <mat-radio-button
                                 color="accent"
-                                value="2"
+                                value="Customer"
                                 >Customer</mat-radio-button
                             >
                         </mat-radio-group>
@@ -232,12 +232,7 @@
                             >
                             <p
                                 ><strong>User Role:</strong>
-                                {{
-                                    personalDetailsForm.get('role')?.value ===
-                                    '1'
-                                        ? 'Admin'
-                                        : 'Customer'
-                                }}</p
+                                {{ personalDetailsForm.get('role')?.value }}</p
                             >
                         </div>
                     </div>

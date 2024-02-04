@@ -1,11 +1,13 @@
-export class User {
+export class ProfileUser {
+    uid?: string;
     email?: string;
     firstName: string;
     lastName: string;
     phone: string;
     role: UserRole;
 
-    constructor(user: User) {
+    constructor(user: ProfileUser) {
+        this.uid = user.uid ?? '';
         this.email = user.email ?? '';
         this.firstName = user.firstName;
         this.lastName = user.lastName;
