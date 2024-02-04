@@ -28,6 +28,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { FooterComponent } from './components/footer/footer.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { UserManagementPageComponent } from './pages/user-management-page/user-management-page.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     declarations: [
@@ -58,6 +59,7 @@ import { UserManagementPageComponent } from './pages/user-management-page/user-m
         MatStepperModule,
         MatRadioModule,
         MatMenuModule,
+        HttpClientModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
