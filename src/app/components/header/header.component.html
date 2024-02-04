@@ -29,13 +29,13 @@
                         routerLink="/"
                         fragment="about-us"
                         class="text-color-primary"
-                        [routerLink]="['about']"
                         >About</a
                     >
                 </li>
                 <li class="text-lg">
                     <a
-                        [routerLink]="['contact-us']"
+                        routerLink="/"
+                        fragment="contact-us"
                         class="cursor-pointer text-color-primary"
                         >Contact Us</a
                     >
@@ -50,7 +50,7 @@
             <mat-divider [vertical]="true"></mat-divider>
 
             <button
-                *ngIf="!(user$ | async) && !isLoginPage"
+                *ngIf="userInfoAvailable && !(user$ | async) && !isLoginPage"
                 [routerLink]="['login']"
                 mat-raised-button
                 color="accent"
@@ -72,11 +72,14 @@
             <!-- User Menu -->
             <button
                 *ngIf="user$ | async"
-                mat-fab
                 [matMenuTriggerFor]="userMenu"
-                color="accent"
-                style="border-radius: 25px">
-                <mat-icon>person</mat-icon>
+                matRipple
+                class="rounded-full"
+                color="accent">
+                <img
+                    class="w-12 rounded-full shadow-md"
+                    [src]="'assets/images/profile.jpg'"
+                    alt="Profile Image" />
             </button>
             <mat-menu #userMenu="matMenu">
                 <button
@@ -111,7 +114,7 @@
         'responsive-menu-closed': !sideMenuOpen && sideMenuTouched
     }">
     <div class="flex justify-between mb-2 p-3">
-        <h2 class="text-2xl">Pages</h2>
+        <h2 class="text-2xl font-bold">Pages</h2>
         <button
             class="flex items-center rounded p-1"
             matRipple
@@ -134,7 +137,7 @@
                 Home
             </a>
         </li>
-        <li>
+        <li *ngIf="userInfoAvailable && !(user$ | async) && !isLoginPage">
             <a
                 [routerLink]="['login']"
                 (click)="toggleSideMenu()"
@@ -146,6 +149,18 @@
             </a>
         </li>
 
+        <li *ngIf="user$ | async">
+            <a
+                [routerLink]="['/userProfile']"
+                (click)="toggleSideMenu()"
+                href="#"
+                class="flex items-center gap-2 p-2 hover:no-underline bg-sky-100 hover:bg-sky-200 cursor-pointer focus:bg-sky-200 text-color-primary"
+                matRipple>
+                <mat-icon>person</mat-icon>
+                Profile
+            </a>
+        </li>
+
         <hr />
 
         <li>
@@ -153,7 +168,6 @@
                 routerLink="/"
                 fragment="about-us"
                 class="block p-2 hover:no-underline hover:bg-sky-100 focus:bg-sky-100 text-color-primary"
-                [routerLink]="['about']"
                 (click)="toggleSideMenu()"
                 matRipple
                 >About</a
@@ -161,8 +175,9 @@
         </li>
         <li>
             <a
+                routerLink="/"
                 class="block p-2 hover:no-underline hover:bg-sky-100 focus:bg-sky-100 text-color-primary"
-                [routerLink]="['contact-us']"
+                fragment="contact-us"
                 (click)="toggleSideMenu()"
                 matRipple
                 >Contact Us</a
