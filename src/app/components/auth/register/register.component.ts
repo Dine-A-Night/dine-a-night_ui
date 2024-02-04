@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
+import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { isDefNotNull } from 'src/app/utils/helper-functions';
 
@@ -55,22 +56,20 @@ export class RegisterComponent {
             email: [null, [Validators.required, Validators.email]],
             password: [null, [Validators.required]],
         });
-
-        this.credentialsForm.valueChanges.subscribe(() => {
-            console.log(this.credentialsForm.value);
-        });
-    }
-
-    test() {
-        console.log(this.personalDetailsForm.valid);
-        console.log(this.personalDetailsForm.value);
     }
 
     async onRegister() {
         try {
+            const newUser = new User({
+                firstName: this.personalDetailsForm.value.firstName,
+                lastName: this.personalDetailsForm.value.lastName,
+                phone: this.personalDetailsForm.value.phone,
+                role: this.personalDetailsForm.value.role,
+            });
             const res = await this.authService.register(
                 this.credentialsForm.get('email')?.value,
                 this.credentialsForm.get('password')?.value,
+                newUser,
             );
             if (isDefNotNull(res.user)) {
                 this.router.navigate(['home']);
