@@ -26,6 +26,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { FooterComponent } from './components/footer/footer.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { UserManagementPageComponent } from './pages/user-management-page/user-management-page.component';
 
 @NgModule({
     declarations: [
@@ -35,6 +37,7 @@ import { FooterComponent } from './components/footer/footer.component';
         LoginComponent,
         RegisterComponent,
         FooterComponent,
+        UserManagementPageComponent,
     ],
     imports: [
         BrowserModule,
@@ -54,6 +57,7 @@ import { FooterComponent } from './components/footer/footer.component';
         MatSnackBarModule,
         MatStepperModule,
         MatRadioModule,
+        MatMenuModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

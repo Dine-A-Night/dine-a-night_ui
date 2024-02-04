@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LandingPageComponent } from '../pages/landing-page/landing-page.component';
 import { LoginComponent } from '../components/auth/login/login.component';
 import { RegisterComponent } from '../components/auth/register/register.component';
+import { UserManagementPageComponent } from '../pages/user-management-page/user-management-page.component';
 
 const routes: Routes = [
     {
@@ -19,6 +20,11 @@ const routes: Routes = [
         path: 'register',
         pathMatch: 'full',
         component: RegisterComponent,
+    },
+    {
+        path: 'userProfile',
+        pathMatch: 'full',
+        component: UserManagementPageComponent,
     },
     {
         path: '',

@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -18,7 +19,9 @@ export class HeaderComponent implements OnInit {
         private authService: AuthService,
     ) {}
 
-    ngOnInit(): void {}
+    async ngOnInit() {
+        console.log((await firstValueFrom(this.authService.userState())).uid);
+    }
 
     get isLandingPage() {
         return this.currentUrl === '/home';

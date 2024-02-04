@@ -59,7 +59,7 @@
                 Login
             </button>
 
-            <button
+            <!-- <button
                 *ngIf="!isLandingPage"
                 [routerLink]="['home']"
                 mat-fab
@@ -67,16 +67,31 @@
                 color="accent"
                 style="border-radius: 25px">
                 <mat-icon>home</mat-icon>
-            </button>
+            </button> -->
+
+            <!-- User Menu -->
             <button
                 *ngIf="user$ | async"
                 mat-fab
-                (click)="logout()"
-                matTooltip="{{ (user$ | async).email }}"
+                [matMenuTriggerFor]="userMenu"
                 color="accent"
                 style="border-radius: 25px">
                 <mat-icon>person</mat-icon>
             </button>
+            <mat-menu #userMenu="matMenu">
+                <button
+                    mat-menu-item
+                    [routerLink]="['/userProfile']">
+                    <mat-icon>person</mat-icon>
+                    {{ (user$ | async)?.displayName }}</button
+                >
+                <button
+                    mat-menu-item
+                    (click)="logout()">
+                    <mat-icon>logout</mat-icon>
+                    Logout</button
+                >
+            </mat-menu>
         </div>
         <div class="md:hidden">
             <button
