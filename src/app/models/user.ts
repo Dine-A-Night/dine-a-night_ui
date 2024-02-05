@@ -4,6 +4,7 @@ export class ProfileUser {
     firstName: string;
     lastName: string;
     phone: string;
+    profilePictureUrl?: string;
     role: UserRole;
 
     constructor(user: ProfileUser) {
@@ -13,6 +14,7 @@ export class ProfileUser {
         this.lastName = user.lastName;
         this.phone = user.phone;
         this.role = user.role;
+        this.profilePictureUrl = user.profilePictureUrl ?? '';
     }
 }
 

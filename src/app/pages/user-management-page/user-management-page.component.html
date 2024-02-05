@@ -22,18 +22,29 @@
                         <div class="relative w-28">
                             <img
                                 class="w-full rounded-full block mx-auto my-5 object-center object-cover"
-                                src="assets/images/profile.jpg"
+                                [src]="
+                                    currentUser.profilePictureUrl?.length
+                                        ? currentUser.profilePictureUrl
+                                        : 'assets/images/profile.jpg'
+                                "
                                 alt="Profile Picture" />
 
                             <button
                                 type="button"
                                 mat-mini-fab
                                 matTooltip="Update Profile Picture"
+                                (click)="imageInputField.click()"
                                 class="absolute bottom-1 right-0">
                                 <mat-icon>edit</mat-icon>
                             </button>
                         </div>
                     </div>
+
+                    <input
+                        #imageInputField
+                        type="file"
+                        (change)="uploadProfilePicture($event)"
+                        hidden />
 
                     <!-- Personal Details Inputs -->
                     <div class="py-5">
