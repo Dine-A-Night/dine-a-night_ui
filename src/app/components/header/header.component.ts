@@ -1,7 +1,8 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { Component, OnInit, Signal } from '@angular/core';
+import { Observable, firstValueFrom, map, tap } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-header',
@@ -15,6 +16,7 @@ export class HeaderComponent implements OnInit {
     sideMenuOpen: boolean = false;
 
     userInfoAvailable: boolean = false;
+    profilePictureUrl: string = 'assets/images/profile.jpg';
 
     constructor(
         private location: Location,
@@ -24,6 +26,8 @@ export class HeaderComponent implements OnInit {
     async ngOnInit() {
         this.user$.subscribe((user) => {
             this.userInfoAvailable = true;
+
+            this.profilePictureUrl = user.profilePictureUrl;
         });
     }
 

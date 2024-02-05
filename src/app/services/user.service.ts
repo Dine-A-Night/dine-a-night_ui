@@ -2,9 +2,20 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ProfileUser } from '../models/user';
 import { environment } from 'src/environments/environment.development';
-import { Observable, from, map, of, switchMap, throwError } from 'rxjs';
+import {
+    Observable,
+    finalize,
+    firstValueFrom,
+    from,
+    map,
+    of,
+    switchMap,
+    tap,
+    throwError,
+} from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthService } from './auth.service';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 @Injectable({
     providedIn: 'root',
@@ -15,6 +26,7 @@ export class UserService {
     constructor(
         private http: HttpClient,
         private afAuth: AngularFireAuth,
+        private afStorage: AngularFireStorage,
     ) {}
 
     //#region auth header functions
@@ -78,6 +90,34 @@ export class UserService {
             switchMap((headers) => {
                 return this.http.put<any>(url, newUser, { headers });
             }),
+        );
+    }
+
+    /**
+     *
+     * @param userId User to be updated
+     * @param image Image File
+     * @returns Promise that resolved to image download url
+     */
+    uploadProfilePicture(userId: string, image: File): Promise<string> {
+        const imagePath = `images/profile/${userId}`;
+
+        // Reference to storage bucket
+        const ref = this.afStorage.ref(imagePath);
+
+        const uploadTask = this.afStorage.upload(imagePath, image);
+
+        return firstValueFrom(
+            uploadTask.snapshotChanges().pipe(
+                tap(console.log),
+                // The file's download URL
+                switchMap(() => ref.getDownloadURL()),
+                switchMap((downloadURL) => {
+                    // Perform any finalization logic here if needed
+                    console.log('Finalization logic');
+                    return of(downloadURL); // Return the download URL
+                }),
+            ),
         );
     }
 }

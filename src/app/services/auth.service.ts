@@ -1,9 +1,9 @@
-import { User } from '@angular/fire/auth';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit, Signal, inject } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import {
     Observable,
+    combineLatest,
     config,
     firstValueFrom,
     from,
@@ -22,17 +22,42 @@ import { HttpHeaders } from '@angular/common/http';
     providedIn: 'root',
 })
 export class AuthService {
+    private afAuth = inject(AngularFireAuth);
+    private userService = inject(UserService);
+    private router = inject(Router);
+    private notificationsService: MatSnackBar = inject(MatSnackBar);
+
     private user$: Observable<any | null>;
 
-    constructor(
-        private afAuth: AngularFireAuth,
-        private router: Router,
-        private notificationsService: MatSnackBar,
-        private userService: UserService,
-        private afStorage: AngularFireStorage,
-    ) {
+    currentUser: Signal<ProfileUser>;
+
+    constructor() {
         // Get the auth state
-        this.user$ = afAuth.authState;
+        this.user$ = this.afAuth.authState.pipe(
+            switchMap((user) => {
+                const fullUser$ = this.userService.getUserById(user!.uid);
+
+                return combineLatest([
+                    of({
+                        uid: user?.uid,
+                        email: user?.email,
+                        displayName: user?.displayName,
+                    }),
+                    fullUser$,
+                ]);
+            }),
+            map(([firebaseUser, mongoUser]) => {
+                if (!firebaseUser) {
+                    // If user is not authenticated
+                    return null; // or return an empty object depending on your use case
+                }
+
+                // Merge the properties from both objects
+                return { ...firebaseUser, ...mongoUser?.user };
+            }),
+        );
+
+        // this.currentUser = toSignal(this.user$);
     }
 
     //#region Auth Header functions

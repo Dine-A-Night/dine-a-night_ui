@@ -1,9 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { user } from '@angular/fire/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import {
+    AngularFireStorage,
+    AngularFireUploadTask,
+} from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { firstValueFrom } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { ProfileUser } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
@@ -22,7 +26,6 @@ export class UserManagementPageComponent implements OnInit {
 
     // Props
     currentUser: ProfileUser;
-
     personalDetailsForm: FormGroup;
 
     constructor(private notificationService: MatSnackBar) {}
@@ -115,4 +118,50 @@ export class UserManagementPageComponent implements OnInit {
 
         return this.personalDetailsForm.pristine || dataUnchanged;
     }
+
+    //#region Image Upload
+
+    async uploadProfilePicture(event) {
+        const file = event.target.files[0];
+
+        if (!file || !this.currentUser) {
+            return;
+        }
+
+        const downloadUrl = await this.userService.uploadProfilePicture(
+            this.currentUser.uid!,
+            file,
+        );
+
+        // Update the current user with profile image url
+        this.userService
+            .updateUserById(this.currentUser.uid!, {
+                ...this.currentUser,
+                profilePictureUrl: downloadUrl,
+            })
+            .subscribe({
+                next: (res) => {
+                    this.notificationService.open(
+                        'Image Uploaded Successfully!',
+                        undefined,
+                        {
+                            duration: 3000,
+                        },
+                    );
+                    this.currentUser = res.user;
+                },
+                error: (err) => {
+                    this.notificationService.open(
+                        'Failed to upload the image!',
+                        undefined,
+                        {
+                            duration: 3000,
+                        },
+                    );
+                    console.error(err);
+                },
+            });
+    }
+
+    //#endregion
 }
