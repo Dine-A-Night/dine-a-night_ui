@@ -4,6 +4,7 @@ import { ProfileUser } from '../models/user';
 import { environment } from 'src/environments/environment.development';
 import {
     Observable,
+    combineLatest,
     finalize,
     firstValueFrom,
     from,
@@ -118,6 +119,37 @@ export class UserService {
                     return of(downloadURL); // Return the download URL
                 }),
             ),
+        );
+    }
+
+    deleteUser(): Observable<any> {
+        return this.afAuth.authState.pipe(
+            switchMap((user) => {
+                if (!user) {
+                    throw new Error('No authenticated user');
+                }
+
+                // Delete user data from MongoDB
+                const deleteMongoData$ = this.deleteUserData(user.uid);
+
+                // Delete user from Firebase Authentication
+                const deleteUserAuth$ = from(user.delete());
+
+                // Combine both observables
+                return combineLatest([deleteMongoData$, deleteUserAuth$]);
+            }),
+        );
+    }
+
+    private deleteUserData(uid) {
+        const deleteUrl = `${environment.apiUrl}/api/users/${uid}`;
+
+        return this.getAuthHeaders().pipe(
+            switchMap((headers) => {
+                return this.http.delete(deleteUrl, {
+                    headers,
+                });
+            }),
         );
     }
 }

@@ -7,7 +7,8 @@ import {
 } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, firstValueFrom } from 'rxjs';
+import { Router } from '@angular/router';
+import { NotFoundError, Observable, firstValueFrom } from 'rxjs';
 import { ProfileUser } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
@@ -23,6 +24,7 @@ export class UserManagementPageComponent implements OnInit {
     authService = inject(AuthService);
     afAuth = inject(AngularFireAuth);
     fb = inject(FormBuilder);
+    router = inject(Router);
 
     // Props
     currentUser: ProfileUser;
@@ -117,6 +119,32 @@ export class UserManagementPageComponent implements OnInit {
             roleUnchanged;
 
         return this.personalDetailsForm.pristine || dataUnchanged;
+    }
+
+    deleteAccount() {
+        this.userService.deleteUser().subscribe({
+            next: () => {
+                this.notificationService.open(
+                    'Account successfully deleted!',
+                    'Ok',
+                    {
+                        duration: 3000,
+                    },
+                );
+
+                this.router.navigate(['/login']);
+            },
+            error: (err) => {
+                this.notificationService.open(
+                    'Failed to Delete Account: ' + err.message,
+                    'Oops',
+                    {
+                        duration: 3000,
+                    },
+                );
+                console.error(err);
+            },
+        });
     }
 
     //#region Image Upload

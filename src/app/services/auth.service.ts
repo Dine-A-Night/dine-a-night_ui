@@ -35,7 +35,11 @@ export class AuthService {
         // Get the auth state
         this.user$ = this.afAuth.authState.pipe(
             switchMap((user) => {
-                const fullUser$ = this.userService.getUserById(user!.uid);
+                if (!user) {
+                    return of(null);
+                }
+
+                const fullUser$ = this.userService.getUserById(user.uid);
 
                 return combineLatest([
                     of({
@@ -46,11 +50,12 @@ export class AuthService {
                     fullUser$,
                 ]);
             }),
-            map(([firebaseUser, mongoUser]) => {
-                if (!firebaseUser) {
-                    // If user is not authenticated
-                    return null; // or return an empty object depending on your use case
+            map((data) => {
+                if (!data) {
+                    return null;
                 }
+
+                const [firebaseUser, mongoUser] = data;
 
                 // Merge the properties from both objects
                 return { ...firebaseUser, ...mongoUser?.user };

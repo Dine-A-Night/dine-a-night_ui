@@ -27,7 +27,11 @@ export class HeaderComponent implements OnInit {
         this.user$.subscribe((user) => {
             this.userInfoAvailable = true;
 
-            this.profilePictureUrl = user.profilePictureUrl;
+            console.log(user);
+
+            if (user?.profilePictureUrl.length) {
+                this.profilePictureUrl = user.profilePictureUrl;
+            }
         });
     }
 
