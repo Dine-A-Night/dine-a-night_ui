@@ -49,8 +49,9 @@
         <div class="hidden md:flex gap-5">
             <mat-divider [vertical]="true"></mat-divider>
 
+            <!-- 'user() !== undefined' so that the login button does not appear initally  -->
             <button
-                *ngIf="userInfoAvailable && !(user$ | async) && !isLoginPage"
+                *ngIf="user() !== undefined && !user() && !isLoginPage"
                 [routerLink]="['login']"
                 mat-raised-button
                 color="accent"
@@ -71,14 +72,18 @@
 
             <!-- User Menu -->
             <button
-                *ngIf="user$ | async"
+                *ngIf="user()"
                 [matMenuTriggerFor]="userMenu"
                 matRipple
                 class="rounded-full"
                 color="accent">
                 <img
                     class="w-12 rounded-full shadow-md"
-                    [src]="profilePictureUrl"
+                    [src]="
+                        user()?.profilePictureUrl?.length
+                            ? user()?.profilePictureUrl
+                            : defaultProfilePictureUrl
+                    "
                     alt="Profile Image" />
             </button>
             <mat-menu #userMenu="matMenu">
@@ -86,7 +91,7 @@
                     mat-menu-item
                     [routerLink]="['/userProfile']">
                     <mat-icon>person</mat-icon>
-                    {{ (user$ | async)?.displayName }}</button
+                    {{ user()?.displayName ?? '' }}</button
                 >
                 <button
                     mat-menu-item
@@ -137,7 +142,7 @@
                 Home
             </a>
         </li>
-        <li *ngIf="userInfoAvailable && !(user$ | async) && !isLoginPage">
+        <li *ngIf="userInfoAvailable && !user() && !isLoginPage">
             <a
                 [routerLink]="['login']"
                 (click)="toggleSideMenu()"
@@ -149,7 +154,7 @@
             </a>
         </li>
 
-        <li *ngIf="user$ | async">
+        <li *ngIf="user()">
             <a
                 [routerLink]="['/userProfile']"
                 (click)="toggleSideMenu()"

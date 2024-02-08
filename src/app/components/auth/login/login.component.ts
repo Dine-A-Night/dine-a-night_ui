@@ -50,8 +50,6 @@ export class LoginComponent implements OnInit {
                     'Try Again!',
                 );
             }
-
-            console.log(res);
         } catch (err: any) {
             this.openSnackBar('Invalid Credentials', 'Oops');
         }

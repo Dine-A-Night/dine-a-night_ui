@@ -1,4 +1,4 @@
-import { Injectable, OnInit, Signal, inject } from '@angular/core';
+import { Injectable, OnInit, Signal, effect, inject } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import {
@@ -17,6 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProfileUser } from '../models/user';
 import { UserService } from './user.service';
 import { HttpHeaders } from '@angular/common/http';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
     providedIn: 'root',
@@ -27,42 +28,41 @@ export class AuthService {
     private router = inject(Router);
     private notificationsService: MatSnackBar = inject(MatSnackBar);
 
-    private user$: Observable<any | null>;
+    private user$: Observable<any | null> = this.afAuth.authState.pipe(
+        switchMap((user) => {
+            if (!user) {
+                return of(null);
+            }
 
-    currentUser: Signal<ProfileUser>;
+            const fullUser$ = this.userService.getUserById(user.uid);
+
+            return combineLatest([
+                of({
+                    uid: user?.uid,
+                    email: user?.email,
+                    displayName: user?.displayName,
+                }),
+                fullUser$,
+            ]);
+        }),
+        map((data) => {
+            if (!data) {
+                return null;
+            }
+
+            const [firebaseUser, mongoUser] = data;
+
+            // Merge the properties from both objects
+            return { ...firebaseUser, ...mongoUser?.user };
+        }),
+    );
+
+    currentUser: Signal<ProfileUser | null> = toSignal(this.user$);
 
     constructor() {
-        // Get the auth state
-        this.user$ = this.afAuth.authState.pipe(
-            switchMap((user) => {
-                if (!user) {
-                    return of(null);
-                }
-
-                const fullUser$ = this.userService.getUserById(user.uid);
-
-                return combineLatest([
-                    of({
-                        uid: user?.uid,
-                        email: user?.email,
-                        displayName: user?.displayName,
-                    }),
-                    fullUser$,
-                ]);
-            }),
-            map((data) => {
-                if (!data) {
-                    return null;
-                }
-
-                const [firebaseUser, mongoUser] = data;
-
-                // Merge the properties from both objects
-                return { ...firebaseUser, ...mongoUser?.user };
-            }),
-        );
-
-        // this.currentUser = toSignal(this.user$);
+        effect(() => {
+            console.log(this.currentUser());
+        });
     }
 
     //#region Auth Header functions

@@ -74,13 +74,12 @@ export class RegisterComponent {
             if (isDefNotNull(res.user)) {
                 this.router.navigate(['home']);
                 this.openSnackBar(
-                    `Successfully created user with email as ${res.user?.email}`,
+                    `Successfully created user ${res.user?.displayName}`,
                     'Ok',
                 );
             } else {
                 this.openSnackBar(`Couldn't create the user!`, 'Try Again!');
             }
-            console.log(res);
         } catch (err: any) {
             console.error(err);
             this.openSnackBar(`Couldn't create the user!`, 'Try Again!');

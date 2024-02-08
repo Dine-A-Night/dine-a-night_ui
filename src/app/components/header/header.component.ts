@@ -3,6 +3,7 @@ import { Component, OnInit, Signal } from '@angular/core';
 import { Observable, firstValueFrom, map, tap } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { ProfileUser } from 'src/app/models/user';
 
 @Component({
     selector: 'app-header',
@@ -15,7 +16,8 @@ export class HeaderComponent implements OnInit {
     sideMenuTouched = false;
     sideMenuOpen: boolean = false;
 
-    userInfoAvailable: boolean = false;
+    user: Signal<ProfileUser | null> = this.authService.currentUser;
+
     profilePictureUrl: string = 'assets/images/profile.jpg';
 
     constructor(
@@ -23,17 +25,7 @@ export class HeaderComponent implements OnInit {
         private authService: AuthService,
     ) {}
 
-    async ngOnInit() {
-        this.user$.subscribe((user) => {
-            this.userInfoAvailable = true;
-
-            console.log(user);
-
-            if (user?.profilePictureUrl.length) {
-                this.profilePictureUrl = user.profilePictureUrl;
-            }
-        });
-    }
+    async ngOnInit() {}
 
     get isLandingPage() {
         return this.currentUrl === '/home';
@@ -47,8 +39,12 @@ export class HeaderComponent implements OnInit {
         return this.location.path().split('?')[0];
     }
 
-    get user$() {
-        return this.authService.userState();
+    get userInfoAvailable() {
+        return this.user() !== undefined;
+    }
+
+    get defaultProfilePictureUrl() {
+        return 'assets/images/profile.jpg';
     }
 
     logout() {
