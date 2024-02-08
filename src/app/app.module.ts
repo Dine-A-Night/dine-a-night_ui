@@ -29,6 +29,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { UserManagementPageComponent } from './pages/user-management-page/user-management-page.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ExploreRestaurantsPageComponent } from './pages/explore-restaurants-page/explore-restaurants-page.component';
 
 @NgModule({
     declarations: [
@@ -39,6 +40,7 @@ import { HttpClientModule } from '@angular/common/http';
         RegisterComponent,
         FooterComponent,
         UserManagementPageComponent,
+        ExploreRestaurantsPageComponent,
     ],
     imports: [
         BrowserModule,
