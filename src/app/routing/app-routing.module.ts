@@ -4,6 +4,7 @@ import { LandingPageComponent } from '../pages/landing-page/landing-page.compone
 import { LoginComponent } from '../components/auth/login/login.component';
 import { RegisterComponent } from '../components/auth/register/register.component';
 import { UserManagementPageComponent } from '../pages/user-management-page/user-management-page.component';
+import { ExploreRestaurantsPageComponent } from '../pages/explore-restaurants-page/explore-restaurants-page.component';
 
 const routes: Routes = [
     {
@@ -25,6 +26,11 @@ const routes: Routes = [
         path: 'userProfile',
         pathMatch: 'full',
         component: UserManagementPageComponent,
+    },
+    {
+        path: 'explore-restaurants-page',
+        pathMatch: 'full',
+        component: ExploreRestaurantsPageComponent,
     },
     {
         path: '',
