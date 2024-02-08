@@ -88,7 +88,7 @@ export class UserManagementPageComponent implements OnInit {
         this.userService
             .updateUserById(this.currentUser.uid!, newUser)
             .subscribe({
-                next: () => {
+                next: (res) => {
                     this.notificationService.open(
                         'User updated successfully!',
                         undefined,
@@ -96,6 +96,8 @@ export class UserManagementPageComponent implements OnInit {
                             duration: 3000,
                         },
                     );
+
+                    this.currentUser = { ...res.user };
                 },
                 error: (err) => {
                     this.notificationService.open(
