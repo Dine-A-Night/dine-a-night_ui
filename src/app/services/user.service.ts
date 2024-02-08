@@ -112,10 +112,10 @@ export class UserService {
             uploadTask.snapshotChanges().pipe(
                 tap(console.log),
                 // The file's download URL
-                switchMap(() => ref.getDownloadURL()),
+                switchMap(() => ref?.getDownloadURL()),
                 switchMap((downloadURL) => {
                     // Perform any finalization logic here if needed
-                    console.log('Finalization logic');
+
                     return of(downloadURL); // Return the download URL
                 }),
             ),

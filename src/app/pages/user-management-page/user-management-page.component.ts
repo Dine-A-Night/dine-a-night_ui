@@ -1,4 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    effect,
+    inject,
+} from '@angular/core';
 import { user } from '@angular/fire/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {
@@ -30,7 +36,10 @@ export class UserManagementPageComponent implements OnInit {
     currentUser: ProfileUser;
     personalDetailsForm: FormGroup;
 
-    constructor(private notificationService: MatSnackBar) {}
+    constructor(
+        private notificationService: MatSnackBar,
+        private cd: ChangeDetectorRef,
+    ) {}
 
     ngOnInit(): void {
         this.populateUserData();
@@ -38,14 +47,16 @@ export class UserManagementPageComponent implements OnInit {
 
     async populateUserData() {
         this.afAuth.authState.subscribe((state) => {
-            this.userService.getUserById(state!.uid).subscribe((res) => {
-                const { user } = res;
+            if (state) {
+                this.userService.getUserById(state!.uid).subscribe((res) => {
+                    const { user } = res;
 
-                this.currentUser = user;
+                    this.currentUser = user;
 
-                this.initForm();
-                console.log(user);
-            });
+                    this.initForm();
+                    console.log(user);
+                });
+            }
         });
     }
 
@@ -70,6 +81,7 @@ export class UserManagementPageComponent implements OnInit {
         const newUser = new ProfileUser({
             uid: this.currentUser.uid,
             email: this.currentUser.email,
+            profilePictureUrl: this.currentUser.profilePictureUrl,
             ...this.personalDetailsForm.value,
         });
 
@@ -176,7 +188,8 @@ export class UserManagementPageComponent implements OnInit {
                             duration: 3000,
                         },
                     );
-                    this.currentUser = res.user;
+                    // location.reload();
+                    // this.cd.detectChanges();
                 },
                 error: (err) => {
                     this.notificationService.open(
