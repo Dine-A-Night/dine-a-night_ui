@@ -94,6 +94,12 @@
                     {{ user()?.displayName ?? '' }}</button
                 >
                 <button
+                    *ngIf="user()?.role === 'Admin'"
+                    mat-menu-item>
+                    <mat-icon>table</mat-icon>
+                    Manage Restaurants</button
+                >
+                <button
                     mat-menu-item
                     (click)="logout()">
                     <mat-icon>logout</mat-icon>
