@@ -1,7 +1,9 @@
 <app-header *ngIf="showHeader"></app-header>
 
-<main>
-    <router-outlet></router-outlet>
-</main>
+<ng-container *ngIf="userDataAvailable">
+    <main>
+        <router-outlet></router-outlet>
+    </main>
 
-<footer></footer>
+    <footer></footer>
+</ng-container>

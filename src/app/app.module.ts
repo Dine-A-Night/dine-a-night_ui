@@ -30,6 +30,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { UserManagementPageComponent } from './pages/user-management-page/user-management-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ExploreRestaurantsPageComponent } from './pages/explore-restaurants-page/explore-restaurants-page.component';
+import { ManageRestaurantsComponent } from './pages/manage-restaurants/manage-restaurants.component';
 
 @NgModule({
     declarations: [
@@ -41,6 +42,7 @@ import { ExploreRestaurantsPageComponent } from './pages/explore-restaurants-pag
         FooterComponent,
         UserManagementPageComponent,
         ExploreRestaurantsPageComponent,
+        ManageRestaurantsComponent,
     ],
     imports: [
         BrowserModule,
