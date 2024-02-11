@@ -1,14 +1,28 @@
 <div class="min-h-screen container-80 p-4">
     <!-- Header -->
-    <section class="flex justify-between flex-wrap gap-5">
-        <h2 class="font-bold text-3xl">Manage Restaurants</h2>
+    <section class="flex justify-between items-center flex-wrap">
+        <h2 class="font-bold text-2xl md:text-3xl">Manage Restaurants</h2>
+
+        <!-- Desktop -->
         <button
             mat-button
             mat-flat-button
+            class="hidden md:inline-flex"
             [disableRipple]="true"
+            [routerLink]="['create']"
             color="accent">
             <mat-icon>add</mat-icon>Add Restaurant</button
         >
+        <!-- Mobile -->
+        <button
+            mat-icon-button
+            color="accent"
+            class="md:hidden"
+            matTooltip="Add new restaurant"
+            [routerLink]="['create']"
+            aria-label="Go to manage restaurants page">
+            <mat-icon>add</mat-icon>
+        </button>
     </section>
 
     <!-- Owned Restaurants -->
