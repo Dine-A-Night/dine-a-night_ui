@@ -1,20 +1,8 @@
-import {
-    ChangeDetectorRef,
-    Component,
-    OnInit,
-    effect,
-    inject,
-} from '@angular/core';
-import { user } from '@angular/fire/auth';
+import { Component, Signal, effect, inject } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import {
-    AngularFireStorage,
-    AngularFireUploadTask,
-} from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { NotFoundError, Observable, firstValueFrom } from 'rxjs';
 import { ProfileUser } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
@@ -24,7 +12,7 @@ import { UserService } from 'src/app/services/user.service';
     templateUrl: './user-management-page.component.html',
     styleUrls: ['./user-management-page.component.scss'],
 })
-export class UserManagementPageComponent implements OnInit {
+export class UserManagementPageComponent {
     // Services
     userService = inject(UserService);
     authService = inject(AuthService);
@@ -33,30 +21,12 @@ export class UserManagementPageComponent implements OnInit {
     router = inject(Router);
 
     // Props
-    currentUser: ProfileUser;
+    currentUser: Signal<ProfileUser | null> = this.userService.currentUser;
     personalDetailsForm: FormGroup;
 
-    constructor(
-        private notificationService: MatSnackBar,
-        private cd: ChangeDetectorRef,
-    ) {}
-
-    ngOnInit(): void {
-        this.populateUserData();
-    }
-
-    async populateUserData() {
-        this.afAuth.authState.subscribe((state) => {
-            if (state) {
-                this.userService.getUserById(state!.uid).subscribe((res) => {
-                    const { user } = res;
-
-                    this.currentUser = user;
-
-                    this.initForm();
-                    console.log(user);
-                });
-            }
+    constructor(private notificationService: MatSnackBar) {
+        effect(() => {
+            if (this.currentUser()) this.initForm();
         });
     }
 
@@ -70,10 +40,10 @@ export class UserManagementPageComponent implements OnInit {
 
     initForm() {
         this.personalDetailsForm = this.fb.group({
-            firstName: [this.currentUser.firstName, [Validators.required]],
-            lastName: [this.currentUser.lastName, [Validators.required]],
+            firstName: [this.currentUser()?.firstName, [Validators.required]],
+            lastName: [this.currentUser()?.lastName, [Validators.required]],
             phone: [
-                this.currentUser.phone,
+                this.currentUser()?.phone,
                 [
                     Validators.required,
                     Validators.pattern(/^\d*$/),
@@ -81,20 +51,20 @@ export class UserManagementPageComponent implements OnInit {
                     Validators.minLength(10),
                 ],
             ],
-            role: [this.currentUser.role, [Validators.required]],
+            role: [this.currentUser()?.role, [Validators.required]],
         });
     }
 
     updateUserData() {
         const newUser = new ProfileUser({
-            uid: this.currentUser.uid,
-            email: this.currentUser.email,
-            profilePictureUrl: this.currentUser.profilePictureUrl,
+            uid: this.currentUser()?.uid,
+            email: this.currentUser()?.email,
+            profilePictureUrl: this.currentUser()?.profilePictureUrl,
             ...this.personalDetailsForm.value,
         });
 
         this.userService
-            .updateUserById(this.currentUser.uid!, newUser)
+            .updateUserById(this.currentUser()?.uid!, newUser)
             .subscribe({
                 next: (res) => {
                     this.userService.userDataUpdated.next(true);
@@ -125,16 +95,16 @@ export class UserManagementPageComponent implements OnInit {
     get saveDisabled(): boolean {
         const firstNameUnchanged =
             this.personalDetailsForm?.get('firstName')?.value ===
-            this.currentUser.firstName;
+            this.currentUser()?.firstName;
         const lastNameUnchanged =
             this.personalDetailsForm?.get('lastName')?.value ===
-            this.currentUser.lastName;
+            this.currentUser()?.lastName;
         const phoneUnchanged =
             this.personalDetailsForm?.get('phone')?.value ===
-            this.currentUser.phone;
+            this.currentUser()?.phone;
         const roleUnchanged =
             this.personalDetailsForm?.get('role')?.value ===
-            this.currentUser.role;
+            this.currentUser()?.role;
 
         const dataUnchanged =
             firstNameUnchanged &&
@@ -176,19 +146,21 @@ export class UserManagementPageComponent implements OnInit {
     async uploadProfilePicture(event) {
         const file = event.target.files[0];
 
-        if (!file || !this.currentUser) {
+        const userInfo = this.currentUser();
+
+        if (!file || !userInfo) {
             return;
         }
 
         const downloadUrl = await this.userService.uploadProfilePicture(
-            this.currentUser.uid!,
+            userInfo?.uid!,
             file,
         );
 
         // Update the current user with profile image url
         this.userService
-            .updateUserById(this.currentUser.uid!, {
-                ...this.currentUser,
+            .updateUserById(userInfo?.uid!, {
+                ...userInfo,
                 profilePictureUrl: downloadUrl,
             })
             .subscribe({
