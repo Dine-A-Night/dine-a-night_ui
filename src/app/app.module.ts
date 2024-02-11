@@ -33,6 +33,7 @@ import { ExploreRestaurantsPageComponent } from './pages/explore-restaurants-pag
 import { ManageRestaurantsComponent } from './pages/manage-restaurants/manage-restaurants.component';
 import { ReAuthenticateDialogComponent } from './components/auth/re-authenticate-dialog/re-authenticate-dialog.component';
 import { RestaurantCardComponent } from './components/restaurants/restaurant-card/restaurant-card.component';
+import { RestaurantAddEditComponent } from './components/restaurants/restaurant-add-edit/restaurant-add-edit.component';
 
 @NgModule({
     declarations: [
@@ -47,6 +48,7 @@ import { RestaurantCardComponent } from './components/restaurants/restaurant-car
         ManageRestaurantsComponent,
         ReAuthenticateDialogComponent,
         RestaurantCardComponent,
+        RestaurantAddEditComponent,
     ],
     imports: [
         BrowserModule,

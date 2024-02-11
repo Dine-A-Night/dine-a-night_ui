@@ -1,0 +1,26 @@
+<div class="min-h-screen container-80 py-5">
+    <!-- Heading -->
+    <section class="flex justify-between">
+        <h2 class="text-3xl font-bold">Add New Restaurant</h2>
+
+        <!-- Desktop -->
+        <button
+            [disableRipple]="true"
+            mat-flat-button
+            color="accent"
+            class="hidden md:inline-flex"
+            [routerLink]="['/manage-restaurants']"
+            ><mat-icon>arrow_back</mat-icon>Manage Restaurants</button
+        >
+        <!-- Mobile -->
+        <button
+            mat-icon-button
+            color="accent"
+            class="md:hidden"
+            matTooltip="Manage Restaurants"
+            [routerLink]="['/manage-restaurants']"
+            aria-label="Go to manage restaurants page">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+    </section>
+</div>
