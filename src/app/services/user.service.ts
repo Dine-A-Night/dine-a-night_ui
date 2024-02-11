@@ -1,26 +1,22 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable, Signal } from '@angular/core';
-import { ProfileUser } from '../models/user';
-import { environment } from 'src/environments/environment.development';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import {
     BehaviorSubject,
     Observable,
-    ObservableInput,
-    catchError,
     combineLatest,
-    finalize,
     firstValueFrom,
-    from,
     map,
     of,
     switchMap,
     tap,
-    throwError,
+    zip,
 } from 'rxjs';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { environment } from 'src/environments/environment.development';
+import { ProfileUser } from '../models/user';
 import { AuthService } from './auth.service';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
     providedIn: 'root',
@@ -163,22 +159,22 @@ export class UserService {
     }
 
     deleteUser(): Observable<any> {
-        return this.afAuth.authState.pipe(
-            switchMap((user) => {
-                if (!user) {
-                    throw new Error('No authenticated user');
-                }
+        const user = this.currentUser();
 
-                // Delete user data from MongoDB
-                const deleteMongoData$ = this.deleteUserData(user.uid);
+        if (!user) {
+            throw new Error('No authenticated user');
+        }
 
-                // Delete user from Firebase Authentication
-                const deleteUserAuth$ = from(user.delete());
+        // Delete user data from MongoDB
+        const deleteMongoData$ = this.deleteUserData(user.uid).pipe();
 
-                // Combine both observables
-                return combineLatest([deleteMongoData$, deleteUserAuth$]);
-            }),
-        );
+        // Delete user from Firebase Authentication
+        const deleteUserAuth$ = this.authService.deleteUser();
+
+        // Emit once both observables emit a value.
+        // Can't use forkJoin because firebase observable never completes
+        // https://stackoverflow.com/a/42243856
+        return zip([deleteMongoData$, deleteUserAuth$]);
     }
 
     private deleteUserData(uid) {
