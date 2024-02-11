@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ProfileUser } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
+import { isDefNotNull } from 'src/app/utils/helper-functions';
 
 @Component({
     selector: 'user-management-page',
@@ -26,7 +27,8 @@ export class UserManagementPageComponent {
 
     constructor(private notificationService: MatSnackBar) {
         effect(() => {
-            if (this.currentUser()) this.initForm();
+            if (this.currentUser() && !isDefNotNull(this.personalDetailsForm))
+                this.initForm();
         });
     }
 
@@ -76,8 +78,6 @@ export class UserManagementPageComponent {
                             duration: 3000,
                         },
                     );
-
-                    this.currentUser = { ...res.user };
                 },
                 error: (err) => {
                     this.notificationService.open(
