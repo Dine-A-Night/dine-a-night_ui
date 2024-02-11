@@ -73,4 +73,17 @@ export class AuthService {
             }
         }
     }
+
+    deleteUser() {
+        return this.afAuth.authState.pipe(
+            switchMap((user) => {
+                if (!user) {
+                    // If there's no authenticated user, return an observable that emits null
+                    return of(null);
+                }
+                // Return an observable that emits the promise returned by user?.delete()
+                return from(user.delete());
+            }),
+        );
+    }
 }
