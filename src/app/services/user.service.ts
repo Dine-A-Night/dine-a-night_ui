@@ -136,7 +136,7 @@ export class UserService {
      * @param image Image File
      * @returns Promise that resolved to image download url
      */
-    uploadProfilePicture(userId: string, image: File): Promise<string> {
+    async uploadProfilePicture(userId: string, image: File): Promise<string> {
         const imagePath = `images/profile/${userId}`;
 
         // Reference to storage bucket
@@ -144,18 +144,9 @@ export class UserService {
 
         const uploadTask = this.afStorage.upload(imagePath, image);
 
-        return firstValueFrom(
-            uploadTask.snapshotChanges().pipe(
-                tap(console.log),
-                // The file's download URL
-                switchMap(() => ref?.getDownloadURL()),
-                switchMap((downloadURL) => {
-                    // Perform any finalization logic here if needed
+        await uploadTask;
 
-                    return of(downloadURL); // Return the download URL
-                }),
-            ),
-        );
+        return firstValueFrom(ref.getDownloadURL());
     }
 
     deleteUser(): Observable<any> {
