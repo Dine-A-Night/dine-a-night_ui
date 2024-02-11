@@ -32,6 +32,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ExploreRestaurantsPageComponent } from './pages/explore-restaurants-page/explore-restaurants-page.component';
 import { ManageRestaurantsComponent } from './pages/manage-restaurants/manage-restaurants.component';
 import { ReAuthenticateDialogComponent } from './components/auth/re-authenticate-dialog/re-authenticate-dialog.component';
+import { RestaurantCardComponent } from './components/restaurants/restaurant-card/restaurant-card.component';
 
 @NgModule({
     declarations: [
@@ -45,6 +46,7 @@ import { ReAuthenticateDialogComponent } from './components/auth/re-authenticate
         ExploreRestaurantsPageComponent,
         ManageRestaurantsComponent,
         ReAuthenticateDialogComponent,
+        RestaurantCardComponent,
     ],
     imports: [
         BrowserModule,

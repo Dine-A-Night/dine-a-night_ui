@@ -117,12 +117,6 @@ export class UserService {
         return this.http.get<any>(url, { headers });
     }
 
-    getRestaurants() {
-        const url = `${this.API_URL}/api/restaurants`;
-
-        return this.http.get<any>(url);
-    }
-
     updateUserById(uid: string, newUser: ProfileUser): Observable<any> {
         const url = `${this.API_URL}/api/users/${uid}`;
         const headers = this.authService.getAuthHeaders();
