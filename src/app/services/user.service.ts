@@ -1,9 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Signal } from '@angular/core';
 import { ProfileUser } from '../models/user';
 import { environment } from 'src/environments/environment.development';
 import {
+    BehaviorSubject,
     Observable,
+    ObservableInput,
+    catchError,
     combineLatest,
     finalize,
     firstValueFrom,
@@ -17,6 +20,7 @@ import {
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthService } from './auth.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
     providedIn: 'root',
@@ -28,46 +32,81 @@ export class UserService {
         private http: HttpClient,
         private afAuth: AngularFireAuth,
         private afStorage: AngularFireStorage,
+        private authService: AuthService,
     ) {}
 
-    //#region auth header functions
+    userDataUpdated = new BehaviorSubject<boolean>(true);
+
+    private user$: Observable<any | null> = combineLatest([
+        this.afAuth.authState,
+        this.userDataUpdated,
+    ]).pipe(
+        switchMap(([user, _]) => {
+            debugger;
+            if (!user) {
+                return of(null);
+            }
+
+            const fullUser$ = this.getUserById(user.uid);
+
+            return combineLatest([
+                of({
+                    uid: user?.uid,
+                    email: user?.email,
+                    displayName: user?.displayName,
+                }),
+                fullUser$,
+            ]);
+        }),
+        map((data) => {
+            if (!data) {
+                return null;
+            }
+
+            const [firebaseUser, mongoUser] = data;
+
+            // Merge the properties from both objects
+            return { ...firebaseUser, ...mongoUser?.user };
+        }),
+        catchError((err: any, caught: ObservableInput<any>) => {
+            debugger;
+            console.warn(err);
+            return of(null);
+        }),
+    );
 
     /**
-     * These functions should be used from auth service instead for any other services.
-     * We have duplicates here in order to avoid circualr dependency error.
-     * See https://angular.io/errors/NG0200
+     * Current logged in user data (firebase and mongo combined)
      */
+    currentUser: Signal<ProfileUser | null> = toSignal(this.user$);
 
-    private getIdToken(): Observable<string> {
-        return this.afAuth.authState.pipe(
-            switchMap((user) => {
-                if (!user) {
-                    return throwError(() => 'User is null');
-                }
-                return from(user.getIdToken());
+    async register(email: string, password: string, userInfo: ProfileUser) {
+        // The caller should handle any exceptions thrown by this function
+        const res = await this.afAuth.createUserWithEmailAndPassword(
+            email,
+            password,
+        );
+
+        await res.user?.updateProfile({
+            displayName: `${userInfo.firstName} ${userInfo.lastName}`,
+        });
+
+        // Other Details go to MongoDB
+        await firstValueFrom(
+            this.createUserProfile({
+                ...userInfo,
+                uid: res.user?.uid,
+                email: res.user?.email!,
             }),
         );
-    }
 
-    private getAuthHeaders(): Observable<HttpHeaders> {
-        return this.getIdToken().pipe(
-            switchMap((idToken) => {
-                const headers = new HttpHeaders({
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${idToken}`,
-                    // Add any other headers if needed
-                });
-                return of(headers);
-            }),
-        );
+        return res;
     }
-
-    //#endregion
 
     createUserProfile(user: ProfileUser): Observable<any> {
         const postUrl = `${this.API_URL}/api/users`;
 
-        return this.getAuthHeaders().pipe(
+        return this.authService.getAuthHeaders().pipe(
             switchMap((headers) => {
                 return this.http.post<any>(postUrl, user, { headers });
             }),
@@ -77,7 +116,7 @@ export class UserService {
     getUserById(uid: string): Observable<any> {
         const url = `${this.API_URL}/api/users/${uid}`;
 
-        return this.getAuthHeaders().pipe(
+        return this.authService.getAuthHeaders().pipe(
             switchMap((headers) => {
                 return this.http.get<any>(url, { headers });
             }),
@@ -93,7 +132,7 @@ export class UserService {
     updateUserById(uid: string, newUser: ProfileUser): Observable<any> {
         const url = `${this.API_URL}/api/users/${uid}`;
 
-        return this.getAuthHeaders().pipe(
+        return this.authService.getAuthHeaders().pipe(
             switchMap((headers) => {
                 return this.http.put<any>(url, newUser, { headers });
             }),
@@ -150,7 +189,7 @@ export class UserService {
     private deleteUserData(uid) {
         const deleteUrl = `${environment.apiUrl}/api/users/${uid}`;
 
-        return this.getAuthHeaders().pipe(
+        return this.authService.getAuthHeaders().pipe(
             switchMap((headers) => {
                 return this.http.delete(deleteUrl, {
                     headers,

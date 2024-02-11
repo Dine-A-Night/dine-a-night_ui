@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { ProfileUser } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 import { isDefNotNull } from 'src/app/utils/helper-functions';
 
 @Component({
@@ -21,7 +22,7 @@ export class RegisterComponent {
     stepperOrientation: Observable<StepperOrientation>;
 
     constructor(
-        private authService: AuthService,
+        private userService: UserService,
         private fb: FormBuilder,
         private _snackBar: MatSnackBar,
         private router: Router,
@@ -66,7 +67,7 @@ export class RegisterComponent {
                 phone: this.personalDetailsForm.value.phone,
                 role: this.personalDetailsForm.value.role,
             });
-            const res = await this.authService.register(
+            const res = await this.userService.register(
                 this.credentialsForm.get('email')?.value,
                 this.credentialsForm.get('password')?.value,
                 newUser,

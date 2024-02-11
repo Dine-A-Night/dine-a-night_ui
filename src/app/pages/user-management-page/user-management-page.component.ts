@@ -61,7 +61,7 @@ export class UserManagementPageComponent implements OnInit {
     }
 
     get profilePictureUrl() {
-        const currentUser = this.authService.currentUser();
+        const currentUser = this.userService.currentUser();
 
         return currentUser?.profilePictureUrl?.length
             ? currentUser.profilePictureUrl
@@ -191,7 +191,7 @@ export class UserManagementPageComponent implements OnInit {
             })
             .subscribe({
                 next: (res) => {
-                    this.authService.userDataUpdated.next(true);
+                    this.userService.userDataUpdated.next(true);
                     this.notificationService.open(
                         'Image Uploaded Successfully!',
                         undefined,
