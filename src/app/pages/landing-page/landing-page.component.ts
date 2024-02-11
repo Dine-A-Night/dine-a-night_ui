@@ -22,7 +22,7 @@ export class LandingPageComponent implements OnInit {
     }
 
     navigateToExploreRestaurants() {
-        this.router.navigate(['/explore-restaurants-page']);
+        this.router.navigate(['/explore-restaurants']);
     }
 
     getAllRestaurants() {

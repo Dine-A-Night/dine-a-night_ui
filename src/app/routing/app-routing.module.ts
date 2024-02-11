@@ -5,6 +5,7 @@ import { LoginComponent } from '../components/auth/login/login.component';
 import { RegisterComponent } from '../components/auth/register/register.component';
 import { UserManagementPageComponent } from '../pages/user-management-page/user-management-page.component';
 import { ExploreRestaurantsPageComponent } from '../pages/explore-restaurants-page/explore-restaurants-page.component';
+import { ManageRestaurantsComponent } from '../pages/manage-restaurants/manage-restaurants.component';
 
 const routes: Routes = [
     {
@@ -28,9 +29,14 @@ const routes: Routes = [
         component: UserManagementPageComponent,
     },
     {
-        path: 'explore-restaurants-page',
+        path: 'explore-restaurants',
         pathMatch: 'full',
         component: ExploreRestaurantsPageComponent,
+    },
+    {
+        path: 'manage-restaurants',
+        pathMatch: 'full',
+        component: ManageRestaurantsComponent,
     },
     {
         path: '',
