@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
+import { UserService } from './services/user.service';
 
 @Component({
     selector: 'app-root',
@@ -10,7 +11,7 @@ import { AuthService } from './services/auth.service';
 export class AppComponent implements OnInit {
     title = 'dine-a-night-ui';
 
-    constructor(private authService: AuthService) {}
+    constructor(private userService: UserService) {}
 
     ngOnInit(): void {
         // this.router.events.subscribe((event) => {
@@ -19,7 +20,7 @@ export class AppComponent implements OnInit {
     }
 
     get userDataAvailable() {
-        return this.authService.currentUser() !== undefined;
+        return this.userService.currentUser() !== undefined;
     }
 
     get showHeader() {

@@ -4,6 +4,7 @@ import { Observable, firstValueFrom, map, tap } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ProfileUser } from 'src/app/models/user';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
     selector: 'app-header',
@@ -16,13 +17,14 @@ export class HeaderComponent implements OnInit {
     sideMenuTouched = false;
     sideMenuOpen: boolean = false;
 
-    user: Signal<ProfileUser | null> = this.authService.currentUser;
+    user: Signal<ProfileUser | null> = this.userService.currentUser;
 
     profilePictureUrl: string = 'assets/images/profile.jpg';
 
     constructor(
         private location: Location,
         private authService: AuthService,
+        private userService: UserService,
     ) {}
 
     async ngOnInit() {}

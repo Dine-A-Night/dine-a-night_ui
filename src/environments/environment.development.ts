@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
-    // apiUrl: 'localhost:8080',
+    // apiUrl: 'http://localhost:8080',
     apiUrl: 'https://dine-a-nightapi-production.up.railway.app',
     firebase: {
         apiKey: 'AIzaSyD_PLolGrL446AFEikZouRS2sF1elV8qjY',
