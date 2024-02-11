@@ -4,7 +4,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { from, of, switchMap } from 'rxjs';
+import { AuthCredential } from 'firebase/auth';
+import { firstValueFrom, from, of, switchMap, take } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -84,6 +85,17 @@ export class AuthService {
                 // Return an observable that emits the promise returned by user?.delete()
                 return from(user.delete());
             }),
+        );
+    }
+
+    reauthenticate(credential: AuthCredential) {
+        return firstValueFrom(
+            this.afAuth.authState.pipe(
+                take(1),
+                switchMap((user) => {
+                    return of(user?.reauthenticateWithCredential(credential));
+                }),
+            ),
         );
     }
 }
