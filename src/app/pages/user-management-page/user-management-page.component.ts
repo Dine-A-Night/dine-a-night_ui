@@ -124,7 +124,6 @@ export class UserManagementPageComponent {
             .subscribe({
                 next: (result) => {
                     if (result) {
-                        debugger;
                         this.userService.deleteUser().subscribe({
                             next: () => {
                                 this.notificationService.open(
@@ -148,14 +147,6 @@ export class UserManagementPageComponent {
                                 console.error(err);
                             },
                         });
-                    } else {
-                        this.notificationService.open(
-                            'Invalid Credentials!',
-                            'Oops',
-                            {
-                                duration: 3000,
-                            },
-                        );
                     }
                 },
                 error: (err) => {
