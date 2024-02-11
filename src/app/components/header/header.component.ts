@@ -49,6 +49,12 @@ export class HeaderComponent implements OnInit {
         return 'assets/images/profile.jpg';
     }
 
+    get displayName() {
+        return this.user()
+            ? `${this.user()?.firstName} ${this.user()?.lastName}`
+            : '';
+    }
+
     logout() {
         this.authService.logout();
     }

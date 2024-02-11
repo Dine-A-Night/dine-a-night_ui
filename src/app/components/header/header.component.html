@@ -91,7 +91,7 @@
                     mat-menu-item
                     [routerLink]="['/userProfile']">
                     <mat-icon>person</mat-icon>
-                    {{ user()?.displayName ?? '' }}</button
+                    {{ displayName }}</button
                 >
                 <button
                     *ngIf="user()?.role === 'Admin'"
