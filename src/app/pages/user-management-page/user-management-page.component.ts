@@ -60,6 +60,14 @@ export class UserManagementPageComponent implements OnInit {
         });
     }
 
+    get profilePictureUrl() {
+        const currentUser = this.authService.currentUser();
+
+        return currentUser?.profilePictureUrl?.length
+            ? currentUser.profilePictureUrl
+            : 'assets/images/profile.jpg';
+    }
+
     initForm() {
         this.personalDetailsForm = this.fb.group({
             firstName: [this.currentUser.firstName, [Validators.required]],
@@ -183,6 +191,7 @@ export class UserManagementPageComponent implements OnInit {
             })
             .subscribe({
                 next: (res) => {
+                    this.authService.userDataUpdated.next(true);
                     this.notificationService.open(
                         'Image Uploaded Successfully!',
                         undefined,

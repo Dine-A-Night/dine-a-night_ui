@@ -2,6 +2,7 @@ import { Injectable, OnInit, Signal, effect, inject } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import {
+    BehaviorSubject,
     Observable,
     combineLatest,
     config,
@@ -28,8 +29,14 @@ export class AuthService {
     private router = inject(Router);
     private notificationsService: MatSnackBar = inject(MatSnackBar);
 
-    private user$: Observable<any | null> = this.afAuth.authState.pipe(
-        switchMap((user) => {
+    userDataUpdated = new BehaviorSubject<boolean>(true);
+
+    private user$: Observable<any | null> = combineLatest([
+        this.afAuth.authState,
+        this.userDataUpdated,
+    ]).pipe(
+        switchMap(([user, _]) => {
+            // debugger;
             if (!user) {
                 return of(null);
             }
