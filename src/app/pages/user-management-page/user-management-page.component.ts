@@ -97,6 +97,8 @@ export class UserManagementPageComponent implements OnInit {
             .updateUserById(this.currentUser.uid!, newUser)
             .subscribe({
                 next: (res) => {
+                    this.userService.userDataUpdated.next(true);
+
                     this.notificationService.open(
                         'User updated successfully!',
                         undefined,
