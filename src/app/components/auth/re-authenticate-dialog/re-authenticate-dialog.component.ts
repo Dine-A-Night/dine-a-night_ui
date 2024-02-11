@@ -27,7 +27,6 @@ export class ReAuthenticateDialogComponent {
     }
 
     get confirmDisabled() {
-        console.log(this.passwordEntered);
         return !this.passwordEntered?.length;
     }
 

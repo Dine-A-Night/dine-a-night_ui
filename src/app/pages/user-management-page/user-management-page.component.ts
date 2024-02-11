@@ -123,7 +123,6 @@ export class UserManagementPageComponent {
             .afterClosed()
             .subscribe({
                 next: (result) => {
-                    console.log(result);
                     if (result) {
                         debugger;
                         this.userService.deleteUser().subscribe({
