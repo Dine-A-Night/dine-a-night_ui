@@ -22,11 +22,7 @@
                         <div class="relative w-28">
                             <img
                                 class="w-full rounded-full block mx-auto my-5 object-center object-cover"
-                                [src]="
-                                    currentUser.profilePictureUrl?.length
-                                        ? currentUser.profilePictureUrl
-                                        : 'assets/images/profile.jpg'
-                                "
+                                [src]="profilePictureUrl"
                                 alt="Profile Picture" />
 
                             <button
