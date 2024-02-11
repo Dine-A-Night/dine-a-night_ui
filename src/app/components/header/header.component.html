@@ -94,7 +94,14 @@
                     {{ displayName }}</button
                 >
                 <button
+                    [routerLink]="['/explore-restaurants']"
+                    mat-menu-item>
+                    <mat-icon>home</mat-icon>
+                    Explore Restaurants</button
+                >
+                <button
                     *ngIf="user()?.role === 'Admin'"
+                    [routerLink]="['/manage-restaurants']"
                     mat-menu-item>
                     <mat-icon>table</mat-icon>
                     Manage Restaurants</button
@@ -141,7 +148,7 @@
         <li>
             <a
                 class="flex items-center gap-2 p-2 hover:no-underline bg-sky-100 hover:bg-sky-200 focus:bg-sky-200 text-color-primary"
-                [routerLink]="['/']"
+                [routerLink]="['/explore-restaurants']"
                 (click)="toggleSideMenu()"
                 matRipple>
                 <mat-icon>home</mat-icon>
@@ -170,6 +177,23 @@
                 <mat-icon>person</mat-icon>
                 Profile
             </a>
+            <a
+                [routerLink]="['/manage-restaurants']"
+                (click)="toggleSideMenu()"
+                href="#"
+                class="flex items-center gap-2 p-2 hover:no-underline bg-sky-100 hover:bg-sky-200 cursor-pointer focus:bg-sky-200 text-color-primary"
+                matRipple>
+                <mat-icon>table</mat-icon>
+                Manage Restaurants
+            </a>
+
+            <button
+                mat-menu-item
+                (click)="logout(); toggleSideMenu()"
+                class="flex items-center gap-2 p-2 hover:no-underline bg-sky-100 hover:bg-sky-200 cursor-pointer focus:bg-sky-200 text-color-primary">
+                <mat-icon>logout</mat-icon>
+                Logout</button
+            >
         </li>
 
         <hr />
