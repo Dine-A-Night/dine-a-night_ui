@@ -1,6 +1,5 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
 
 @Component({
     selector: 'app-landing-page',
@@ -10,24 +9,13 @@ import { UserService } from 'src/app/services/user.service';
 export class LandingPageComponent implements OnInit {
     playTransition = false;
 
-    constructor(
-        private router: Router,
-        private userSerice: UserService,
-    ) {}
+    constructor(private router: Router) {}
 
     ngOnInit(): void {
         this.playTransition = true;
-
-        this.getAllRestaurants();
     }
 
     navigateToExploreRestaurants() {
         this.router.navigate(['/explore-restaurants']);
-    }
-
-    getAllRestaurants() {
-        this.userSerice.getRestaurants().subscribe((res) => {
-            console.log(res);
-        });
     }
 }

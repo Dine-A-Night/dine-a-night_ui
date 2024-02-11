@@ -1,0 +1,34 @@
+<mat-card
+    *ngIf="restaurant"
+    class="max-w-72 rounded overflow-hidden shadow-lg">
+    <img
+        class="mb-4"
+        mat-card-image
+        [src]="coverPhoto"
+        alt="{{ restaurant.name }}" />
+    <mat-card-content>
+        <div class="font-bold text-xl mb-2">{{ restaurant.name }}</div>
+        <p class="text-gray-700 text-base">{{ restaurant.description }}</p>
+        <p class="text-gray-700 text-sm mt-2">
+            {{ restaurant.location.streetAddress }},
+            {{ restaurant.location.city }}, {{ restaurant.location.province }},
+            {{ restaurant.location.country }}
+        </p>
+    </mat-card-content>
+    <mat-card-content>
+        <span
+            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2"
+            *ngFor="let cuisine of restaurant.cuisines"
+            >{{ cuisine.name }}</span
+        >
+    </mat-card-content>
+
+    <mat-card-actions>
+        <button
+            mat-stroked-button
+            color="accent"
+            disableRipple="true"
+            >View Details</button
+        >
+    </mat-card-actions>
+</mat-card>

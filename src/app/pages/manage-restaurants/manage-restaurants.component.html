@@ -1,11 +1,20 @@
 <div class="min-h-screen container-80 p-4">
+    <!-- Header -->
     <section class="flex justify-between flex-wrap gap-5">
-        <h2 class="font-bold text-3xl">Manage Restuarants</h2>
+        <h2 class="font-bold text-3xl">Manage Restaurants</h2>
         <button
             mat-button
             mat-flat-button
+            [disableRipple]="true"
             color="accent">
             <mat-icon>add</mat-icon>Add Restaurant</button
         >
+    </section>
+
+    <!-- Owned Restaurants -->
+    <section class="flex flex-wrap gap-5 mt-8 justify-center lg:justify-start">
+        <restaurant-card
+            *ngFor="let restaurant of restaurants"
+            [restaurant]="restaurant"></restaurant-card>
     </section>
 </div>
