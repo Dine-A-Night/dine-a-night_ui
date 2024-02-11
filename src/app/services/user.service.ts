@@ -42,21 +42,24 @@ export class UserService {
         this.userDataUpdated,
     ]).pipe(
         switchMap(([user, _]) => {
-            debugger;
             if (!user) {
                 return of(null);
             }
 
-            const fullUser$ = this.getUserById(user.uid);
+            if (!this.authService.authProcessing) {
+                const fullUser$ = this.getUserById(user.uid);
 
-            return combineLatest([
-                of({
-                    uid: user?.uid,
-                    email: user?.email,
-                    displayName: user?.displayName,
-                }),
-                fullUser$,
-            ]);
+                return combineLatest([
+                    of({
+                        uid: user?.uid,
+                        email: user?.email,
+                        displayName: user?.displayName,
+                    }),
+                    fullUser$,
+                ]);
+            }
+
+            return of(null);
         }),
         map((data) => {
             if (!data) {
@@ -67,11 +70,6 @@ export class UserService {
 
             // Merge the properties from both objects
             return { ...firebaseUser, ...mongoUser?.user };
-        }),
-        catchError((err: any, caught: ObservableInput<any>) => {
-            debugger;
-            console.warn(err);
-            return of(null);
         }),
     );
 
@@ -87,6 +85,8 @@ export class UserService {
             password,
         );
 
+        this.authService.authProcessing = true;
+
         await res.user?.updateProfile({
             displayName: `${userInfo.firstName} ${userInfo.lastName}`,
         });
@@ -99,6 +99,10 @@ export class UserService {
                 email: res.user?.email!,
             }),
         );
+
+        this.authService.authProcessing = false;
+
+        this.userDataUpdated.next(true);
 
         return res;
     }
