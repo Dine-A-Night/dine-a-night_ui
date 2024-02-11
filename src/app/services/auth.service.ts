@@ -15,6 +15,16 @@ export class AuthService {
 
     constructor() {}
 
+    private _authProcessing = false;
+
+    get authProcessing() {
+        return this._authProcessing;
+    }
+
+    set authProcessing(_val: boolean) {
+        this._authProcessing = _val;
+    }
+
     //#region Auth Header functions
 
     private getIdToken(): Observable<string | null> {
