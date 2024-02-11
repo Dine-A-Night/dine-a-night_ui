@@ -109,22 +109,16 @@ export class UserService {
 
     createUserProfile(user: ProfileUser): Observable<any> {
         const postUrl = `${this.API_URL}/api/users`;
+        const headers = this.authService.getAuthHeaders();
 
-        return this.authService.getAuthHeaders().pipe(
-            switchMap((headers) => {
-                return this.http.post<any>(postUrl, user, { headers });
-            }),
-        );
+        return this.http.post<any>(postUrl, user, { headers });
     }
 
     getUserById(uid: string): Observable<any> {
         const url = `${this.API_URL}/api/users/${uid}`;
+        const headers = this.authService.getAuthHeaders();
 
-        return this.authService.getAuthHeaders().pipe(
-            switchMap((headers) => {
-                return this.http.get<any>(url, { headers });
-            }),
-        );
+        return this.http.get<any>(url, { headers });
     }
 
     getRestaurants() {
@@ -135,12 +129,9 @@ export class UserService {
 
     updateUserById(uid: string, newUser: ProfileUser): Observable<any> {
         const url = `${this.API_URL}/api/users/${uid}`;
+        const headers = this.authService.getAuthHeaders();
 
-        return this.authService.getAuthHeaders().pipe(
-            switchMap((headers) => {
-                return this.http.put<any>(url, newUser, { headers });
-            }),
-        );
+        return this.http.put<any>(url, newUser, { headers });
     }
 
     /**
@@ -192,13 +183,10 @@ export class UserService {
 
     private deleteUserData(uid) {
         const deleteUrl = `${environment.apiUrl}/api/users/${uid}`;
+        const headers = this.authService.getAuthHeaders();
 
-        return this.authService.getAuthHeaders().pipe(
-            switchMap((headers) => {
-                return this.http.delete(deleteUrl, {
-                    headers,
-                });
-            }),
-        );
+        return this.http.delete(deleteUrl, {
+            headers,
+        });
     }
 }

@@ -1,9 +1,10 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, Signal, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Observable, from, of, switchMap, throwError } from 'rxjs';
+import { from, of, switchMap } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -25,10 +26,11 @@ export class AuthService {
         this._authProcessing = _val;
     }
 
-    //#region Auth Header functions
-
-    private getIdToken(): Observable<string | null> {
-        return this.afAuth.authState.pipe(
+    idToken: Signal<string | null | undefined> = toSignal(
+        // Use authState observable with CAUTION
+        // as it emits each time an auth related event happens
+        // This may cause unexpected behaviours
+        this.afAuth.authState.pipe(
             switchMap((user) => {
                 if (!user) {
                     console.warn('User is null');
@@ -36,20 +38,19 @@ export class AuthService {
                 }
                 return from(user.getIdToken());
             }),
-        );
-    }
+        ),
+    );
 
-    getAuthHeaders(): Observable<HttpHeaders> {
-        return this.getIdToken().pipe(
-            switchMap((idToken) => {
-                const headers = new HttpHeaders({
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${idToken}`,
-                    // Add any other headers if needed
-                });
-                return of(headers);
-            }),
-        );
+    //#region Auth Header functions
+
+    getAuthHeaders(): HttpHeaders {
+        const idToken = this.idToken();
+
+        return new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${idToken}`,
+            // Add any other headers if needed
+        });
     }
 
     //#endregion
