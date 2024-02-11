@@ -5,6 +5,7 @@ import { firstValueFrom, take } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 import { EmailAuthProvider } from 'firebase/auth';
 import { AuthService } from 'src/app/services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 're-authenticate-dialog',
@@ -16,8 +17,8 @@ export class ReAuthenticateDialogComponent {
         public dialogRef: MatDialogRef<ReAuthenticateDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private userService: UserService,
-        private afAuth: AngularFireAuth,
         private authService: AuthService,
+        private notificationService: MatSnackBar,
     ) {}
 
     passwordEntered: string;
@@ -31,9 +32,6 @@ export class ReAuthenticateDialogComponent {
     }
 
     async checkPassword() {
-        debugger;
-        const cred = await firstValueFrom(this.afAuth.credential);
-
         if (this.currentUser?.email) {
             const credential = EmailAuthProvider.credential(
                 this.currentUser.email,
@@ -43,9 +41,17 @@ export class ReAuthenticateDialogComponent {
             try {
                 const result =
                     await this.authService.reauthenticate(credential);
-                this.dialogRef.close(true);
-            } catch (err) {
-                this.dialogRef.close(false);
+
+                this.dialogRef.close(result);
+            } catch (err: any) {
+                this.notificationService.open(
+                    `Failed to Authenticate: ${err.message}`,
+                    'Oops',
+                    {
+                        duration: 3000,
+                    },
+                );
+                this.dialogRef.close(null);
             }
         }
     }
