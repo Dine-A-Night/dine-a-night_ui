@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './routing/app-routing.module';
 
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatRippleModule } from '@angular/material/core';
@@ -31,6 +31,7 @@ import { UserManagementPageComponent } from './pages/user-management-page/user-m
 import { HttpClientModule } from '@angular/common/http';
 import { ExploreRestaurantsPageComponent } from './pages/explore-restaurants-page/explore-restaurants-page.component';
 import { ManageRestaurantsComponent } from './pages/manage-restaurants/manage-restaurants.component';
+import { ReAuthenticateDialogComponent } from './components/auth/re-authenticate-dialog/re-authenticate-dialog.component';
 
 @NgModule({
     declarations: [
@@ -43,6 +44,7 @@ import { ManageRestaurantsComponent } from './pages/manage-restaurants/manage-re
         UserManagementPageComponent,
         ExploreRestaurantsPageComponent,
         ManageRestaurantsComponent,
+        ReAuthenticateDialogComponent,
     ],
     imports: [
         BrowserModule,
@@ -65,6 +67,7 @@ import { ManageRestaurantsComponent } from './pages/manage-restaurants/manage-re
         MatMenuModule,
         HttpClientModule,
         MatDialogModule,
+        FormsModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

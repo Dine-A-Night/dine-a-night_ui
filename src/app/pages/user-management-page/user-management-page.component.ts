@@ -1,8 +1,10 @@
 import { Component, Signal, effect, inject } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { ReAuthenticateDialogComponent } from 'src/app/components/auth/re-authenticate-dialog/re-authenticate-dialog.component';
 import { ProfileUser } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
@@ -20,6 +22,7 @@ export class UserManagementPageComponent {
     afAuth = inject(AngularFireAuth);
     fb = inject(FormBuilder);
     router = inject(Router);
+    dialog = inject(MatDialog);
 
     // Props
     currentUser: Signal<ProfileUser | null> = this.userService.currentUser;
@@ -116,29 +119,57 @@ export class UserManagementPageComponent {
     }
 
     deleteAccount() {
-        this.userService.deleteUser().subscribe({
-            next: () => {
-                this.notificationService.open(
-                    'Account successfully deleted!',
-                    'Ok',
-                    {
-                        duration: 3000,
-                    },
-                );
+        this.openReauthenticateDialog()
+            .afterClosed()
+            .subscribe({
+                next: (result) => {
+                    console.log(result);
+                    if (result) {
+                        debugger;
+                        this.userService.deleteUser().subscribe({
+                            next: () => {
+                                this.notificationService.open(
+                                    'Account successfully deleted!',
+                                    'Ok',
+                                    {
+                                        duration: 3000,
+                                    },
+                                );
 
-                this.router.navigate(['/login']);
-            },
-            error: (err) => {
-                this.notificationService.open(
-                    'Failed to Delete Account: ' + err.message,
-                    'Oops',
-                    {
-                        duration: 3000,
-                    },
-                );
-                console.error(err);
-            },
-        });
+                                this.router.navigate(['/login']);
+                            },
+                            error: (err) => {
+                                this.notificationService.open(
+                                    'Failed to Delete Account: ' + err.message,
+                                    'Oops',
+                                    {
+                                        duration: 3000,
+                                    },
+                                );
+                                console.error(err);
+                            },
+                        });
+                    } else {
+                        this.notificationService.open(
+                            'Invalid Credentials!',
+                            'Oops',
+                            {
+                                duration: 3000,
+                            },
+                        );
+                    }
+                },
+                error: (err) => {
+                    this.notificationService.open(
+                        'Failed to reauthenticate: ' + err.message,
+                        'Oops',
+                        {
+                            duration: 3000,
+                        },
+                    );
+                    console.error(err);
+                },
+            });
     }
 
     //#region Image Upload
@@ -187,6 +218,15 @@ export class UserManagementPageComponent {
                     console.error(err);
                 },
             });
+    }
+
+    openReauthenticateDialog(): MatDialogRef<ReAuthenticateDialogComponent> {
+        const dialogRef = this.dialog.open(ReAuthenticateDialogComponent, {
+            autoFocus: true,
+            backdropClass: ['bg-red-100', 'opacity-20'],
+        });
+
+        return dialogRef;
     }
 
     //#endregion
