@@ -1,7 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { GoogleMap, MapMarker } from '@angular/google-maps';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable, catchError, map, of } from 'rxjs';
 import { Cuisine, Restaurant } from 'src/app/models/restaurant';
+import { GoogleMapsService } from 'src/app/services/google-maps.service';
 import { RestaurantsService } from 'src/app/services/restaurants.service';
 
 @Component({
@@ -37,15 +41,56 @@ export class RestaurantAddEditComponent implements OnInit {
         }),
     });
 
+    //#region Google Maps
+    apiLoaded = this.googleMapsService.apiLoaded;
+    @ViewChild(GoogleMap, { static: false }) map: GoogleMap;
+
+    mapZoom = 12;
+    mapCenter: google.maps.LatLngLiteral;
+    mapOptions: google.maps.MapOptions = {};
+
+    mapMarker: any;
+
+    setMarkerPosition(lat: number, lng: number) {
+        this.mapMarker = {
+            position: {
+                lat,
+                lng,
+            },
+            label: <google.maps.MarkerLabel>{
+                color: 'red',
+                text: 'Restaurant Location',
+            },
+            title: 'Restaurant Location',
+            options: <google.maps.MarkerOptions>{
+                animation: google.maps.Animation.DROP,
+                draggable: true,
+            },
+        };
+    }
+
+    mapClick(event: google.maps.MapMouseEvent) {
+        const lat = event.latLng?.lat();
+        const lng = event.latLng?.lng();
+
+        if (lat && lng) {
+            this.setMarkerPosition(lat, lng);
+        }
+        console.log(event);
+    }
+    //#endregion
+
     constructor(
         private fb: FormBuilder,
         private restaurantService: RestaurantsService,
         private notificationService: MatSnackBar,
+        private googleMapsService: GoogleMapsService,
     ) {}
 
     ngOnInit(): void {
         console.log(this.restaurant);
 
+        // Populate Cuisines Dropdown
         this.restaurantService.getCuisinesList().subscribe({
             next: (list) => {
                 this.cuisinesList = list;
@@ -53,6 +98,13 @@ export class RestaurantAddEditComponent implements OnInit {
             error: (err) => {
                 this.notificationService.open(`Error: ${err.message}`, 'Ok');
             },
+        });
+
+        navigator.geolocation.getCurrentPosition((position) => {
+            this.mapCenter = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+            };
         });
     }
 }

@@ -28,13 +28,14 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { FooterComponent } from './components/footer/footer.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { UserManagementPageComponent } from './pages/user-management-page/user-management-page.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 import { ExploreRestaurantsPageComponent } from './pages/explore-restaurants-page/explore-restaurants-page.component';
 import { ManageRestaurantsComponent } from './pages/manage-restaurants/manage-restaurants.component';
 import { ReAuthenticateDialogComponent } from './components/auth/re-authenticate-dialog/re-authenticate-dialog.component';
 import { RestaurantCardComponent } from './components/restaurants/restaurant-card/restaurant-card.component';
 import { RestaurantAddEditComponent } from './components/restaurants/restaurant-add-edit/restaurant-add-edit.component';
 import { MatSelectModule } from '@angular/material/select';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @NgModule({
     declarations: [
@@ -71,9 +72,11 @@ import { MatSelectModule } from '@angular/material/select';
         MatRadioModule,
         MatMenuModule,
         HttpClientModule,
+        HttpClientJsonpModule,
         MatDialogModule,
         FormsModule,
         MatSelectModule,
+        GoogleMapsModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
