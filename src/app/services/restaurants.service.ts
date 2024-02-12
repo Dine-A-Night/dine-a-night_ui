@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { filter, map } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { UserService } from './user.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
     providedIn: 'root',
@@ -13,6 +14,7 @@ export class RestaurantsService {
     constructor(
         private http: HttpClient,
         private userService: UserService,
+        private authService: AuthService,
     ) {}
 
     getRestaurants() {
@@ -37,5 +39,14 @@ export class RestaurantsService {
                 );
             }),
         );
+    }
+
+    getCuisinesList() {
+        const url = `${this.API_URL}/api/cuisines`;
+        const headers = this.authService.getAuthHeaders();
+
+        return this.http
+            .get(url, { headers })
+            .pipe(map((res: any) => res.cuisines));
     }
 }

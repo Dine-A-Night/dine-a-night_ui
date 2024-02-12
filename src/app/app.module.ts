@@ -34,6 +34,7 @@ import { ManageRestaurantsComponent } from './pages/manage-restaurants/manage-re
 import { ReAuthenticateDialogComponent } from './components/auth/re-authenticate-dialog/re-authenticate-dialog.component';
 import { RestaurantCardComponent } from './components/restaurants/restaurant-card/restaurant-card.component';
 import { RestaurantAddEditComponent } from './components/restaurants/restaurant-add-edit/restaurant-add-edit.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
     declarations: [
@@ -72,6 +73,7 @@ import { RestaurantAddEditComponent } from './components/restaurants/restaurant-
         HttpClientModule,
         MatDialogModule,
         FormsModule,
+        MatSelectModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
