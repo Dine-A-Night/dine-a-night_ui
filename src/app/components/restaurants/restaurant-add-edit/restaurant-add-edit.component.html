@@ -113,7 +113,7 @@
                 <!-- Location -->
 
                 <h3 class="font-bold text-xl mb-4">Location:</h3>
-                <div *ngIf="apiLoaded | async">
+                <div *ngIf="apiLoaded() && mapCenter">
                     <google-map
                         [width]="'100%'"
                         [zoom]="mapZoom"
@@ -121,7 +121,7 @@
                         [options]="mapOptions"
                         (mapClick)="mapClick($event)">
                         <map-marker
-                            *ngIf="mapMarker"
+                            *ngIf="mapMarker.position"
                             [position]="mapMarker.position"
                             [label]="mapMarker.label"
                             [title]="mapMarker.title"

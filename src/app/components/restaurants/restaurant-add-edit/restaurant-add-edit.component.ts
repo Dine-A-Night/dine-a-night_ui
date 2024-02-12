@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, effect } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { GoogleMap, MapMarker } from '@angular/google-maps';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -52,20 +52,9 @@ export class RestaurantAddEditComponent implements OnInit {
     mapMarker: any;
 
     setMarkerPosition(lat: number, lng: number) {
-        this.mapMarker = {
-            position: {
-                lat,
-                lng,
-            },
-            label: <google.maps.MarkerLabel>{
-                color: 'red',
-                text: 'Restaurant Location',
-            },
-            title: 'Restaurant Location',
-            options: <google.maps.MarkerOptions>{
-                animation: google.maps.Animation.DROP,
-                draggable: true,
-            },
+        this.mapMarker.position = {
+            lat,
+            lng,
         };
     }
 
@@ -85,7 +74,24 @@ export class RestaurantAddEditComponent implements OnInit {
         private restaurantService: RestaurantsService,
         private notificationService: MatSnackBar,
         private googleMapsService: GoogleMapsService,
-    ) {}
+    ) {
+        effect(() => {
+            if (this.apiLoaded()) {
+                this.mapMarker = {
+                    label: <google.maps.MarkerLabel>{
+                        text: 'Restaurant Location',
+                        className: 'font-bold relative top-8 text-red-600',
+                    },
+                    title: 'Restaurant Location',
+                    options: <google.maps.MarkerOptions>{
+                        animation: google.maps.Animation.DROP,
+                        draggable: true,
+                        clickable: true,
+                    },
+                };
+            }
+        });
+    }
 
     ngOnInit(): void {
         console.log(this.restaurant);
@@ -105,6 +111,11 @@ export class RestaurantAddEditComponent implements OnInit {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
             };
+
+            this.setMarkerPosition(
+                position.coords.latitude,
+                position.coords.longitude,
+            );
         });
     }
 }
