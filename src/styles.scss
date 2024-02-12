@@ -121,6 +121,27 @@ a:hover {
     color: $color-accent;
 }
 
+/* Custom Animations */
+
+.pulse-animation {
+    animation: pulseAnimation 1000ms ease-in-out infinite;
+}
+
+@keyframes pulseAnimation {
+    0% {
+        scale: 1;
+    }
+
+    50% {
+        scale: 1.25;
+    }
+
+    100% {
+        scale: 1;
+    }
+}
+
+/* Material Overrides  */
 ::ng-deep {
     .mdc-button__label {
         color: white !important;
