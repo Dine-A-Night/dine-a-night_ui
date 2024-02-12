@@ -113,7 +113,7 @@
                 <!-- Location -->
 
                 <h3 class="font-bold text-xl mb-4">Location:</h3>
-                <div *ngIf="apiLoaded() && mapCenter">
+                <div *ngIf="apiLoaded() && mapCenter; else mapsLoading">
                     <google-map
                         [width]="'100%'"
                         [zoom]="mapZoom"
@@ -129,6 +129,14 @@
                         </map-marker
                     ></google-map>
                 </div>
+
+                <ng-template #mapsLoading>
+                    <div class="w-full">
+                        <mat-spinner
+                            class="m-auto"
+                            color="accent"></mat-spinner>
+                    </div>
+                </ng-template>
             </fieldset>
         </form>
     </section>
