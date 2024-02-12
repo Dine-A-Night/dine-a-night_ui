@@ -25,5 +25,93 @@
     </section>
 
     <!-- Add Edit Form -->
-    <section> </section>
+    <section>
+        <form
+            [formGroup]="restaurantForm"
+            class="w-full">
+            <fieldset class="border border-solid rounded border-gray-300 p-3">
+                <legend>
+                    <img
+                        class="w-24"
+                        src="assets/images/brandImage.png"
+                        alt="Brand Image" />
+                </legend>
+
+                <!-- Restaurant Name -->
+                <mat-form-field
+                    color="accent"
+                    class="w-full mb-5">
+                    <mat-label>Restaurant Name</mat-label>
+                    <mat-icon matPrefix>fastfood</mat-icon>
+                    <input
+                        formControlName="name"
+                        matInput
+                        placeholder="Jack Astors" />
+                    <mat-error
+                        *ngIf="
+                            restaurantForm.get('name')?.hasError('required')
+                        ">
+                        Name is required
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Description -->
+                <mat-form-field
+                    color="accent"
+                    class="w-full mb-5">
+                    <mat-label>Restaurant Description</mat-label>
+                    <mat-icon matPrefix>description</mat-icon>
+                    <textarea
+                        formControlName="description"
+                        matInput
+                        placeholder="We offer ..."></textarea>
+                    <mat-error
+                        *ngIf="
+                            restaurantForm
+                                .get('description')
+                                ?.hasError('required')
+                        ">
+                        Description is required
+                    </mat-error>
+                    <mat-error
+                        *ngIf="
+                            restaurantForm
+                                .get('description')
+                                ?.hasError('maxlength')
+                        ">
+                        Description can be a max of
+                        {{
+                            restaurantForm
+                                .get('description')
+                                ?.getError('maxlength').requiredLength
+                        }}
+                        characters. Current length:
+                        {{
+                            restaurantForm
+                                .get('description')
+                                ?.getError('maxlength').actualLength
+                        }}
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Cuisines -->
+                <mat-form-field
+                    color="accent"
+                    class="w-full mb-5">
+                    <mat-label>Cuisines</mat-label>
+                    <mat-select
+                        formControlName="cuisines"
+                        multiple>
+                        <mat-option
+                            *ngFor="let cuisine of cuisinesList"
+                            [value]="cuisine"
+                            >{{ cuisine.name }}</mat-option
+                        >
+                    </mat-select>
+                </mat-form-field>
+
+                <!-- Location -->
+            </fieldset>
+        </form>
+    </section>
 </div>
