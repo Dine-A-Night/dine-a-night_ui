@@ -106,16 +106,24 @@ export class RestaurantAddEditComponent implements OnInit {
             },
         });
 
-        navigator.geolocation.getCurrentPosition((position) => {
-            this.mapCenter = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-            };
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.mapCenter = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                };
 
-            this.setMarkerPosition(
-                position.coords.latitude,
-                position.coords.longitude,
-            );
-        });
+                this.setMarkerPosition(
+                    position.coords.latitude,
+                    position.coords.longitude,
+                );
+            },
+            undefined,
+            {
+                enableHighAccuracy: false,
+                timeout: 5000,
+                maximumAge: Infinity,
+            },
+        );
     }
 }
