@@ -24,8 +24,8 @@ export class Restaurant {
         this.description = data?.description ?? null;
         this.location = data?.location ?? null;
         this.coverPhotoUri = data?.coverPhotoUri ?? null;
-        this.photoUris = data?.photoUris ?? null;
-        this.staffMembers = data?.staffMembers ?? null;
+        this.photoUris = data?.photoUris ?? [];
+        this.staffMembers = data?.staffMembers ?? [];
         this.layout = data?.layout ?? null;
         this.cuisines = data?.cuisines ?? null;
     }
@@ -43,4 +43,10 @@ export interface RestaurantLocation {
     province: string;
     country: string;
     postal: string;
+    coordinates: Coordinates;
+}
+
+export interface Coordinates {
+    latitude: number;
+    longitude: number;
 }
