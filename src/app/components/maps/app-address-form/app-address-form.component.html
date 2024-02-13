@@ -25,69 +25,74 @@
         </mat-error>
     </mat-form-field>
 
-    <!-- Postal Code -->
-    <mat-form-field
-        color="primary"
-        class="w-full mb-5">
-        <mat-label>Postal Code</mat-label>
-        <mat-icon matPrefix>local_post_office</mat-icon>
-        <input
-            formControlName="postal"
-            matInput
-            maxlength="7"
-            placeholder="10 Dundas St E" />
-        <mat-error *ngIf="addressForm.get('postal')?.hasError('required')">
-            Postal Code is required
-        </mat-error>
-        <mat-error *ngIf="addressForm.get('postal')?.hasError('pattern')">
-            Postal Code needs to be of format &lsquo;A1B 2C3&rsquo;
-        </mat-error>
-    </mat-form-field>
+    <div class="flex flex-col md:flex-row md:gap-5">
+        <!-- Postal Code -->
+        <mat-form-field
+            color="primary"
+            class="w-full mb-5">
+            <mat-label>Postal Code</mat-label>
+            <mat-icon matPrefix>local_post_office</mat-icon>
+            <input
+                formControlName="postal"
+                matInput
+                maxlength="7"
+                placeholder="10 Dundas St E" />
+            <mat-error *ngIf="addressForm.get('postal')?.hasError('required')">
+                Postal Code is required
+            </mat-error>
+            <mat-error *ngIf="addressForm.get('postal')?.hasError('pattern')">
+                Postal Code needs to be of format &lsquo;A1B 2C3&rsquo;
+            </mat-error>
+        </mat-form-field>
 
-    <!-- City -->
-    <mat-form-field
-        color="primary"
-        class="w-full mb-5">
-        <mat-label>City</mat-label>
-        <mat-icon matPrefix>location_city</mat-icon>
-        <input
-            formControlName="city"
-            matInput
-            placeholder="Toronto" />
-        <mat-error *ngIf="addressForm.get('city')?.hasError('required')">
-            City is required
-        </mat-error>
-    </mat-form-field>
+        <!-- City -->
+        <mat-form-field
+            color="primary"
+            class="w-full mb-5">
+            <mat-label>City</mat-label>
+            <mat-icon matPrefix>location_city</mat-icon>
+            <input
+                formControlName="city"
+                matInput
+                placeholder="Toronto" />
+            <mat-error *ngIf="addressForm.get('city')?.hasError('required')">
+                City is required
+            </mat-error>
+        </mat-form-field>
+    </div>
 
-    <!-- Province -->
-    <mat-form-field
-        color="primary"
-        class="w-full mb-5">
-        <mat-label>Province</mat-label>
-        <mat-icon matPrefix>location_on</mat-icon>
-        <input
-            formControlName="province"
-            matInput
-            placeholder="Ontario" />
-        <mat-error *ngIf="addressForm.get('province')?.hasError('required')">
-            Province is required
-        </mat-error>
-    </mat-form-field>
+    <div class="flex flex-col md:flex-row md:gap-5">
+        <!-- Province -->
+        <mat-form-field
+            color="primary"
+            class="w-full mb-5">
+            <mat-label>Province</mat-label>
+            <mat-icon matPrefix>location_on</mat-icon>
+            <input
+                formControlName="province"
+                matInput
+                placeholder="Ontario" />
+            <mat-error
+                *ngIf="addressForm.get('province')?.hasError('required')">
+                Province is required
+            </mat-error>
+        </mat-form-field>
 
-    <!-- Country -->
-    <mat-form-field
-        color="primary"
-        class="w-full mb-5">
-        <mat-label>Country</mat-label>
-        <mat-icon matPrefix>map</mat-icon>
-        <input
-            formControlName="country"
-            matInput
-            placeholder="Canada" />
-        <mat-error *ngIf="addressForm.get('country')?.hasError('required')">
-            Country is required
-        </mat-error>
-    </mat-form-field>
+        <!-- Country -->
+        <mat-form-field
+            color="primary"
+            class="w-full mb-5">
+            <mat-label>Country</mat-label>
+            <mat-icon matPrefix>map</mat-icon>
+            <input
+                formControlName="country"
+                matInput
+                placeholder="Canada" />
+            <mat-error *ngIf="addressForm.get('country')?.hasError('required')">
+                Country is required
+            </mat-error>
+        </mat-form-field>
+    </div>
 
     <!-- Add Other Fields Here -->
 </div>
