@@ -1,4 +1,12 @@
-import { Component, Input, OnInit, ViewChild, effect } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewChild,
+    effect,
+} from '@angular/core';
 import {
     AbstractControl,
     FormBuilder,
@@ -7,6 +15,7 @@ import {
 } from '@angular/forms';
 import { GoogleMap } from '@angular/google-maps';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Coordinates } from 'src/app/models/restaurant';
 import { GoogleMapsService } from 'src/app/services/google-maps.service';
 
 // Define a type alias for the form group controls
@@ -34,6 +43,9 @@ export class AppAddressFormComponent implements OnInit {
 
     @Input() addressForm: LocationFormGroup;
     @ViewChild(GoogleMap, { static: false }) map: GoogleMap;
+
+    @Output() markerPositionChange: EventEmitter<Coordinates> =
+        new EventEmitter<Coordinates>();
 
     mapZoom = 12;
     mapCenter: google.maps.LatLngLiteral;
@@ -92,6 +104,11 @@ export class AppAddressFormComponent implements OnInit {
             lat,
             lng,
         };
+
+        this.markerPositionChange.emit({
+            latitude: lat,
+            longitude: lng,
+        });
     }
 
     mapClick(event: google.maps.MapMouseEvent) {
@@ -101,6 +118,6 @@ export class AppAddressFormComponent implements OnInit {
         if (lat && lng) {
             this.setMarkerPosition(lat, lng);
         }
-        console.log(event);
+        // console.log(event);
     }
 }

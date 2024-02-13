@@ -34,9 +34,13 @@
         <input
             formControlName="postal"
             matInput
+            maxlength="7"
             placeholder="10 Dundas St E" />
         <mat-error *ngIf="addressForm.get('postal')?.hasError('required')">
             Postal Code is required
+        </mat-error>
+        <mat-error *ngIf="addressForm.get('postal')?.hasError('pattern')">
+            Postal Code needs to be of format &lsquo;A1B 2C3&rsquo;
         </mat-error>
     </mat-form-field>
 

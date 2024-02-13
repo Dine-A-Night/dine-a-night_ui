@@ -1,12 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit, ViewChild, effect } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { GoogleMap, MapMarker } from '@angular/google-maps';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, catchError, map, of } from 'rxjs';
-import { Cuisine, Restaurant } from 'src/app/models/restaurant';
+import { Coordinates, Cuisine, Restaurant } from 'src/app/models/restaurant';
 import { GoogleMapsService } from 'src/app/services/google-maps.service';
 import { RestaurantsService } from 'src/app/services/restaurants.service';
+import { POSTAL_CODE_REGEX } from 'src/app/utils/static-helpers';
 
 @Component({
     selector: 'restaurant-add-edit',
@@ -36,10 +34,15 @@ export class RestaurantAddEditComponent implements OnInit {
             ],
             city: [this.restaurant.location?.city, Validators.required],
             province: [this.restaurant.location?.province, Validators.required],
-            postal: [this.restaurant.location?.postal, Validators.required],
+            postal: [
+                this.restaurant.location?.postal,
+                [Validators.required, Validators.pattern(POSTAL_CODE_REGEX())],
+            ],
             country: [this.restaurant.location?.country, Validators.required],
         }),
     });
+
+    restaurantCoordinates: Coordinates;
 
     // Button Flags to avoid redundant requests.
     createClicked = false;
@@ -70,6 +73,19 @@ export class RestaurantAddEditComponent implements OnInit {
     }
 
     createRestaurant() {
-        console.log(new Restaurant(this.restaurantForm.value));
+        console.log(
+            new Restaurant({
+                ...this.restaurantForm.value,
+                location: {
+                    ...this.restaurantForm.value.location,
+                    coordinates: this.restaurantCoordinates,
+                },
+            }),
+        );
+    }
+
+    onCoordinatesChanged(coords: Coordinates) {
+        this.restaurantCoordinates = coords;
+        console.log(coords);
     }
 }

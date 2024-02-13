@@ -108,15 +108,24 @@
                             >{{ cuisine.name }}</mat-option
                         >
                     </mat-select>
+                    <mat-error
+                        *ngIf="
+                            restaurantForm.get('cuisines')?.hasError('required')
+                        ">
+                        At least one Cuisine needs to be selected
+                    </mat-error>
                 </mat-form-field>
 
                 <!-- Location -->
                 <app-address-form
                     [addressForm]="restaurantForm.controls.location"
                     [headerTitle]="'Location'"
-                    [displayMapsPreview]="false"></app-address-form>
+                    [displayMapsPreview]="true"
+                    (markerPositionChange)="
+                        onCoordinatesChanged($event)
+                    "></app-address-form>
 
-                <div class="flex justify-end"
+                <div class="flex justify-end mt-4"
                     ><button
                         *ngIf="!isEdit"
                         mat-flat-button
