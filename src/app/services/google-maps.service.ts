@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Observable, catchError, map, of } from 'rxjs';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
     providedIn: 'root',
@@ -17,7 +18,7 @@ export class GoogleMapsService {
             this.apiLoaded = toSignal(
                 httpClient
                     .jsonp(
-                        'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3OyeF8Ab7V6ZRxp884uDYq6pTXYL8aCQ',
+                        `https://maps.googleapis.com/maps/api/js?key=${environment.googleMapsApiKey}`,
                         'callback',
                     )
                     .pipe(
