@@ -21,6 +21,11 @@ export class RestaurantsService {
         return this.http.get<any>(url);
     }
 
+    getCuisines() {
+        const url = `${this.API_URL}/api/cuisines`;
+        return this.http.get<any>(url);
+    }
+
     getOwnedRestaurants() {
         return this.getRestaurants().pipe(
             map((data) => data?.restaurants),
