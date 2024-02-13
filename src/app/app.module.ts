@@ -37,6 +37,7 @@ import { RestaurantAddEditComponent } from './components/restaurants/restaurant-
 import { MatSelectModule } from '@angular/material/select';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AppAddressFormComponent } from './components/maps/app-address-form/app-address-form.component';
 
 @NgModule({
     declarations: [
@@ -52,6 +53,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         ReAuthenticateDialogComponent,
         RestaurantCardComponent,
         RestaurantAddEditComponent,
+        AppAddressFormComponent,
     ],
     imports: [
         BrowserModule,

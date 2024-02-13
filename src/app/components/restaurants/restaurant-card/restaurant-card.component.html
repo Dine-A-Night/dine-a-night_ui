@@ -8,13 +8,27 @@
         alt="{{ restaurant.name }}" />
     <mat-card-content>
         <div class="font-bold text-xl mb-2">{{ restaurant.name }}</div>
-        <p class="text-gray-700 text-base">{{ restaurant.description }}</p>
+        <p
+            #restaurantDescription
+            class="text-gray-700 text-base h-24 overflow-y-hidden md:overflow-y-auto"
+            >{{ restaurant.description
+            }}{{
+                restaurantDescription.scrollHeight >
+                restaurantDescription.clientHeight
+                    ? '...'
+                    : ''
+            }}</p
+        >
+
+        <mat-divider class="mt-2"></mat-divider>
+
         <p class="text-gray-700 text-sm mt-2">
             {{ restaurant.location.streetAddress }},
             {{ restaurant.location.city }}, {{ restaurant.location.province }},
             {{ restaurant.location.country }}
         </p>
     </mat-card-content>
+
     <mat-card-content>
         <span
             class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2"

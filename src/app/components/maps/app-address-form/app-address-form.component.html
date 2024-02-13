@@ -1,0 +1,119 @@
+<h3
+    *ngIf="headerTitle"
+    class="font-bold text-xl mb-4"
+    >{{ headerTitle }}</h3
+>
+
+<!-- Form Fields -->
+<div
+    *ngIf="addressForm"
+    [formGroup]="addressForm"
+    class="bg-dark">
+    <!-- Street Address -->
+    <mat-form-field
+        color="primary"
+        class="w-full mb-5">
+        <mat-label>Street Address</mat-label>
+        <mat-icon matPrefix>store_mall_directory</mat-icon>
+        <input
+            formControlName="streetAddress"
+            matInput
+            placeholder="10 Dundas St E" />
+        <mat-error
+            *ngIf="addressForm.get('streetAddress')?.hasError('required')">
+            Street Address is required
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Postal Code -->
+    <mat-form-field
+        color="primary"
+        class="w-full mb-5">
+        <mat-label>Postal Code</mat-label>
+        <mat-icon matPrefix>local_post_office</mat-icon>
+        <input
+            formControlName="postal"
+            matInput
+            placeholder="10 Dundas St E" />
+        <mat-error *ngIf="addressForm.get('postal')?.hasError('required')">
+            Postal Code is required
+        </mat-error>
+    </mat-form-field>
+
+    <!-- City -->
+    <mat-form-field
+        color="primary"
+        class="w-full mb-5">
+        <mat-label>City</mat-label>
+        <mat-icon matPrefix>location_city</mat-icon>
+        <input
+            formControlName="city"
+            matInput
+            placeholder="Toronto" />
+        <mat-error *ngIf="addressForm.get('city')?.hasError('required')">
+            City is required
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Province -->
+    <mat-form-field
+        color="primary"
+        class="w-full mb-5">
+        <mat-label>Province</mat-label>
+        <mat-icon matPrefix>location_on</mat-icon>
+        <input
+            formControlName="province"
+            matInput
+            placeholder="Ontario" />
+        <mat-error *ngIf="addressForm.get('province')?.hasError('required')">
+            Province is required
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Country -->
+    <mat-form-field
+        color="primary"
+        class="w-full mb-5">
+        <mat-label>Country</mat-label>
+        <mat-icon matPrefix>map</mat-icon>
+        <input
+            formControlName="country"
+            matInput
+            placeholder="Canada" />
+        <mat-error *ngIf="addressForm.get('country')?.hasError('required')">
+            Country is required
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Add Other Fields Here -->
+</div>
+
+<!-- Maps Preview -->
+<ng-container *ngIf="displayMapsPreview">
+    <div
+        class="w-auto"
+        *ngIf="apiLoaded() && mapCenter; else mapsLoading">
+        <google-map
+            [width]="'100%'"
+            [zoom]="mapZoom"
+            [center]="mapCenter"
+            [options]="mapOptions"
+            (mapClick)="mapClick($event)">
+            <map-marker
+                *ngIf="mapMarker.position"
+                [position]="mapMarker.position"
+                [label]="mapMarker.label"
+                [title]="mapMarker.title"
+                [options]="mapMarker.options">
+            </map-marker
+        ></google-map>
+    </div>
+</ng-container>
+
+<ng-template #mapsLoading>
+    <div class="w-full">
+        <mat-spinner
+            class="m-auto"
+            color="accent"></mat-spinner>
+    </div>
+</ng-template>

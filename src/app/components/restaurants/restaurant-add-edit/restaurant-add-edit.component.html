@@ -39,7 +39,7 @@
 
                 <!-- Restaurant Name -->
                 <mat-form-field
-                    color="accent"
+                    color="primary"
                     class="w-full mb-5">
                     <mat-label>Restaurant Name</mat-label>
                     <mat-icon matPrefix>fastfood</mat-icon>
@@ -57,7 +57,7 @@
 
                 <!-- Description -->
                 <mat-form-field
-                    color="accent"
+                    color="primary"
                     class="w-full mb-5">
                     <mat-label>Restaurant Description</mat-label>
                     <mat-icon matPrefix>description</mat-icon>
@@ -96,7 +96,7 @@
 
                 <!-- Cuisines -->
                 <mat-form-field
-                    color="accent"
+                    color="primary"
                     class="w-full mb-3">
                     <mat-label>Cuisines</mat-label>
                     <mat-select
@@ -111,32 +111,23 @@
                 </mat-form-field>
 
                 <!-- Location -->
+                <app-address-form
+                    [addressForm]="restaurantForm.controls.location"
+                    [headerTitle]="'Location'"
+                    [displayMapsPreview]="false"></app-address-form>
 
-                <h3 class="font-bold text-xl mb-4">Location:</h3>
-                <div *ngIf="apiLoaded() && mapCenter; else mapsLoading">
-                    <google-map
-                        [width]="'100%'"
-                        [zoom]="mapZoom"
-                        [center]="mapCenter"
-                        [options]="mapOptions"
-                        (mapClick)="mapClick($event)">
-                        <map-marker
-                            *ngIf="mapMarker.position"
-                            [position]="mapMarker.position"
-                            [label]="mapMarker.label"
-                            [title]="mapMarker.title"
-                            [options]="mapMarker.options">
-                        </map-marker
-                    ></google-map>
-                </div>
-
-                <ng-template #mapsLoading>
-                    <div class="w-full">
-                        <mat-spinner
-                            class="m-auto"
-                            color="accent"></mat-spinner>
-                    </div>
-                </ng-template>
+                <div class="flex justify-end"
+                    ><button
+                        *ngIf="!isEdit"
+                        mat-flat-button
+                        color="accent"
+                        [disableRipple]="true"
+                        [disabled]="createDisabled"
+                        (click)="createRestaurant()">
+                        <mat-icon>add</mat-icon>
+                        Create Restaurant
+                    </button></div
+                >
             </fieldset>
         </form>
     </section>
