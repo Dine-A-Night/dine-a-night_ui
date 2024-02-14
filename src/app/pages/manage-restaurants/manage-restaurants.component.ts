@@ -20,8 +20,8 @@ export class ManageRestaurantsComponent implements OnInit {
 
     ngOnInit(): void {
         // For now
-        // this.getOwnedRestaurants();
-        this.getAllRestaurants();
+        this.getOwnedRestaurants();
+        // this.getAllRestaurants();
     }
 
     getOwnedRestaurants() {
@@ -52,8 +52,6 @@ export class ManageRestaurantsComponent implements OnInit {
         this.restaurantsService.getRestaurants().subscribe({
             next: (res) => {
                 this.restaurants = res?.restaurants ?? [];
-
-                console.log(this.restaurants);
 
                 this.isLoading = false;
             },

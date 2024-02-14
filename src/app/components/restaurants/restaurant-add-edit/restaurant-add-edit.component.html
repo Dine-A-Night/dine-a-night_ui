@@ -121,9 +121,8 @@
                     [addressForm]="restaurantForm.controls.location"
                     [headerTitle]="'Location'"
                     [displayMapsPreview]="true"
-                    (markerPositionChange)="
-                        onCoordinatesChanged($event)
-                    "></app-address-form>
+                    (markerPositionChange)="onCoordinatesChanged($event)"
+                    (addressChange)="addressEntered($event)"></app-address-form>
 
                 <div class="flex justify-end mt-4"
                     ><button

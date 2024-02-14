@@ -5,6 +5,9 @@ import { Coordinates, Cuisine, Restaurant } from 'src/app/models/restaurant';
 import { GoogleMapsService } from 'src/app/services/google-maps.service';
 import { RestaurantsService } from 'src/app/services/restaurants.service';
 import { POSTAL_CODE_REGEX } from 'src/app/utils/static-helpers';
+import { extractAddressProps } from '../../maps/app-address-form/app-address-form.component';
+import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'restaurant-add-edit',
@@ -24,7 +27,7 @@ export class RestaurantAddEditComponent implements OnInit {
         ],
         description: [
             this.restaurant.description,
-            [Validators.required, Validators.maxLength(500)],
+            [Validators.required, Validators.maxLength(1200)],
         ],
         cuisines: [this.restaurant.cuisines, Validators.required],
         location: this.fb.group({
@@ -51,12 +54,11 @@ export class RestaurantAddEditComponent implements OnInit {
         private fb: FormBuilder,
         private restaurantService: RestaurantsService,
         private notificationService: MatSnackBar,
-        private googleMapsService: GoogleMapsService,
+        private userService: UserService,
+        private router: Router,
     ) {}
 
     ngOnInit(): void {
-        console.log(this.restaurant);
-
         // Populate Cuisines Dropdown
         this.restaurantService.getCuisinesList().subscribe({
             next: (list) => {
@@ -73,19 +75,60 @@ export class RestaurantAddEditComponent implements OnInit {
     }
 
     createRestaurant() {
-        console.log(
-            new Restaurant({
-                ...this.restaurantForm.value,
-                location: {
-                    ...this.restaurantForm.value.location,
-                    coordinates: this.restaurantCoordinates,
-                },
-            }),
-        );
+        const newRestaurant = new Restaurant({
+            ...this.restaurantForm.value,
+            location: {
+                ...this.restaurantForm.value.location,
+                coordinates: this.restaurantCoordinates,
+            },
+            ownerId: this.userService.currentUser()?.uid,
+        });
+
+        this.restaurantService.createRestaurant(newRestaurant).subscribe({
+            next: (res) => {
+                console.log(res);
+                this.notificationService.open(
+                    `${newRestaurant.name} has been added to your list of restaurants`,
+                    'Yayy',
+                );
+                this.router.navigate(['/manage-restaurants']);
+            },
+            error: (err) => {
+                this.notificationService.open(
+                    `Failed to create RestaurantL ${err.message}`,
+                    'Noooooo',
+                );
+            },
+        });
     }
 
     onCoordinatesChanged(coords: Coordinates) {
         this.restaurantCoordinates = coords;
         console.log(coords);
+    }
+
+    selectedLocation: google.maps.places.PlaceResult;
+
+    addressEntered(location: google.maps.places.PlaceResult) {
+        const newLocation = extractAddressProps(location);
+        // console.log(location.reviews);
+        const updatedValues = {
+            ...newLocation,
+            streetAddress: `${newLocation.streetNumber} ${newLocation.route}`,
+        };
+        delete updatedValues.streetNumber;
+        delete updatedValues.route;
+
+        this.restaurantForm.patchValue({
+            location: updatedValues,
+        });
+
+        this.restaurantForm.markAsDirty();
+
+        this.selectedLocation = location;
+
+        if (location.geometry?.location) {
+            this.restaurantCoordinates = location.geometry?.location?.toJSON();
+        }
     }
 }
