@@ -18,7 +18,7 @@ export class GoogleMapsService {
             this.apiLoaded = toSignal(
                 httpClient
                     .jsonp(
-                        `https://maps.googleapis.com/maps/api/js?key=${environment.googleMapsApiKey}`,
+                        `https://maps.googleapis.com/maps/api/js?key=${environment.googleMapsApiKey}&libraries=places`,
                         'callback',
                     )
                     .pipe(

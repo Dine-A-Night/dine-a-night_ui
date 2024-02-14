@@ -1,5 +1,7 @@
 import {
+    AfterViewInit,
     Component,
+    ElementRef,
     EventEmitter,
     Input,
     OnInit,
@@ -15,6 +17,7 @@ import {
 } from '@angular/forms';
 import { GoogleMap } from '@angular/google-maps';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { Coordinates } from 'src/app/models/restaurant';
 import { GoogleMapsService } from 'src/app/services/google-maps.service';
 
@@ -29,6 +32,8 @@ interface LocationFormControls {
 
 // Define a type alias for the form group structure
 type LocationFormGroup = FormGroup<LocationFormControls>;
+
+type AddressType = 'establishment' | 'address' | 'geocode';
 
 @Component({
     selector: 'app-address-form',
@@ -53,11 +58,46 @@ export class AppAddressFormComponent implements OnInit {
 
     mapMarker: any;
 
-    constructor(
-        private fb: FormBuilder,
-        private notificationService: MatSnackBar,
-        private googleMapsService: GoogleMapsService,
-    ) {
+    //#region Address Autocomplete
+
+    private addressInputSubject = new Subject<string | null>();
+    @ViewChild('addressInputField') addressInputField: ElementRef<any>;
+    @Input() addressType: AddressType[] = ['address', 'establishment'];
+    @Output() addressChange: EventEmitter<any> = new EventEmitter();
+
+    private getPlaceAutocomplete() {
+        if (this.addressInputField) {
+            const autocomplete = new google.maps.places.Autocomplete(
+                this.addressInputField.nativeElement,
+                {
+                    componentRestrictions: { country: ['CA', 'US'] },
+                    types: ['establishment'], // 'establishment' / 'address' / 'geocode'
+                },
+            );
+            google.maps.event.addListener(autocomplete, 'place_changed', () => {
+                const place = autocomplete.getPlace();
+
+                if (place.geometry?.location) {
+                    const newCoords = place.geometry?.location?.toJSON();
+
+                    this.mapCenter = newCoords;
+                    this.setMarkerPosition(newCoords.lat, newCoords.lng);
+
+                    this.mapZoom = 15;
+                }
+
+                this.invokeAddressChangeEvent(place);
+            });
+        }
+    }
+
+    invokeAddressChangeEvent(place: Object) {
+        this.addressChange.emit(place);
+    }
+
+    //#endregion
+
+    constructor(private googleMapsService: GoogleMapsService) {
         effect(() => {
             if (this.apiLoaded()) {
                 this.mapMarker = {
@@ -93,6 +133,8 @@ export class AppAddressFormComponent implements OnInit {
                         maximumAge: Infinity,
                     },
                 );
+
+                this.getPlaceAutocomplete();
             }
         });
     }
@@ -106,8 +148,8 @@ export class AppAddressFormComponent implements OnInit {
         };
 
         this.markerPositionChange.emit({
-            latitude: lat,
-            longitude: lng,
+            lat,
+            lng,
         });
     }
 
@@ -118,6 +160,48 @@ export class AppAddressFormComponent implements OnInit {
         if (lat && lng) {
             this.setMarkerPosition(lat, lng);
         }
-        // console.log(event);
     }
+}
+
+export interface AddressComponents {
+    streetNumber?: string;
+    route?: string;
+    city?: string;
+    province?: string;
+    postal?: string;
+    country?: string;
+}
+
+export function extractAddressProps(
+    placeObject: google.maps.places.PlaceResult,
+): AddressComponents {
+    const addressComponents: AddressComponents = {};
+
+    // Define a mapping object for address component types
+    const componentMapping: { [key: string]: string } = {
+        street_number: 'streetNumber',
+        route: 'route',
+        locality: 'city',
+        administrative_area_level_1: 'province',
+        postal_code: 'postal',
+        country: 'country',
+    };
+
+    // Loop through address components
+    if (placeObject.address_components) {
+        for (const component of placeObject.address_components) {
+            // Check types to determine the type of address component
+            for (const type of component.types) {
+                // Map component type to variable name and store value
+                const variableName = componentMapping[type];
+                if (variableName) {
+                    addressComponents[variableName] = component.long_name;
+                }
+            }
+        }
+    }
+
+    return {
+        ...addressComponents,
+    };
 }

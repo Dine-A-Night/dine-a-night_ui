@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { filter, map } from 'rxjs';
+import { Observable, filter, map } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { UserService } from './user.service';
 import { AuthService } from './auth.service';
+import { Restaurant } from '../models/restaurant';
 
 @Injectable({
     providedIn: 'root',
@@ -48,5 +49,14 @@ export class RestaurantsService {
         return this.http
             .get(url, { headers })
             .pipe(map((res: any) => res.cuisines));
+    }
+
+    createRestaurant(restaurant: Restaurant): Observable<Restaurant> {
+        const url = `${this.API_URL}/api/restaurants`;
+        const headers = this.authService.getAuthHeaders();
+
+        return this.http.post<Restaurant>(url, restaurant, {
+            headers,
+        });
     }
 }
