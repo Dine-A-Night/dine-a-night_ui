@@ -1,19 +1,35 @@
-<div class="container mx-auto px-4 md:px-8 lg:px-20 py-4">
-    <div class="bg-white rounded-lg p-4">
-        <h2 class="text-3xl font-bold mb-4">What are you in the mood for?</h2>
+<div class="container mx-auto px-4 md:px-8 lg:px-30 py-4">
+    <!-- Search input field -->
+    <div class="flex justify-center mb-4">
+        <div class="relative">
+            <input
+                type="text"
+                [(ngModel)]="searchTerm"
+                (input)="searchRestaurants()"
+                class="bg-white border border-gray-400 text-gray-700 font-bold py-3 px-6 rounded-full text-lg pl-10 pr-8"
+                placeholder="Search Restaurants.." />
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center">
+                <mat-icon class="material-icons text-gray-600">search</mat-icon>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mx-auto px-4 md:px-4 lg:px-20 py-2">
+    <div class="bg-grey rounded-lg p-4">
+        <h2 class="text-3xl font-semibold mb-4"
+            >What are you in the mood for?</h2
+        >
         <div
             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
             <!-- Loop through cuisines and generate a card for each -->
             <div
                 *ngFor="let cuisine of cuisines"
-                class="w-full sm:w-auto hover:shadow-lg">
-                <div class="relative mt-4 overflow-hidden shadow-lg h-60">
+                class="w-full sm:w-auto transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">
+                <div class="relative overflow-hidden shadow-lg h-60">
                     <!-- Use cuisine image if available, else use a placeholder -->
                     <img
-                        [src]="
-                            cuisine.imageUrl ||
-                            '/assets/images/RestaurantCover.jpg'
-                        "
+                        [src]="cuisine.imageUrl || ''"
                         alt="Cuisine Image"
                         class="w-full h-full object-cover" />
                 </div>
@@ -28,15 +44,14 @@
         </div>
     </div>
 
-    <div class="bg-white rounded-lg p-4 mt-8">
-        <h2 class="text-3xl font-bold mb-4">Restaurants Near You</h2>
+    <div class="bg-grey rounded-lg p-4 mt-8">
+        <h2 class="text-3xl font-semibold mb-4">Restaurants Near You</h2>
         <!-- Flex container for all cards, set to horizontal layout -->
         <div class="flex flex-wrap justify-start">
-            <!-- Loop through each restaurant -->
-            <ng-container *ngFor="let restaurant of restaurants">
+            <!-- Loop through each filtered restaurant -->
+            <ng-container *ngFor="let restaurant of filteredRestaurants">
                 <!-- Each card is wrapped in its own container -->
                 <div class="w-full mb-8 hover:shadow-md">
-                    <!-- Added mb-8 for margin bottom -->
                     <!-- Flex container for each card, set to horizontal layout -->
                     <div
                         class="flex items-center border border-gray-200 p-4 shadow-md">
@@ -45,7 +60,7 @@
                             <img
                                 [src]="
                                     restaurant.photoUris?.[0]?.trim() ||
-                                    'https://via.placeholder.com/300'
+                                    './assets/images/RestaurantCover.jpg'
                                 "
                                 alt="Restaurant Image"
                                 class="w-24 h-24 object-cover rounded-lg" />
