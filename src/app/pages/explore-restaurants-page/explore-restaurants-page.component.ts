@@ -14,6 +14,7 @@ interface Restaurant {
     description: string;
     photoUris?: string[];
     location: Location;
+    cuisine: string; // Add cuisine property to Restaurant interface
 }
 
 interface Cuisine {
@@ -29,12 +30,12 @@ interface Cuisine {
 export class ExploreRestaurantsPageComponent implements OnInit {
     isSearchFocused: boolean = false;
     restaurants: Restaurant[] = [];
-    cuisines: Cuisine[] = []; // Add a cuisines array
+    filteredRestaurants: Restaurant[] = []; // Added filteredRestaurants array
+    cuisines: Cuisine[] = [];
+    searchTerm: string = '';
 
     isLoading: boolean = false;
     errorMessage: string = '';
-    $color: any;
-    accent: any;
 
     constructor(private restaurantsService: RestaurantsService) {}
 
@@ -54,7 +55,7 @@ export class ExploreRestaurantsPageComponent implements OnInit {
     getAllRestaurants() {
         this.isLoading = true;
         this.restaurantsService.getRestaurants().subscribe(
-            (res) => {
+            (res: any) => {
                 console.log('Response:', res);
                 if (res.status === 'ok' && Array.isArray(res.restaurants)) {
                     console.log(
@@ -62,6 +63,7 @@ export class ExploreRestaurantsPageComponent implements OnInit {
                         res.restaurants.length,
                     );
                     this.restaurants = res.restaurants;
+                    this.filteredRestaurants = [...this.restaurants]; // Initialize filteredRestaurants
                 } else {
                     this.errorMessage =
                         'Invalid response format. Expected a status of "ok" and an array of restaurants.';
@@ -80,7 +82,7 @@ export class ExploreRestaurantsPageComponent implements OnInit {
     getAllCuisines() {
         this.isLoading = true;
         this.restaurantsService.getCuisines().subscribe(
-            (res) => {
+            (res: any) => {
                 console.log('Response:', res);
                 if (Array.isArray(res.cuisines)) {
                     console.log('Number of cuisines:', res.cuisines.length);
@@ -97,6 +99,15 @@ export class ExploreRestaurantsPageComponent implements OnInit {
                     'Error fetching cuisines. Please try again later.';
                 this.isLoading = false;
             },
+        );
+    }
+
+    searchRestaurants() {
+        // Filter restaurants based on search term
+        this.filteredRestaurants = this.restaurants.filter((restaurant) =>
+            restaurant.name
+                .toLowerCase()
+                .includes(this.searchTerm.toLowerCase()),
         );
     }
 }
