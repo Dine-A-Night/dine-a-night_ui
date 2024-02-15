@@ -39,6 +39,8 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AppAddressFormComponent } from './components/maps/app-address-form/app-address-form.component';
 import { ConfirmDialogComponent } from './components/reusables/confirm-dialog/confirm-dialog.component';
+import { RestaurantDetailedCardComponent } from './components/restaurants/restaurant-detailed-card/restaurant-detailed-card.component';
+import { CuisineCardComponent } from './components/cuisines/cuisine-card/cuisine-card.component';
 
 @NgModule({
     declarations: [
@@ -56,6 +58,8 @@ import { ConfirmDialogComponent } from './components/reusables/confirm-dialog/co
         RestaurantAddEditComponent,
         AppAddressFormComponent,
         ConfirmDialogComponent,
+        RestaurantDetailedCardComponent,
+        CuisineCardComponent,
     ],
     imports: [
         BrowserModule,
