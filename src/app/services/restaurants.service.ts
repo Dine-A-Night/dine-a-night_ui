@@ -59,4 +59,13 @@ export class RestaurantsService {
             headers,
         });
     }
+
+    deleteRestaurant(id: string) {
+        const url = `${this.API_URL}/api/restaurants/${id}`;
+        const headers = this.authService.getAuthHeaders();
+
+        return this.http.delete<Restaurant>(url, {
+            headers,
+        });
+    }
 }

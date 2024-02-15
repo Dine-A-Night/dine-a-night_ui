@@ -67,4 +67,12 @@ export class ManageRestaurantsComponent implements OnInit {
             },
         });
     }
+
+    onRestaurantDelete(id: string) {
+        // Remove restaurant from the display list
+        this.restaurants.splice(
+            this.restaurants.findIndex((restaurant) => restaurant._id === id),
+            1,
+        );
+    }
 }

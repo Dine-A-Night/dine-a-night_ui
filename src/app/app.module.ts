@@ -38,6 +38,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AppAddressFormComponent } from './components/maps/app-address-form/app-address-form.component';
+import { ConfirmDialogComponent } from './components/reusables/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
     declarations: [
@@ -54,6 +55,7 @@ import { AppAddressFormComponent } from './components/maps/app-address-form/app-
         RestaurantCardComponent,
         RestaurantAddEditComponent,
         AppAddressFormComponent,
+        ConfirmDialogComponent,
     ],
     imports: [
         BrowserModule,

@@ -31,7 +31,8 @@
         class="flex flex-wrap gap-5 mt-8 justify-center lg:justify-start">
         <restaurant-card
             *ngFor="let restaurant of restaurants"
-            [restaurant]="restaurant"></restaurant-card>
+            [restaurant]="restaurant"
+            (restaurantDeleted)="onRestaurantDelete($event)"></restaurant-card>
     </section>
 </div>
 
