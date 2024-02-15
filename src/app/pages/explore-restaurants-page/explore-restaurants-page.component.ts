@@ -1,26 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Cuisine, Restaurant } from 'src/app/models/restaurant';
 import { RestaurantsService } from 'src/app/services/restaurants.service';
-
-interface Location {
-    city: string;
-    country: string;
-    postal: string;
-    province: string;
-    streetAddress: string;
-}
-
-interface Restaurant {
-    name: string;
-    description: string;
-    photoUris?: string[];
-    location: Location;
-    cuisine: string; // Add cuisine property to Restaurant interface
-}
-
-interface Cuisine {
-    name: string;
-    imageUrl?: string[];
-}
 
 @Component({
     selector: 'explore-restaurants-page',
@@ -54,8 +34,8 @@ export class ExploreRestaurantsPageComponent implements OnInit {
 
     getAllRestaurants() {
         this.isLoading = true;
-        this.restaurantsService.getRestaurants().subscribe(
-            (res: any) => {
+        this.restaurantsService.getRestaurants().subscribe({
+            next: (res: any) => {
                 console.log('Response:', res);
                 if (res.status === 'ok' && Array.isArray(res.restaurants)) {
                     console.log(
@@ -70,19 +50,19 @@ export class ExploreRestaurantsPageComponent implements OnInit {
                 }
                 this.isLoading = false;
             },
-            (error) => {
+            error: (error) => {
                 console.error('Error fetching restaurants:', error);
                 this.errorMessage =
                     'Error fetching restaurants. Please try again later.';
                 this.isLoading = false;
             },
-        );
+        });
     }
 
     getAllCuisines() {
         this.isLoading = true;
-        this.restaurantsService.getCuisines().subscribe(
-            (res: any) => {
+        this.restaurantsService.getCuisines().subscribe({
+            next: (res: any) => {
                 console.log('Response:', res);
                 if (Array.isArray(res.cuisines)) {
                     console.log('Number of cuisines:', res.cuisines.length);
@@ -93,13 +73,13 @@ export class ExploreRestaurantsPageComponent implements OnInit {
                 }
                 this.isLoading = false;
             },
-            (error) => {
+            error: (error) => {
                 console.error('Error fetching cuisines:', error);
                 this.errorMessage =
                     'Error fetching cuisines. Please try again later.';
                 this.isLoading = false;
             },
-        );
+        });
     }
 
     searchRestaurants() {
