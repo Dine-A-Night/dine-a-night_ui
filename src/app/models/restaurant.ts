@@ -32,6 +32,7 @@ export class Restaurant {
 }
 
 export interface Cuisine {
+    id: string;
     _id: string;
     name: string;
     imageUrl: string;
