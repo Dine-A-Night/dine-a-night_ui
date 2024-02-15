@@ -11,13 +11,7 @@
         <p
             #restaurantDescription
             class="text-gray-700 text-base h-24 overflow-y-hidden md:overflow-y-auto"
-            >{{ restaurant.description
-            }}{{
-                restaurantDescription.scrollHeight >
-                restaurantDescription.clientHeight
-                    ? '...'
-                    : ''
-            }}</p
+            >{{ restaurant.description }}</p
         >
 
         <mat-divider class="mt-2"></mat-divider>
@@ -37,12 +31,19 @@
         >
     </mat-card-content>
 
-    <mat-card-actions>
+    <mat-card-actions class="flex justify-between">
         <button
             mat-stroked-button
             color="accent"
             disableRipple="true"
             >View Details</button
+        >
+        <button
+            mat-flat-button
+            color="warn"
+            disableRipple="true"
+            (click)="confirmDelete()"
+            ><mat-icon>delete</mat-icon>Delete</button
         >
     </mat-card-actions>
 </mat-card>

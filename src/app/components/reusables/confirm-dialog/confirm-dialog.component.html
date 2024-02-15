@@ -1,0 +1,24 @@
+<h2
+    class="text-xl font-bold"
+    mat-dialog-title
+    >{{ dialogTitle }}</h2
+>
+
+<mat-dialog-content>
+    {{ message }}
+</mat-dialog-content>
+
+<mat-dialog-actions class="flex justify-end gap-3">
+    <button
+        mat-flat-button
+        [mat-dialog-close]="false"
+        ><mat-icon>clear</mat-icon>No</button
+    >
+
+    <button
+        mat-flat-button
+        color="accent"
+        [mat-dialog-close]="true"
+        ><mat-icon>check</mat-icon>Yes</button
+    >
+</mat-dialog-actions>
