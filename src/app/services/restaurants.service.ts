@@ -18,10 +18,12 @@ export class RestaurantsService {
         private authService: AuthService,
     ) {}
 
-    getRestaurants() {
+    getRestaurants(filters?: RestaurantFilters) {
         const url = `${this.API_URL}/api/restaurants`;
 
-        return this.http.get<any>(url);
+        return this.http.get<any>(url, {
+            params: filters,
+        });
     }
 
     getCuisines() {
@@ -29,8 +31,9 @@ export class RestaurantsService {
         return this.http.get<any>(url);
     }
 
-    getOwnedRestaurants() {
-        return this.getRestaurants().pipe(
+    getOwnedRestaurants(filters?: RestaurantFilters) {
+        // TODO: This filtering needs to be done on the server
+        return this.getRestaurants(filters).pipe(
             map((data) => data?.restaurants),
             map((restaurants) => {
                 return restaurants.filter(
@@ -69,3 +72,8 @@ export class RestaurantsService {
         });
     }
 }
+
+type RestaurantFilters = {
+    q?: string;
+    cuisine?: string; // Cuisine Id
+};
