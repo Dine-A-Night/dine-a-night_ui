@@ -16,6 +16,8 @@
             <!-- Restaurant information -->
             <div>
                 <h4
+                    role="link"
+                    [routerLink]="['/explore-restaurants', restaurant._id]"
                     class="text-xl text-color-accent font-semibold text-blue-gray-900 hover:underline"
                     >{{ restaurant.name }}</h4
                 >
