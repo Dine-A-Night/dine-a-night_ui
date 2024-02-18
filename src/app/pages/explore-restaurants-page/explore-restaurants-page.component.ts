@@ -17,6 +17,8 @@ export class ExploreRestaurantsPageComponent implements OnInit {
     isLoading: boolean = false;
     errorMessage: string = '';
 
+    selectedCuisine: string = ''; // Property to hold the selected cuisine
+
     constructor(private restaurantsService: RestaurantsService) {}
 
     ngOnInit() {
@@ -93,6 +95,7 @@ export class ExploreRestaurantsPageComponent implements OnInit {
 
     filterByCuisine(cuisineName: string) {
         // Filter restaurants based on cuisine
+        this.selectedCuisine = cuisineName; // Set the selected cuisine
         this.filteredRestaurants = this.restaurants.filter((restaurant) =>
             restaurant.cuisines.some(
                 (cuisine) =>
