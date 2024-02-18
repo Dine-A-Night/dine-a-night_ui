@@ -10,7 +10,7 @@ import { RestaurantsService } from 'src/app/services/restaurants.service';
 export class ExploreRestaurantsPageComponent implements OnInit {
     isSearchFocused: boolean = false;
     restaurants: Restaurant[] = [];
-    filteredRestaurants: Restaurant[] = []; // Added filteredRestaurants array
+    filteredRestaurants: Restaurant[] = [];
     cuisines: Cuisine[] = [];
     searchTerm: string = '';
 
@@ -88,6 +88,16 @@ export class ExploreRestaurantsPageComponent implements OnInit {
             restaurant.name
                 .toLowerCase()
                 .includes(this.searchTerm.toLowerCase()),
+        );
+    }
+
+    filterByCuisine(cuisineName: string) {
+        // Filter restaurants based on cuisine
+        this.filteredRestaurants = this.restaurants.filter((restaurant) =>
+            restaurant.cuisines.some(
+                (cuisine) =>
+                    cuisine.name.toLowerCase() === cuisineName.toLowerCase(),
+            ),
         );
     }
 }

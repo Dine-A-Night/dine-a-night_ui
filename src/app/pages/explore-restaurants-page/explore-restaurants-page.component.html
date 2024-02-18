@@ -23,6 +23,7 @@
             <!-- Loop through cuisines and generate a card for each -->
             <cuisine-card
                 *ngFor="let cuisine of cuisines"
+                (click)="filterByCuisine(cuisine.name)"
                 [cuisine]="cuisine"></cuisine-card>
         </div>
     </div>
