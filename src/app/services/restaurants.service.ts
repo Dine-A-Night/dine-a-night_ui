@@ -12,6 +12,8 @@ import { Restaurant } from '../models/restaurant';
 export class RestaurantsService {
     private API_URL = environment.apiUrl;
 
+    public static DEFAULT_COVER_PHOTO_URI = 'assets/images/RestaurantCover.jpg';
+
     constructor(
         private http: HttpClient,
         private userService: UserService,
@@ -52,6 +54,12 @@ export class RestaurantsService {
         return this.http
             .get(url, { headers })
             .pipe(map((res: any) => res.cuisines));
+    }
+
+    getRestaurantById(id: string) {
+        const url = `${this.API_URL}/api/restaurants/${id}`;
+
+        return this.http.get(url).pipe(map((res) => res['restaurant']));
     }
 
     createRestaurant(restaurant: Restaurant): Observable<Restaurant> {

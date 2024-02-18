@@ -41,6 +41,9 @@ import { AppAddressFormComponent } from './components/maps/app-address-form/app-
 import { ConfirmDialogComponent } from './components/reusables/confirm-dialog/confirm-dialog.component';
 import { RestaurantDetailedCardComponent } from './components/restaurants/restaurant-detailed-card/restaurant-detailed-card.component';
 import { CuisineCardComponent } from './components/cuisines/cuisine-card/cuisine-card.component';
+import { RestaurantDetailsPageComponent } from './pages/restaurant-details-page/restaurant-details-page.component';
+import { LoadingSpinnerComponent } from './components/reusables/loading-spinner/loading-spinner.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
     declarations: [
@@ -60,6 +63,8 @@ import { CuisineCardComponent } from './components/cuisines/cuisine-card/cuisine
         ConfirmDialogComponent,
         RestaurantDetailedCardComponent,
         CuisineCardComponent,
+        RestaurantDetailsPageComponent,
+        LoadingSpinnerComponent,
     ],
     imports: [
         BrowserModule,
@@ -87,6 +92,7 @@ import { CuisineCardComponent } from './components/cuisines/cuisine-card/cuisine
         MatSelectModule,
         GoogleMapsModule,
         MatProgressSpinnerModule,
+        MatTabsModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

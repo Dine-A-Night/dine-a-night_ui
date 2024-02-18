@@ -1,0 +1,48 @@
+<div class="min-h-screen">
+    <ng-container *ngIf="restaurant; else loadingContainer">
+        <!-- Header -->
+        <section>
+            <h2 class="p-3 text-3xl font-bold">{{ restaurant.name }}</h2>
+        </section>
+
+        <!-- Cover Image -->
+        <section
+            class="h-96 bg-cover bg-center backdrop-opacity-10"
+            style="background-image: url('{{ coverImage }}');">
+        </section>
+    </ng-container>
+
+    <!-- Tabs -->
+    <section>
+        <mat-tab-group color="accent">
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <span class="flex justify-between items-center gap-5">
+                        <mat-icon class="hidden md:block">info</mat-icon>
+                        Details
+                    </span>
+                </ng-template>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <span class="flex justify-between items-center gap-5">
+                        <mat-icon class="hidden md:block">image</mat-icon>
+                        Images
+                    </span>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Reviews">
+                <ng-template mat-tab-label>
+                    <span class="flex justify-between items-center gap-5">
+                        <mat-icon class="hidden md:block">rate_review</mat-icon>
+                        Reviews
+                    </span>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </section>
+</div>
+
+<ng-template #loadingContainer>
+    <loading-spinner [label]="'loading-restaurant'"></loading-spinner>
+</ng-template>

@@ -7,6 +7,7 @@ import { UserManagementPageComponent } from '../pages/user-management-page/user-
 import { ExploreRestaurantsPageComponent } from '../pages/explore-restaurants-page/explore-restaurants-page.component';
 import { ManageRestaurantsComponent } from '../pages/manage-restaurants/manage-restaurants.component';
 import { RestaurantAddEditComponent } from '../components/restaurants/restaurant-add-edit/restaurant-add-edit.component';
+import { RestaurantDetailsPageComponent } from '../pages/restaurant-details-page/restaurant-details-page.component';
 
 const routes: Routes = [
     {
@@ -33,6 +34,11 @@ const routes: Routes = [
         path: 'explore-restaurants',
         pathMatch: 'full',
         component: ExploreRestaurantsPageComponent,
+    },
+    {
+        path: 'explore-restaurants/:id',
+        pathMatch: 'full',
+        component: RestaurantDetailsPageComponent,
     },
     {
         path: 'manage-restaurants',
