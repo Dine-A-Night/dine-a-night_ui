@@ -101,6 +101,7 @@
 <!-- Maps Preview -->
 <ng-container *ngIf="displayMapsPreview">
     <div
+        id="google-maps"
         class="w-auto"
         *ngIf="apiLoaded() && mapCenter; else mapsLoading">
         <google-map

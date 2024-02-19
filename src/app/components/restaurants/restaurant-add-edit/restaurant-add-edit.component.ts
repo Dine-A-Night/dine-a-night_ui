@@ -1,13 +1,20 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    Inject,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Coordinates, Cuisine, Restaurant } from 'src/app/models/restaurant';
-import { GoogleMapsService } from 'src/app/services/google-maps.service';
 import { RestaurantsService } from 'src/app/services/restaurants.service';
+import { UserService } from 'src/app/services/user.service';
 import { POSTAL_CODE_REGEX } from 'src/app/utils/static-helpers';
 import { extractAddressProps } from '../../maps/app-address-form/app-address-form.component';
-import { UserService } from 'src/app/services/user.service';
-import { Router } from '@angular/router';
+import { idsToObjects } from 'src/app/utils/helper-functions';
 
 @Component({
     selector: 'restaurant-add-edit',
@@ -15,8 +22,9 @@ import { Router } from '@angular/router';
     styleUrls: ['./restaurant-add-edit.component.scss'],
 })
 export class RestaurantAddEditComponent implements OnInit {
-    @Input() isEdit: boolean = false;
-    @Input() restaurant: Restaurant = new Restaurant({});
+    // Dialog Props
+    isEdit: boolean = false;
+    restaurant: Restaurant = new Restaurant({});
 
     cuisinesList: Cuisine[] = [];
 
@@ -29,7 +37,10 @@ export class RestaurantAddEditComponent implements OnInit {
             this.restaurant.description,
             [Validators.required, Validators.maxLength(1200)],
         ],
-        cuisines: [this.restaurant.cuisines, Validators.required],
+        cuisines: [
+            this.restaurant.cuisines?.map((cuisine) => cuisine._id),
+            Validators.required,
+        ],
         location: this.fb.group({
             streetAddress: [
                 this.restaurant.location?.streetAddress,
@@ -50,12 +61,17 @@ export class RestaurantAddEditComponent implements OnInit {
     // Button Flags to avoid redundant requests.
     createClicked = false;
 
+    @ViewChild('cancelButton', { read: ElementRef })
+    cancelButton: ElementRef<any>;
+
     constructor(
         private fb: FormBuilder,
         private restaurantService: RestaurantsService,
         private notificationService: MatSnackBar,
         private userService: UserService,
         private router: Router,
+        @Inject(MAT_DIALOG_DATA)
+        public data?: RestaurantAddEditParams,
     ) {}
 
     ngOnInit(): void {
@@ -68,6 +84,18 @@ export class RestaurantAddEditComponent implements OnInit {
                 this.notificationService.open(`Error: ${err.message}`, 'Ok');
             },
         });
+
+        this.isEdit = !!this.data?.isEdit;
+        this.restaurant = this.data?.restaurant ?? new Restaurant({});
+
+        if (this.restaurant._id) {
+            this.restaurantForm.patchValue({
+                ...this.restaurant,
+                cuisines: this.restaurant.cuisines.map(
+                    (cuisine) => cuisine._id,
+                ),
+            });
+        }
     }
 
     get createDisabled(): boolean {
@@ -75,6 +103,7 @@ export class RestaurantAddEditComponent implements OnInit {
     }
 
     createRestaurant() {
+        console.log(this.restaurantForm.value);
         const newRestaurant = new Restaurant({
             ...this.restaurantForm.value,
             location: {
@@ -82,6 +111,10 @@ export class RestaurantAddEditComponent implements OnInit {
                 coordinates: this.restaurantCoordinates,
             },
             ownerId: this.userService.currentUser()?.uid,
+            cuisines: idsToObjects(
+                this.restaurantForm.controls.cuisines.value as string[],
+                this.cuisinesList,
+            ),
         });
 
         this.restaurantService.createRestaurant(newRestaurant).subscribe({
@@ -96,6 +129,43 @@ export class RestaurantAddEditComponent implements OnInit {
             error: (err) => {
                 this.notificationService.open(
                     `Failed to create RestaurantL ${err.message}`,
+                    'Noooooo',
+                );
+            },
+        });
+    }
+
+    updateRestaurant() {
+        const updatedRestaurant = new Restaurant({
+            ...this.restaurant,
+            ...this.restaurantForm.value,
+            location: {
+                ...this.restaurantForm.value.location,
+                coordinates: this.restaurantCoordinates,
+            },
+            ownerId: this.userService.currentUser()?.uid,
+            cuisines: idsToObjects(
+                this.restaurantForm.controls.cuisines.value as string[],
+                this.cuisinesList,
+            ),
+        });
+
+        this.restaurantService.updateRestaurant(updatedRestaurant).subscribe({
+            next: (res: any) => {
+                this.notificationService.open(
+                    `${updatedRestaurant.name} has been successfully updated!`,
+                    'Yayy',
+                );
+
+                this.restaurant = res.restaurant;
+
+                setTimeout(() => {
+                    this.cancelButton?.nativeElement.click();
+                }, 0);
+            },
+            error: (err) => {
+                this.notificationService.open(
+                    `Failed to update RestaurantL ${err.message}`,
                     'Noooooo',
                 );
             },
@@ -132,3 +202,8 @@ export class RestaurantAddEditComponent implements OnInit {
         }
     }
 }
+
+type RestaurantAddEditParams = {
+    isEdit: boolean;
+    restaurant: Restaurant;
+};

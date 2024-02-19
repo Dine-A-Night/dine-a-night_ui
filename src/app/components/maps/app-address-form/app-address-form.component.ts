@@ -1,5 +1,4 @@
 import {
-    AfterViewInit,
     Component,
     ElementRef,
     EventEmitter,
@@ -9,15 +8,8 @@ import {
     ViewChild,
     effect,
 } from '@angular/core';
-import {
-    AbstractControl,
-    FormBuilder,
-    FormControl,
-    FormGroup,
-} from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { GoogleMap } from '@angular/google-maps';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { Coordinates } from 'src/app/models/restaurant';
 import { GoogleMapsService } from 'src/app/services/google-maps.service';
 
@@ -60,7 +52,6 @@ export class AppAddressFormComponent implements OnInit {
 
     //#region Address Autocomplete
 
-    private addressInputSubject = new Subject<string | null>();
     @ViewChild('addressInputField') addressInputField: ElementRef<any>;
     @Input() addressType: AddressType[] = ['address', 'establishment'];
     @Output() addressChange: EventEmitter<any> = new EventEmitter();
@@ -85,6 +76,8 @@ export class AppAddressFormComponent implements OnInit {
 
                     this.mapZoom = 15;
                 }
+
+                console.log(place.place_id);
 
                 this.invokeAddressChangeEvent(place);
             });
@@ -125,6 +118,10 @@ export class AppAddressFormComponent implements OnInit {
                             position.coords.latitude,
                             position.coords.longitude,
                         );
+
+                        document
+                            .getElementById('google-maps')
+                            ?.scrollIntoView();
                     },
                     undefined,
                     {
@@ -134,7 +131,9 @@ export class AppAddressFormComponent implements OnInit {
                     },
                 );
 
-                this.getPlaceAutocomplete();
+                setTimeout(() => {
+                    this.getPlaceAutocomplete();
+                }, 0);
             }
         });
     }

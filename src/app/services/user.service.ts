@@ -15,7 +15,7 @@ import {
     zip,
 } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
-import { ProfileUser } from '../models/user';
+import { ProfileUser, UserRole } from '../models/user';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -169,5 +169,9 @@ export class UserService {
         return this.http.delete(deleteUrl, {
             headers,
         });
+    }
+
+    getCurrentRole(): UserRole | undefined {
+        return this.currentUser()?.role;
     }
 }
