@@ -71,6 +71,15 @@ export class RestaurantsService {
         });
     }
 
+    updateRestaurant(restaurant: Restaurant) {
+        const url = `${this.API_URL}/api/restaurants/${restaurant._id}`;
+        const headers = this.authService.getAuthHeaders();
+
+        return this.http.put<Restaurant>(url, restaurant, {
+            headers,
+        });
+    }
+
     deleteRestaurant(id: string) {
         const url = `${this.API_URL}/api/restaurants/${id}`;
         const headers = this.authService.getAuthHeaders();

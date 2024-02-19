@@ -2,7 +2,9 @@
     <ng-container *ngIf="restaurant; else loadingContainer">
         <!-- Header -->
         <section>
-            <h2 class="p-3 text-3xl font-bold">{{ restaurant.name }}</h2>
+            <h2 class="p-3 text-3xl font-bold shadow-xl">{{
+                restaurant.name
+            }}</h2>
         </section>
 
         <!-- Cover Image -->
@@ -22,6 +24,20 @@
                         Details
                     </span>
                 </ng-template>
+
+                <!-- Details Body -->
+                <div class="min-h-screen">
+                    <div class="p-4 flex justify-end items-center gap-10">
+                        <button
+                            *ngIf="showEdit"
+                            mat-flat-button
+                            (click)="onEditClick()"
+                            color="accent">
+                            <mat-icon>edit</mat-icon>
+                            Edit
+                        </button>
+                    </div>
+                </div>
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label>
@@ -30,6 +46,9 @@
                         Images
                     </span>
                 </ng-template>
+
+                <!-- Images Body -->
+                <div class="min-h-screen">Images</div>
             </mat-tab>
             <mat-tab label="Reviews">
                 <ng-template mat-tab-label>
@@ -38,6 +57,9 @@
                         Reviews
                     </span>
                 </ng-template>
+
+                <!-- Reviews Body -->
+                <div class="min-h-screen">Reviews</div>
             </mat-tab>
         </mat-tab-group>
     </section>

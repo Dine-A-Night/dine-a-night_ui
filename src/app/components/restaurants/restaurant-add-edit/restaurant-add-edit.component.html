@@ -1,6 +1,16 @@
 <div class="min-h-screen container-80 py-5">
     <!-- Heading -->
-    <section class="flex justify-between">
+
+    <h2
+        *ngIf="isEdit"
+        class="text-3xl font-bold"
+        mat-dialog-title
+        >Update Restaurant</h2
+    >
+
+    <section
+        *ngIf="!isEdit"
+        class="flex justify-between">
         <h2 class="text-3xl font-bold">Add New Restaurant</h2>
 
         <!-- Desktop -->
@@ -104,7 +114,7 @@
                         multiple>
                         <mat-option
                             *ngFor="let cuisine of cuisinesList"
-                            [value]="cuisine"
+                            [value]="cuisine._id"
                             >{{ cuisine.name }}</mat-option
                         >
                     </mat-select>
@@ -124,18 +134,37 @@
                     (markerPositionChange)="onCoordinatesChanged($event)"
                     (addressChange)="addressEntered($event)"></app-address-form>
 
-                <div class="flex justify-end mt-4"
-                    ><button
+                <div class="flex justify-end mt-4 gap-5">
+                    <button
                         *ngIf="!isEdit"
                         mat-flat-button
                         color="accent"
                         [disableRipple]="true"
                         [disabled]="createDisabled"
                         (click)="createRestaurant()">
-                        <mat-icon>add</mat-icon>
+                        <mat-icon>save</mat-icon>
                         Create Restaurant
-                    </button></div
-                >
+                    </button>
+                    <button
+                        #cancelButton
+                        *ngIf="isEdit"
+                        mat-button
+                        [mat-dialog-close]="restaurant"
+                        class="border">
+                        <mat-icon>clear</mat-icon>
+                        Cancel
+                    </button>
+                    <button
+                        *ngIf="isEdit"
+                        mat-flat-button
+                        color="accent"
+                        [disableRipple]="true"
+                        [disabled]="createDisabled"
+                        (click)="updateRestaurant()">
+                        <mat-icon>save</mat-icon>
+                        Update Restaurant
+                    </button>
+                </div>
             </fieldset>
         </form>
     </section>
