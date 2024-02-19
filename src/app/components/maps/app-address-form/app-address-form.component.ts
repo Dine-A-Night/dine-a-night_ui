@@ -10,7 +10,8 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { GoogleMap } from '@angular/google-maps';
-import { Coordinates } from 'src/app/models/restaurant';
+import { Coordinates, RestaurantLocation } from 'src/app/models/restaurant';
+import { GeolocationService } from 'src/app/services/geolocation.service';
 import { GoogleMapsService } from 'src/app/services/google-maps.service';
 
 // Define a type alias for the form group controls
@@ -90,7 +91,10 @@ export class AppAddressFormComponent implements OnInit {
 
     //#endregion
 
-    constructor(private googleMapsService: GoogleMapsService) {
+    constructor(
+        private googleMapsService: GoogleMapsService,
+        private geolocationService: GeolocationService,
+    ) {
         effect(() => {
             if (this.apiLoaded()) {
                 this.mapMarker = {
@@ -106,32 +110,52 @@ export class AppAddressFormComponent implements OnInit {
                     },
                 };
 
-                // Only do this after api is loaded
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
+                // Make sure addressForm is loaded
+                setTimeout(async () => {
+                    // Only do this after api is loaded
+                    if (this.addressForm.value.streetAddress?.length) {
+                        // Use the restaurant's current location in case of edit
+                        const location =
+                            await this.geolocationService.getCoordinatesByAddress(
+                                this.addressForm.value as RestaurantLocation,
+                            );
+
                         this.mapCenter = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude,
+                            lat: parseFloat(location.lat),
+                            lng: parseFloat(location.lon),
                         };
 
                         this.setMarkerPosition(
-                            position.coords.latitude,
-                            position.coords.longitude,
+                            parseFloat(location.lat),
+                            parseFloat(location.lon),
                         );
+                    } else {
+                        // Center at user's current location (This should be in create)
+                        navigator.geolocation.getCurrentPosition(
+                            (position) => {
+                                this.mapCenter = {
+                                    lat: position.coords.latitude,
+                                    lng: position.coords.longitude,
+                                };
 
-                        document
-                            .getElementById('google-maps')
-                            ?.scrollIntoView();
-                    },
-                    undefined,
-                    {
-                        enableHighAccuracy: false,
-                        timeout: 5000,
-                        maximumAge: Infinity,
-                    },
-                );
+                                this.setMarkerPosition(
+                                    position.coords.latitude,
+                                    position.coords.longitude,
+                                );
 
-                setTimeout(() => {
+                                document
+                                    .getElementById('google-maps')
+                                    ?.scrollIntoView();
+                            },
+                            undefined,
+                            {
+                                enableHighAccuracy: false,
+                                timeout: 5000,
+                                maximumAge: Infinity,
+                            },
+                        );
+                    }
+
                     this.getPlaceAutocomplete();
                 }, 0);
             }
