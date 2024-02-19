@@ -1,6 +1,5 @@
 <div class="min-h-screen container-80 py-5">
     <!-- Heading -->
-
     <h2
         *ngIf="isEdit"
         class="text-3xl font-bold"
@@ -131,7 +130,6 @@
                     [addressForm]="restaurantForm.controls.location"
                     [headerTitle]="'Location'"
                     [displayMapsPreview]="true"
-                    (markerPositionChange)="onCoordinatesChanged($event)"
                     (addressChange)="addressEntered($event)"></app-address-form>
 
                 <div class="flex justify-end mt-4 gap-5">

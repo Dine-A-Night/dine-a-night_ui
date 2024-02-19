@@ -9,12 +9,18 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Coordinates, Cuisine, Restaurant } from 'src/app/models/restaurant';
+import {
+    Coordinates,
+    Cuisine,
+    Restaurant,
+    RestaurantLocation,
+} from 'src/app/models/restaurant';
 import { RestaurantsService } from 'src/app/services/restaurants.service';
 import { UserService } from 'src/app/services/user.service';
 import { POSTAL_CODE_REGEX } from 'src/app/utils/static-helpers';
 import { extractAddressProps } from '../../maps/app-address-form/app-address-form.component';
 import { idsToObjects } from 'src/app/utils/helper-functions';
+import { GeolocationService } from 'src/app/services/geolocation.service';
 
 @Component({
     selector: 'restaurant-add-edit',
@@ -70,6 +76,7 @@ export class RestaurantAddEditComponent implements OnInit {
         private notificationService: MatSnackBar,
         private userService: UserService,
         private router: Router,
+        private geolocationService: GeolocationService,
         @Inject(MAT_DIALOG_DATA)
         public data?: RestaurantAddEditParams,
     ) {}
@@ -172,14 +179,9 @@ export class RestaurantAddEditComponent implements OnInit {
         });
     }
 
-    onCoordinatesChanged(coords: Coordinates) {
-        this.restaurantCoordinates = coords;
-        console.log(coords);
-    }
-
     selectedLocation: google.maps.places.PlaceResult;
 
-    addressEntered(location: google.maps.places.PlaceResult) {
+    async addressEntered(location: google.maps.places.PlaceResult) {
         const newLocation = extractAddressProps(location);
         // console.log(location.reviews);
         const updatedValues = {
@@ -197,9 +199,17 @@ export class RestaurantAddEditComponent implements OnInit {
 
         this.selectedLocation = location;
 
-        if (location.geometry?.location) {
-            this.restaurantCoordinates = location.geometry?.location?.toJSON();
-        }
+        // Get coordinates from open source service
+        // https://github.com/osm-search/Nominatim
+        const newCoords = await this.geolocationService.getCoordinatesByAddress(
+            this.restaurantForm.controls.location.value as RestaurantLocation,
+        );
+
+        const { lat, lon } = newCoords;
+        this.restaurantCoordinates = {
+            lat: parseFloat(lat),
+            lng: parseFloat(lon),
+        };
     }
 }
 
