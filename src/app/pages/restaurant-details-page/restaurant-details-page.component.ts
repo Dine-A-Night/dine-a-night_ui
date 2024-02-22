@@ -74,6 +74,9 @@ export class RestaurantDetailsPageComponent implements OnInit, OnDestroy {
     }
 
     get showEdit() {
-        return this.userService.getCurrentRole() === UserRole.ADMIN;
+        return (
+            this.userService.getCurrentRole() === UserRole.ADMIN &&
+            this.restaurant?.ownerId === this.userService.currentUser()?.uid
+        );
     }
 }
