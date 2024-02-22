@@ -78,8 +78,6 @@ export class AppAddressFormComponent implements OnInit {
                     this.mapZoom = 15;
                 }
 
-                console.log(place.place_id);
-
                 this.invokeAddressChangeEvent(place);
             });
         }

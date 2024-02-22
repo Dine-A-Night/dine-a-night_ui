@@ -8,4 +8,5 @@ import { Cuisine } from 'src/app/models/restaurant';
 })
 export class CuisineCardComponent {
     @Input() cuisine: Cuisine;
+    @Input() isSelected: boolean = false;
 }

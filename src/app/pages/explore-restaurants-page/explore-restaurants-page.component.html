@@ -25,22 +25,20 @@
             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
             <!-- Loop through cuisines and generate a card for each -->
             <cuisine-card
-                *ngFor="let cuisine of cuisines"
-                (click)="filterByCuisine(cuisine.name)"
-                [class]="
-                    selectedCuisine === cuisine.name
-                        ? 'underline cursor-pointer'
-                        : 'cursor-pointer'
-                "
+                *ngFor="let cuisine of cuisinesList"
+                (click)="filterByCuisine(cuisine)"
+                [isSelected]="selectedCuisine === cuisine._id"
                 [cuisine]="cuisine"></cuisine-card>
         </div>
     </section>
 
     <!-- Nearby Restaurants -->
-    <section
-        #nearbyRestaurantsSection
-        class="bg-grey rounded-lg p-4 mt-8">
-        <h2 class="text-3xl font-semibold mb-4">Restaurants Near You</h2>
+    <section class="bg-grey rounded-lg p-4 mt-8">
+        <h2 class="text-3xl font-semibold mb-4"
+            ><ng-container *ngIf="selectedCuisine"
+                >{{ selectedCuisineName }} </ng-container
+            >Restaurants Near You</h2
+        >
         <!-- Flex container for all cards, set to horizontal layout -->
         <div class="flex flex-col">
             <!-- Loop through each filtered restaurant -->

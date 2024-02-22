@@ -1,32 +1,88 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import {
+    Subject,
+    Subscription,
+    debounceTime,
+    distinctUntilChanged,
+    filter,
+} from 'rxjs';
 import { Cuisine, Restaurant } from 'src/app/models/restaurant';
-import { RestaurantsService } from 'src/app/services/restaurants.service';
+import {
+    RestaurantFilters,
+    RestaurantsService,
+} from 'src/app/services/restaurants.service';
+import { idToObject } from 'src/app/utils/helper-functions';
 
 @Component({
     selector: 'explore-restaurants-page',
     templateUrl: './explore-restaurants-page.component.html',
     styleUrls: ['./explore-restaurants-page.component.scss'],
 })
-export class ExploreRestaurantsPageComponent implements OnInit {
+export class ExploreRestaurantsPageComponent implements OnInit, OnDestroy {
     isSearchFocused: boolean = false;
     restaurants: Restaurant[] = [];
     filteredRestaurants: Restaurant[] = [];
-    cuisines: Cuisine[] = [];
+    cuisinesList: Cuisine[] = [];
     searchTerm: string = '';
 
     isLoading: boolean = false;
     errorMessage: string = '';
 
-    selectedCuisine: string = ''; // Property to hold the selected cuisine
+    // Property to hold the selected cuisine id
+    selectedCuisine?: string;
 
-    @ViewChild('nearbyRestaurantsSection')
     nearbyRestaurantsSection: ElementRef<any>;
 
-    constructor(private restaurantsService: RestaurantsService) {}
+    constructor(
+        private restaurantsService: RestaurantsService,
+        private router: Router,
+        private activatedRoute: ActivatedRoute,
+    ) {}
+
+    searchTextChanged = new Subject<string>();
+    routerSub: Subscription;
+    searchTextSubscription: Subscription;
 
     ngOnInit() {
-        this.getAllRestaurants();
+        const filters = this.activatedRoute.snapshot
+            .queryParams as RestaurantFilters;
+
+        // Load filter values
+        this.searchTerm = filters.q ?? '';
+        this.selectedCuisine = filters.cuisine;
+
+        this.getAllRestaurants(filters);
         this.getAllCuisines();
+
+        this.routerSub = this.router.events
+            .pipe(filter((event) => event instanceof NavigationEnd))
+            .subscribe((event) => {
+                const filters = this.activatedRoute.snapshot
+                    .queryParams as RestaurantFilters;
+                // Load filter values
+                this.searchTerm = filters.q ?? '';
+                this.selectedCuisine = filters.cuisine;
+
+                this.getAllRestaurants(filters as RestaurantFilters);
+            });
+
+        this.searchTextSubscription = this.searchTextChanged
+            .pipe(distinctUntilChanged(), debounceTime(100)) // Wait 100ms before sending a new request
+            .subscribe((searchText) => {
+                this.router.navigate(['./'], {
+                    queryParams: {
+                        q: searchText?.length ? searchText : undefined,
+                    },
+                    queryParamsHandling: 'merge',
+                    relativeTo: this.activatedRoute,
+                });
+            });
+    }
+
+    ngOnDestroy(): void {
+        this.routerSub?.unsubscribe();
+        this.searchTextSubscription?.unsubscribe();
     }
 
     onFocus() {
@@ -37,16 +93,11 @@ export class ExploreRestaurantsPageComponent implements OnInit {
         this.isSearchFocused = false;
     }
 
-    getAllRestaurants() {
+    getAllRestaurants(filters?: RestaurantFilters) {
         this.isLoading = true;
-        this.restaurantsService.getRestaurants().subscribe({
+        this.restaurantsService.getRestaurants(filters).subscribe({
             next: (res: any) => {
-                console.log('Response:', res);
                 if (res.status === 'ok' && Array.isArray(res.restaurants)) {
-                    console.log(
-                        'Number of restaurants:',
-                        res.restaurants.length,
-                    );
                     this.restaurants = res.restaurants;
                     this.filteredRestaurants = [...this.restaurants]; // Initialize filteredRestaurants
                 } else {
@@ -68,10 +119,8 @@ export class ExploreRestaurantsPageComponent implements OnInit {
         this.isLoading = true;
         this.restaurantsService.getCuisines().subscribe({
             next: (res: any) => {
-                console.log('Response:', res);
                 if (Array.isArray(res.cuisines)) {
-                    console.log('Number of cuisines:', res.cuisines.length);
-                    this.cuisines = res.cuisines;
+                    this.cuisinesList = res.cuisines;
                 } else {
                     this.errorMessage =
                         'Invalid response format. Expected an array of cuisines.';
@@ -79,7 +128,6 @@ export class ExploreRestaurantsPageComponent implements OnInit {
                 this.isLoading = false;
             },
             error: (error) => {
-                console.error('Error fetching cuisines:', error);
                 this.errorMessage =
                     'Error fetching cuisines. Please try again later.';
                 this.isLoading = false;
@@ -89,23 +137,33 @@ export class ExploreRestaurantsPageComponent implements OnInit {
 
     searchRestaurants() {
         // Filter restaurants based on search term
-        this.filteredRestaurants = this.restaurants.filter((restaurant) =>
-            restaurant.name
-                .toLowerCase()
-                .includes(this.searchTerm.toLowerCase()),
-        );
+        this.searchTextChanged.next(this.searchTerm);
     }
 
-    filterByCuisine(cuisineName: string) {
+    filterByCuisine(cuisine: Cuisine) {
         // Filter restaurants based on cuisine
-        this.selectedCuisine = cuisineName; // Set the selected cuisine
-        this.filteredRestaurants = this.restaurants.filter((restaurant) =>
-            restaurant.cuisines.some(
-                (cuisine) =>
-                    cuisine.name.toLowerCase() === cuisineName.toLowerCase(),
-            ),
-        );
 
-        this.nearbyRestaurantsSection?.nativeElement.scrollIntoView();
+        if (this.selectedCuisine === cuisine._id) {
+            // Remove filter
+            this.router.navigate(['./'], {
+                queryParams: {
+                    cuisine: undefined,
+                },
+                queryParamsHandling: 'merge',
+                relativeTo: this.activatedRoute,
+            });
+        } else {
+            this.router.navigate(['./'], {
+                queryParams: {
+                    cuisine: cuisine._id,
+                },
+                queryParamsHandling: 'merge',
+                relativeTo: this.activatedRoute,
+            });
+        }
+    }
+
+    get selectedCuisineName() {
+        return idToObject(this.selectedCuisine ?? '', this.cuisinesList)?.name;
     }
 }

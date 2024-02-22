@@ -110,7 +110,6 @@ export class RestaurantAddEditComponent implements OnInit {
     }
 
     createRestaurant() {
-        console.log(this.restaurantForm.value);
         const newRestaurant = new Restaurant({
             ...this.restaurantForm.value,
             location: {
