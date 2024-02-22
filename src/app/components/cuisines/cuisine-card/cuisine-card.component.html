@@ -1,6 +1,11 @@
 <div
     class="w-full sm:w-auto transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-sm cursor-pointer border">
-    <a class="block no-underline text-black">
+    <a
+        class="block no-underline"
+        [ngClass]="{
+            'text-black': !isSelected,
+            'text-color-accent': isSelected
+        }">
         <div class="relative overflow-hidden h-60">
             <!-- Use cuisine image if available, else use a placeholder -->
             <img

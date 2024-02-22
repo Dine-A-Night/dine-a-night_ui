@@ -13,11 +13,7 @@ export class AppComponent implements OnInit {
 
     constructor(private userService: UserService) {}
 
-    ngOnInit(): void {
-        // this.router.events.subscribe((event) => {
-        //     console.log(event.toString());
-        // });
-    }
+    ngOnInit(): void {}
 
     get showHeader() {
         return true;

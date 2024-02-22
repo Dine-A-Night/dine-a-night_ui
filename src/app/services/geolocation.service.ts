@@ -25,8 +25,6 @@ export class GeolocationService {
 
         const result = await (await fetch(url)).json();
 
-        console.log(result);
-
         return result[0] ?? null;
     }
 }

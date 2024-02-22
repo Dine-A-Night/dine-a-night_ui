@@ -13,6 +13,13 @@ export function idsToObjects<T extends ObjectWithId>(
     return ids.map((id) => originalList.find((item) => item._id === id) as T);
 }
 
+export function idToObject<T extends ObjectWithId>(
+    id: string,
+    originalList: T[],
+): T {
+    return originalList.find((item) => item._id === id) as T;
+}
+
 export function deepEqual(obj1, obj2) {
     // If both values are strictly equal, return true
     if (obj1 === obj2) {

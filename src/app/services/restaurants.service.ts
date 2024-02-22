@@ -90,7 +90,7 @@ export class RestaurantsService {
     }
 }
 
-type RestaurantFilters = {
+export type RestaurantFilters = {
     q?: string;
     cuisine?: string; // Cuisine Id
 };
