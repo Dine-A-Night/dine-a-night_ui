@@ -19,10 +19,6 @@ export class AppComponent implements OnInit {
         // });
     }
 
-    get userDataAvailable() {
-        return this.userService.currentUser() !== undefined;
-    }
-
     get showHeader() {
         return true;
     }

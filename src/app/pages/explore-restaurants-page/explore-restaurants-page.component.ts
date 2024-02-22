@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Cuisine, Restaurant } from 'src/app/models/restaurant';
 import { RestaurantsService } from 'src/app/services/restaurants.service';
 
@@ -18,6 +18,9 @@ export class ExploreRestaurantsPageComponent implements OnInit {
     errorMessage: string = '';
 
     selectedCuisine: string = ''; // Property to hold the selected cuisine
+
+    @ViewChild('nearbyRestaurantsSection')
+    nearbyRestaurantsSection: ElementRef<any>;
 
     constructor(private restaurantsService: RestaurantsService) {}
 
@@ -102,5 +105,7 @@ export class ExploreRestaurantsPageComponent implements OnInit {
                     cuisine.name.toLowerCase() === cuisineName.toLowerCase(),
             ),
         );
+
+        this.nearbyRestaurantsSection?.nativeElement.scrollIntoView();
     }
 }

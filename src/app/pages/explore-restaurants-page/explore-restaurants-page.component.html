@@ -16,7 +16,8 @@
 </div>
 
 <div class="container mx-auto px-4 md:px-4 lg:px-20 py-2">
-    <div class="bg-grey rounded-lg p-4">
+    <!-- Cuisines Filter -->
+    <section class="bg-grey rounded-lg p-4">
         <h2 class="text-3xl font-semibold mb-4"
             >What are you in the mood for?</h2
         >
@@ -33,9 +34,12 @@
                 "
                 [cuisine]="cuisine"></cuisine-card>
         </div>
-    </div>
+    </section>
 
-    <div class="bg-grey rounded-lg p-4 mt-8">
+    <!-- Nearby Restaurants -->
+    <section
+        #nearbyRestaurantsSection
+        class="bg-grey rounded-lg p-4 mt-8">
         <h2 class="text-3xl font-semibold mb-4">Restaurants Near You</h2>
         <!-- Flex container for all cards, set to horizontal layout -->
         <div class="flex flex-col">
@@ -44,5 +48,5 @@
                 *ngFor="let restaurant of filteredRestaurants"
                 [restaurant]="restaurant"></restaurant-detailed-card>
         </div>
-    </div>
+    </section>
 </div>
