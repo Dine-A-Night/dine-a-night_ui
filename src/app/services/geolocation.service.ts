@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { RestaurantLocation } from '../models/restaurant';
+import { Coordinates, RestaurantLocation } from '../models/restaurant';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -26,5 +27,33 @@ export class GeolocationService {
         const result = await (await fetch(url)).json();
 
         return result[0] ?? null;
+    }
+
+    getCurrentLocation(): Observable<Coordinates | null> {
+        return new Observable((observer) => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position: GeolocationPosition) => {
+                        const coordinates: Coordinates = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude,
+                        };
+                        observer.next(coordinates);
+                        observer.complete();
+                    },
+                    (error: GeolocationPositionError) => {
+                        observer.next(null);
+                        observer.complete();
+                    },
+                    {
+                        enableHighAccuracy: false,
+                        timeout: 1000,
+                    },
+                );
+            } else {
+                observer.next(null);
+                observer.complete();
+            }
+        });
     }
 }

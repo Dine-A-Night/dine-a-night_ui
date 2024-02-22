@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, filter, map } from 'rxjs';
+import { Observable, filter, map, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { UserService } from './user.service';
 import { AuthService } from './auth.service';
-import { Restaurant } from '../models/restaurant';
+import { Coordinates, Restaurant } from '../models/restaurant';
+import { GeolocationService } from './geolocation.service';
 
 @Injectable({
     providedIn: 'root',
@@ -18,14 +19,38 @@ export class RestaurantsService {
         private http: HttpClient,
         private userService: UserService,
         private authService: AuthService,
+        private geoLocationService: GeolocationService,
     ) {}
 
-    getRestaurants(filters?: RestaurantFilters) {
-        const url = `${this.API_URL}/api/restaurants`;
+    getRestaurants(filters?: RestaurantFilters): Observable<any> {
+        return this.geoLocationService.getCurrentLocation().pipe(
+            switchMap((coordinates: Coordinates | null) => {
+                let params = new HttpParams();
 
-        return this.http.get<any>(url, {
-            params: filters,
-        });
+                // Add other filters if any
+                if (filters) {
+                    Object.keys(filters).forEach((key) => {
+                        params = params.append(key, filters[key]);
+                    });
+                }
+
+                // Add coordinates if available
+                if (coordinates) {
+                    params = params.append(
+                        'latitude',
+                        coordinates.lat.toString(),
+                    );
+                    params = params.append(
+                        'longitude',
+                        coordinates.lng.toString(),
+                    );
+                }
+
+                const url = `${this.API_URL}/api/restaurants`;
+
+                return this.http.get<any>(url, { params: params });
+            }),
+        );
     }
 
     getCuisines() {
