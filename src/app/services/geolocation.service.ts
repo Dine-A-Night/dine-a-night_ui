@@ -47,7 +47,7 @@ export class GeolocationService {
                     },
                     {
                         enableHighAccuracy: false,
-                        timeout: 1000,
+                        timeout: 5000,
                     },
                 );
             } else {
