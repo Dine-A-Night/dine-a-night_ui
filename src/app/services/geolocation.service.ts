@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Coordinates, RestaurantLocation } from '../models/restaurant';
 import { Observable } from 'rxjs';
+import { MINUTES_TO_MILLISECONDS } from '../utils/static-helpers';
 
 @Injectable({
     providedIn: 'root',
@@ -48,6 +49,7 @@ export class GeolocationService {
                     {
                         enableHighAccuracy: false,
                         timeout: 5000,
+                        maximumAge: MINUTES_TO_MILLISECONDS(10), // Cache for 10 minutes
                     },
                 );
             } else {
