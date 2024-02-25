@@ -17,77 +17,67 @@
                         </span>
                     </ng-template>
 
-                    <!-- Header -->
-                    <div class="pl-4 mb-4">
-                        <!-- Added left padding -->
-                        <h2 class="p-3 text-3xl font-bold mb-2">{{
-                            restaurant.name
-                        }}</h2>
-                        <!-- Added margin-bottom -->
-                    </div>
-
-                    <!-- Gray Line -->
-                    <hr class="w-full border-gray-400 mb-2" />
-
-                    <div
-                        class="min-h-screen flex mx-auto px-4 md:px-8 lg:px-30 py-4">
-                        <!-- Left-aligned container -->
-                        <div class="flex flex-col w-full">
-                            <!-- Set width to full -->
-                            <!-- Cards stacked vertically on all screen sizes -->
-                            <div class="flex flex-col gap-8">
-                                <!-- Cuisine, Location, and Reviews -->
-                                <div class="flex items-center mb-4">
-                                    <!-- Cuisine Card -->
-                                    <div class="flex items-center text-lg mr-4">
-                                        <mat-icon class="mr-1"
-                                            >restaurant_menu</mat-icon
-                                        >
-                                        <span
-                                            *ngFor="
-                                                let cuisineName of cuisines;
-                                                let last = last
-                                            "
-                                            >{{ cuisineName
-                                            }}{{ !last ? ',' : '' }}</span
-                                        >
-                                    </div>
-                                    <!-- Location Card -->
-                                    <div class="flex items-center text-lg mr-4">
-                                        <mat-icon class="mr-1">place</mat-icon>
-                                        <p class="text-lg">{{ location }}</p>
-                                    </div>
-                                    <!-- Reviews Card -->
-                                    <div class="flex items-center text-lg">
-                                        <mat-icon class="mr-1"
-                                            >rate_review</mat-icon
-                                        >
-                                        <span>Reviews</span>
-                                    </div>
-                                </div>
-                                <!-- First Description Card -->
-                                <div class="w-full md:w-1/2 mb-4">
-                                    <div
-                                        class="bg-landing rounded-lg shadow-lg overflow-hidden p-4 md:p-6">
-                                        <p class="text-lg">{{ description }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Details Body -->
                     <div class="min-h-screen">
-                        <div class="p-4 flex justify-end items-center gap-10">
-                            <button
-                                *ngIf="showEdit"
-                                mat-flat-button
-                                (click)="onEditClick()"
-                                color="accent">
-                                <mat-icon>edit</mat-icon>
-                                Edit
-                            </button>
-                        </div>
+                        <section
+                            class="container-90-vw py-4 flex flex-wrap justify-center sm:justify-between items-center gap-6 sm:gap-10">
+                            <h2 class="text-3xl font-bold">{{
+                                restaurant.name
+                            }}</h2>
+
+                            <!-- Controls -->
+                            <div>
+                                <button
+                                    *ngIf="showEdit"
+                                    mat-flat-button
+                                    (click)="onEditClick()"
+                                    color="accent">
+                                    <mat-icon>edit</mat-icon>
+                                    Edit
+                                </button>
+                            </div>
+                        </section>
+
+                        <section class="container-90-vw text-lg">
+                            <section
+                                class="flex flex-wrap justify-center sm:justify-start gap-7 my-2">
+                                <!-- Cuisine -->
+                                <div
+                                    class="flex flex-wrap items-center justify-center text-center">
+                                    <mat-icon class="mr-1"
+                                        >restaurant_menu</mat-icon
+                                    >
+                                    <span
+                                        *ngFor="
+                                            let cuisineName of cuisines;
+                                            let last = last
+                                        "
+                                        >{{ cuisineName
+                                        }}{{ !last ? ',' : '' }}</span
+                                    >
+                                </div>
+                                <!-- Location -->
+                                <div
+                                    class="flex flex-wrap items-center justify-center text-center">
+                                    <mat-icon class="mr-1">place</mat-icon>
+                                    <p>{{ location }}</p>
+                                </div>
+                                <!-- Reviews -->
+                                <div
+                                    class="flex flex-wrap items-center justify-center text-center">
+                                    <mat-icon class="mr-1"
+                                        >rate_review</mat-icon
+                                    >
+                                    <span>Reviews</span>
+                                </div>
+                            </section>
+
+                            <mat-divider />
+
+                            <section class="py-4">
+                                <p>{{ restaurant.description }}</p>
+                            </section>
+                        </section>
                     </div>
                 </mat-tab>
 
