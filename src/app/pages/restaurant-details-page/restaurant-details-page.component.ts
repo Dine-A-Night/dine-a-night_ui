@@ -1,13 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, filter } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { RestaurantAddEditComponent } from 'src/app/components/restaurants/restaurant-add-edit/restaurant-add-edit.component';
 import { Restaurant } from 'src/app/models/restaurant';
 import { UserRole } from 'src/app/models/user';
 import { RestaurantsService } from 'src/app/services/restaurants.service';
 import { UserService } from 'src/app/services/user.service';
-import { deepEqual } from 'src/app/utils/helper-functions';
+import { deepEqual, isDefNotNull } from 'src/app/utils/helper-functions';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'restaurant-details-page',
@@ -20,6 +21,7 @@ export class RestaurantDetailsPageComponent implements OnInit, OnDestroy {
         private restaurantService: RestaurantsService,
         private userService: UserService,
         private dialog: MatDialog,
+        private notificationService: MatSnackBar,
     ) {}
 
     paramSubscription: Subscription;
@@ -77,6 +79,24 @@ export class RestaurantDetailsPageComponent implements OnInit, OnDestroy {
                     this.restaurant = result;
                 }
             });
+    }
+
+    uploadCoverPhoto(event) {
+        const files = event; // Get the selected files
+
+        const imageFile = [...files].filter((file) =>
+            file.type.startsWith('image/'),
+        )[0];
+
+        if (isDefNotNull(imageFile)) {
+            console.log('Uploading image');
+            console.log(imageFile);
+        } else {
+            this.notificationService.open(
+                'Make sure you select an image file for upload!',
+                'Ok',
+            );
+        }
     }
 
     get coverImage(): string {

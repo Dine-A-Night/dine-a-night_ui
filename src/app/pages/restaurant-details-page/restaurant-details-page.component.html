@@ -26,7 +26,18 @@
                             }}</h2>
 
                             <!-- Controls -->
-                            <div>
+                            <div class="flex flex-wrap gap-5">
+                                <file-selector
+                                    (filesSelected)="uploadCoverPhoto($event)"
+                                    *ngIf="showEdit">
+                                    <button
+                                        #fileSelector
+                                        mat-flat-button
+                                        color="accent">
+                                        <mat-icon>upload</mat-icon>
+                                        Upload Photo
+                                    </button>
+                                </file-selector>
                                 <button
                                     *ngIf="showEdit"
                                     mat-flat-button
@@ -68,7 +79,12 @@
                                     <mat-icon class="mr-1"
                                         >rate_review</mat-icon
                                     >
-                                    <span>Reviews</span>
+                                    <span
+                                        >{{
+                                            restaurant.reviews?.length ?? 0
+                                        }}
+                                        Reviews</span
+                                    >
                                 </div>
                             </section>
 
