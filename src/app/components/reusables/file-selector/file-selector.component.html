@@ -1,0 +1,9 @@
+<!-- Trigger for File input -->
+<ng-content></ng-content>
+
+<input
+    #coverPhotoInputField
+    [type]="type"
+    [multiple]="multiple"
+    (change)="onFilesChanged($event)"
+    hidden />

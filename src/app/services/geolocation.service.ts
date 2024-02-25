@@ -49,7 +49,7 @@ export class GeolocationService {
                     {
                         enableHighAccuracy: false,
                         timeout: 5000,
-                        maximumAge: MINUTES_TO_MILLISECONDS(10), // Cache for 10 minutes
+                        maximumAge: MINUTES_TO_MILLISECONDS(30), // Cache for 30 minutes
                     },
                 );
             } else {

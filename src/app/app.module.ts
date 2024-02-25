@@ -44,6 +44,7 @@ import { CuisineCardComponent } from './components/cuisines/cuisine-card/cuisine
 import { RestaurantDetailsPageComponent } from './pages/restaurant-details-page/restaurant-details-page.component';
 import { LoadingSpinnerComponent } from './components/reusables/loading-spinner/loading-spinner.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { FileSelectorComponent } from './components/reusables/file-selector/file-selector.component';
 
 @NgModule({
     declarations: [
@@ -65,6 +66,7 @@ import { MatTabsModule } from '@angular/material/tabs';
         CuisineCardComponent,
         RestaurantDetailsPageComponent,
         LoadingSpinnerComponent,
+        FileSelectorComponent,
     ],
     imports: [
         BrowserModule,

@@ -16,6 +16,7 @@ export class Restaurant {
         width: string;
     };
     cuisines: Cuisine[];
+    reviews?: any[]; // any for now
 
     constructor(data: any) {
         this._id = data?._id ?? null;
@@ -27,7 +28,8 @@ export class Restaurant {
         this.photoUris = data?.photoUris ?? [];
         this.staffMembers = data?.staffMembers ?? [];
         this.layout = data?.layout ?? null;
-        this.cuisines = data?.cuisines ?? null;
+        this.cuisines = data?.cuisines ?? [];
+        this.reviews = data?.reviews ?? [];
     }
 }
 
