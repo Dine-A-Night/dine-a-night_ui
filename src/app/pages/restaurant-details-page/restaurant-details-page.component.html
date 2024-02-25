@@ -1,164 +1,128 @@
 <div class="min-h-screen">
     <ng-container *ngIf="restaurant; else loadingContainer">
-        <!-- Header -->
-        <section>
-            <h2 class="p-3 text-3xl font-bold shadow-xl">{{
-                restaurant.name
-            }}</h2>
-        </section>
-
         <!-- Cover Image -->
         <section
             class="h-96 bg-cover bg-center backdrop-opacity-10"
             style="background-image: url('{{ coverImage }}');">
         </section>
-    </ng-container>
 
-    <!-- Tabs -->
-    <section>
-        <mat-tab-group color="accent">
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    <span class="flex justify-between items-center gap-5">
-                        <mat-icon class="hidden md:block">info</mat-icon>
-                        Details
-                    </span>
-                </ng-template>
-                <!-- Details Body -->
-                <div class="min-h-screen">
-                    <div class="p-4 flex justify-end items-center gap-10">
-                        <button
-                            *ngIf="showEdit"
-                            mat-flat-button
-                            (click)="onEditClick()"
-                            color="accent">
-                            <mat-icon>edit</mat-icon>
-                            Edit
-                        </button>
+        <!-- Restaurant Details -->
+        <section>
+            <mat-tab-group color="accent">
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <span class="flex justify-between items-center gap-5">
+                            <mat-icon class="hidden md:block">info</mat-icon>
+                            Details
+                        </span>
+                    </ng-template>
+
+                    <!-- Header -->
+                    <div class="pl-4 mb-4">
+                        <!-- Added left padding -->
+                        <h2 class="p-3 text-3xl font-bold mb-2">{{
+                            restaurant.name
+                        }}</h2>
+                        <!-- Added margin-bottom -->
                     </div>
 
-                    <div class="flex mx-auto px-4 md:px-8 lg:px-30 py-4">
+                    <!-- Gray Line -->
+                    <hr class="w-full border-gray-400 mb-2" />
+
+                    <div
+                        class="min-h-screen flex mx-auto px-4 md:px-8 lg:px-30 py-4">
                         <!-- Left-aligned container -->
-                        <div class="flex flex-col">
+                        <div class="flex flex-col w-full">
+                            <!-- Set width to full -->
                             <!-- Cards stacked vertically on all screen sizes -->
                             <div class="flex flex-col gap-8">
-                                <!-- Removed justify-center and items-center -->
-                                <!-- Description Card -->
-                                <div
-                                    class="w-full md:w-1/2 transition-transform transform hover:scale-105 mb-4">
-                                    <!-- Added hover effect and margin bottom -->
+                                <!-- Cuisine, Location, and Reviews -->
+                                <div class="flex items-center mb-4">
+                                    <!-- Cuisine Card -->
+                                    <div class="flex items-center text-lg mr-4">
+                                        <mat-icon class="mr-1"
+                                            >restaurant_menu</mat-icon
+                                        >
+                                        <span
+                                            *ngFor="
+                                                let cuisineName of cuisines;
+                                                let last = last
+                                            "
+                                            >{{ cuisineName
+                                            }}{{ !last ? ',' : '' }}</span
+                                        >
+                                    </div>
+                                    <!-- Location Card -->
+                                    <div class="flex items-center text-lg mr-4">
+                                        <mat-icon class="mr-1">place</mat-icon>
+                                        <p class="text-lg">{{ location }}</p>
+                                    </div>
+                                    <!-- Reviews Card -->
+                                    <div class="flex items-center text-lg">
+                                        <mat-icon class="mr-1"
+                                            >rate_review</mat-icon
+                                        >
+                                        <span>Reviews</span>
+                                    </div>
+                                </div>
+                                <!-- First Description Card -->
+                                <div class="w-full md:w-1/2 mb-4">
                                     <div
                                         class="bg-landing rounded-lg shadow-lg overflow-hidden p-4 md:p-6">
-                                        <h3
-                                            class="text-xl font-semibold mb-4 underline flex items-center"
-                                            >Description
-                                            <mat-icon class="text-gray-600 ml-2"
-                                                >description</mat-icon
-                                            ></h3
-                                        >
-                                        <!-- Added underline and Mat icon -->
                                         <p class="text-lg">{{ description }}</p>
                                     </div>
                                 </div>
-
-                                <!-- Cuisine Card -->
-                                <div
-                                    class="w-full md:w-1/2 transition-transform transform hover:scale-105 mb-4">
-                                    <div
-                                        class="bg-landing rounded-lg shadow-lg p-4 md:p-6 flex items-center justify-between">
-                                        <!-- Added flex and justify-between classes for alignment -->
-                                        <h3
-                                            class="text-xl font-semibold mb-4 underline flex items-center"
-                                            >Cuisine
-                                            <mat-icon class="text-gray-600 ml-2"
-                                                >restaurant_menu</mat-icon
-                                            ></h3
-                                        >
-                                        <!-- Header with underline and icon -->
-                                        <div
-                                            class="bg-landing rounded-lg shadow-lg p-4 md:p-6">
-                                            <ul>
-                                                <!-- No need for text-right class here -->
-                                                <li
-                                                    *ngFor="
-                                                        let cuisineName of cuisines
-                                                    "
-                                                    class="text-lg"
-                                                    >{{ cuisineName }}</li
-                                                >
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Location Card -->
-                                <div
-                                    class="w-full md:w-1/2 transition-transform transform hover:scale-105 mb-4">
-                                    <div
-                                        class="bg-landing rounded-lg shadow-lg p-4 md:p-6 flex flex-col items-center">
-                                        <!-- Added flex and flex-col classes for vertical alignment -->
-                                        <h3
-                                            class="text-xl font-semibold mb-4 underline flex items-center"
-                                            >Location
-                                            <mat-icon class="text-gray-600 ml-2"
-                                                >place</mat-icon
-                                            ></h3
-                                        >
-                                        <!-- Header with underline and icon -->
-                                        <div>
-                                            <p class="text-lg">{{
-                                                location
-                                            }}</p>
-                                            <!-- Location text -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Right-aligned container for Menu Item -->
-                        <div class="w-full md:w-1/2 mb-4">
-                            <div
-                                class="bg-landing rounded-lg shadow-lg overflow-hidden p-4 md:p-6">
-                                <h3 class="text-xl font-semibold mb-4 underline"
-                                    >Menu Item
-                                    <!-- TODO: Add icon here --></h3
-                                >
-                                <p class="text-lg"
-                                    >//TODO: Insert menu items here</p
-                                >
                             </div>
                         </div>
                     </div>
-                </div>
-            </mat-tab>
 
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    <span class="flex justify-between items-center gap-5">
-                        <mat-icon class="hidden md:block">image</mat-icon>
-                        Images
-                    </span>
-                </ng-template>
+                    <!-- Details Body -->
+                    <div class="min-h-screen">
+                        <div class="p-4 flex justify-end items-center gap-10">
+                            <button
+                                *ngIf="showEdit"
+                                mat-flat-button
+                                (click)="onEditClick()"
+                                color="accent">
+                                <mat-icon>edit</mat-icon>
+                                Edit
+                            </button>
+                        </div>
+                    </div>
+                </mat-tab>
 
-                <!-- Images Body -->
-                <div class="min-h-screen">Images</div>
-            </mat-tab>
-            <mat-tab label="Reviews">
-                <ng-template mat-tab-label>
-                    <span class="flex justify-between items-center gap-5">
-                        <mat-icon class="hidden md:block">rate_review</mat-icon>
-                        Reviews
-                    </span>
-                </ng-template>
+                <!-- Images Tab -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <span class="flex justify-between items-center gap-5">
+                            <mat-icon class="hidden md:block">image</mat-icon>
+                            Images
+                        </span>
+                    </ng-template>
 
-                <!-- Reviews Body -->
-                <div class="min-h-screen">Reviews</div>
-            </mat-tab>
-        </mat-tab-group>
-    </section>
+                    <!-- Images Body -->
+                    <div class="min-h-screen">Images</div>
+                </mat-tab>
+
+                <!-- Reviews Tab -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <span class="flex justify-between items-center gap-5">
+                            <mat-icon class="hidden md:block"
+                                >rate_review</mat-icon
+                            >
+                            Reviews
+                        </span>
+                    </ng-template>
+
+                    <!-- Reviews Body -->
+                    <div class="min-h-screen">Reviews</div>
+                </mat-tab>
+            </mat-tab-group>
+        </section>
+    </ng-container>
+
+    <ng-template #loadingContainer>
+        <loading-spinner [label]="'loading-restaurant'"></loading-spinner>
+    </ng-template>
 </div>
-
-<ng-template #loadingContainer>
-    <loading-spinner [label]="'loading-restaurant'"></loading-spinner>
-</ng-template>
