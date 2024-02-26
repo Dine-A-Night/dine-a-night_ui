@@ -27,22 +27,25 @@ export class ManageRestaurantsComponent implements OnInit {
     getOwnedRestaurants() {
         this.isLoading = true;
 
-        this.restaurantsService.getOwnedRestaurants().subscribe({
-            next: (restaurants) => {
-                this.restaurants = restaurants ?? [];
-                this.isLoading = false;
-            },
-            error: (err) => {
-                this.notificationService.open(
-                    `Could not retrieve restaurants: ${err.message}`,
-                    'Ok',
-                    {
-                        duration: 4000,
-                    },
-                );
-                this.isLoading = false;
-            },
-        });
+        // To make sure the current user data is already fetched
+        setTimeout(() => {
+            this.restaurantsService.getOwnedRestaurants().subscribe({
+                next: (restaurants) => {
+                    this.restaurants = restaurants ?? [];
+                    this.isLoading = false;
+                },
+                error: (err) => {
+                    this.notificationService.open(
+                        `Could not retrieve restaurants: ${err.message}`,
+                        'Ok',
+                        {
+                            duration: 4000,
+                        },
+                    );
+                    this.isLoading = false;
+                },
+            });
+        }, 500);
     }
 
     // Just to test for now

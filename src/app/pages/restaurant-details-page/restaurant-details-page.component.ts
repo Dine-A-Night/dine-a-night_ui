@@ -91,6 +91,33 @@ export class RestaurantDetailsPageComponent implements OnInit, OnDestroy {
         if (isDefNotNull(imageFile)) {
             console.log('Uploading image');
             console.log(imageFile);
+            this.restaurantService
+                .uploadCoverPhoto(this.restaurant._id, imageFile)
+                .subscribe({
+                    next: (imageUrl) => {
+                        this.restaurant = {
+                            ...this.restaurant,
+                            coverPhotoUri: imageUrl,
+                        };
+
+                        this.notificationService.open(
+                            'Successfully uploaded cover photo',
+                            'Ok',
+                            {
+                                duration: 3000,
+                            },
+                        );
+                    },
+                    error: (err: any) => {
+                        this.notificationService.open(
+                            `Failed to upload cover photo: ${err.message}`,
+                            'Oops',
+                            {
+                                duration: 3000,
+                            },
+                        );
+                    },
+                });
         } else {
             this.notificationService.open(
                 'Make sure you select an image file for upload!',
