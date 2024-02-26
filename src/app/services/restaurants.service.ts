@@ -1,12 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, concatMap, filter, from, map, switchMap } from 'rxjs';
+import { Observable, concatMap, filter, from, map, switchMap, zip } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { UserService } from './user.service';
 import { AuthService } from './auth.service';
 import { Coordinates, Restaurant } from '../models/restaurant';
 import { GeolocationService } from './geolocation.service';
 import { FileUploadService } from './file-upload.service';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 @Injectable({
     providedIn: 'root',
@@ -22,6 +23,7 @@ export class RestaurantsService {
         private authService: AuthService,
         private geoLocationService: GeolocationService,
         private fileUploadService: FileUploadService,
+        private afStorage: AngularFireStorage,
     ) {}
 
     getRestaurants(filters?: RestaurantFilters): Observable<any> {
@@ -107,13 +109,27 @@ export class RestaurantsService {
         const url = `${this.API_URL}/api/restaurants/${id}`;
         const headers = this.authService.getAuthHeaders();
 
-        return this.http.delete<Restaurant>(url, {
+        const deleteRestaurant$ = this.http.delete<Restaurant>(url, {
             headers,
         });
+
+        const deleteRestaurantImages$ = this.deleteRestaurantImages(id);
+
+        return zip(deleteRestaurant$, deleteRestaurantImages$);
+    }
+
+    private deleteRestaurantImages(restaurantId: string): Observable<any> {
+        return this.fileUploadService.deleteFile(
+            this.getRestaurantCoverPhotoPath(restaurantId),
+        );
+    }
+
+    getRestaurantCoverPhotoPath(restaurantId: string) {
+        return `images/restaurants/cover/${restaurantId}`;
     }
 
     uploadCoverPhoto(restaurantId, image: File): Observable<string> {
-        const pathname = `images/restaurants/cover/${restaurantId}`;
+        const pathname = this.getRestaurantCoverPhotoPath(restaurantId);
 
         const imageUrl$ = from(
             this.fileUploadService.uploadFile(pathname, image),

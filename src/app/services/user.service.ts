@@ -8,6 +8,7 @@ import {
     Observable,
     combineLatest,
     firstValueFrom,
+    from,
     map,
     of,
     switchMap,
@@ -17,6 +18,7 @@ import {
 import { environment } from 'src/environments/environment.development';
 import { ProfileUser, UserRole } from '../models/user';
 import { AuthService } from './auth.service';
+import { FileUploadService } from './file-upload.service';
 
 @Injectable({
     providedIn: 'root',
@@ -29,6 +31,7 @@ export class UserService {
         private afAuth: AngularFireAuth,
         private afStorage: AngularFireStorage,
         private authService: AuthService,
+        private fileUploadService: FileUploadService,
     ) {}
 
     userDataUpdated = new BehaviorSubject<boolean>(true);
@@ -118,7 +121,7 @@ export class UserService {
     }
 
     updateUserById(uid: string, newUser: ProfileUser): Observable<any> {
-        const url = `${this.API_URL}/api/users/${uid}`;
+        const url = this.getProfilePicturePath(uid);
         const headers = this.authService.getAuthHeaders();
 
         return this.http.put<any>(url, newUser, { headers });
@@ -153,13 +156,20 @@ export class UserService {
         // Delete user data from MongoDB
         const deleteMongoData$ = this.deleteUserData(user.uid).pipe();
 
+        // Delete profile picture
+        const profilePicturePath = this.getProfilePicturePath(user.uid ?? '');
+        const deleteProfilePicture$ =
+            this.fileUploadService.deleteFile(profilePicturePath);
+
         // Delete user from Firebase Authentication
         const deleteUserAuth$ = this.authService.deleteUser();
+
+        // TODO: Make sure we delete all the resources belonging to a user (like owned restaurant images)
 
         // Emit once both observables emit a value.
         // Can't use forkJoin because firebase observable never completes
         // https://stackoverflow.com/a/42243856
-        return zip([deleteMongoData$, deleteUserAuth$]);
+        return zip([deleteMongoData$, deleteProfilePicture$, deleteUserAuth$]);
     }
 
     private deleteUserData(uid) {
@@ -173,5 +183,9 @@ export class UserService {
 
     getCurrentRole(): UserRole | undefined {
         return this.currentUser()?.role;
+    }
+
+    getProfilePicturePath(uid: string) {
+        return `images/profile/${uid}`;
     }
 }
