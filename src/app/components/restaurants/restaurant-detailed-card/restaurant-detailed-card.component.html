@@ -7,7 +7,7 @@
             <div class="flex-shrink-0 mr-4">
                 <img
                     [src]="
-                        restaurant.photoUris?.[0]?.trim() ||
+                        restaurant.coverPhotoUri ||
                         './assets/images/RestaurantCover.jpg'
                     "
                     alt="Restaurant Image"

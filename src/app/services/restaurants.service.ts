@@ -1,11 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, filter, map, switchMap } from 'rxjs';
+import { Observable, concatMap, filter, from, map, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { UserService } from './user.service';
 import { AuthService } from './auth.service';
 import { Coordinates, Restaurant } from '../models/restaurant';
 import { GeolocationService } from './geolocation.service';
+import { FileUploadService } from './file-upload.service';
 
 @Injectable({
     providedIn: 'root',
@@ -20,6 +21,7 @@ export class RestaurantsService {
         private userService: UserService,
         private authService: AuthService,
         private geoLocationService: GeolocationService,
+        private fileUploadService: FileUploadService,
     ) {}
 
     getRestaurants(filters?: RestaurantFilters): Observable<any> {
@@ -58,18 +60,14 @@ export class RestaurantsService {
         return this.http.get<any>(url);
     }
 
-    getOwnedRestaurants(filters?: RestaurantFilters) {
-        // TODO: This filtering needs to be done on the server
-        return this.getRestaurants(filters).pipe(
-            map((data) => data?.restaurants),
-            map((restaurants) => {
-                return restaurants.filter(
-                    (restaurant) =>
-                        restaurant.ownerId ===
-                        this.userService.currentUser()?.uid,
-                );
-            }),
-        );
+    getOwnedRestaurants() {
+        const currentUser = this.userService.currentUser();
+        const url = `${this.API_URL}/api/restaurants/by-owner/${currentUser?.uid}`;
+        const headers = this.authService.getAuthHeaders();
+
+        return this.http
+            .get<any>(url, { headers })
+            .pipe(map((res) => res.restaurants));
     }
 
     getCuisinesList() {
@@ -96,7 +94,7 @@ export class RestaurantsService {
         });
     }
 
-    updateRestaurant(restaurant: Restaurant) {
+    updateRestaurant(restaurant: Restaurant | any) {
         const url = `${this.API_URL}/api/restaurants/${restaurant._id}`;
         const headers = this.authService.getAuthHeaders();
 
@@ -112,6 +110,30 @@ export class RestaurantsService {
         return this.http.delete<Restaurant>(url, {
             headers,
         });
+    }
+
+    uploadCoverPhoto(restaurantId, image: File): Observable<string> {
+        const pathname = `images/restaurants/cover/${restaurantId}`;
+
+        const imageUrl$ = from(
+            this.fileUploadService.uploadFile(pathname, image),
+        );
+
+        // Persist to Mongo
+        return imageUrl$.pipe(
+            concatMap((imageUrl) => {
+                return this.updateRestaurant({
+                    _id: restaurantId,
+                    coverPhotoUri: imageUrl,
+                });
+            }),
+            map((res: any) => {
+                return res.restaurant;
+            }),
+            map((updatedRestaurant: Restaurant) => {
+                return updatedRestaurant.coverPhotoUri;
+            }),
+        );
     }
 }
 
