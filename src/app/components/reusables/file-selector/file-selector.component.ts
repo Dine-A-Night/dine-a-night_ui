@@ -15,12 +15,12 @@ import {
     styleUrls: ['./file-selector.component.scss'],
 })
 export class FileSelectorComponent {
-    @Input() type: string = 'file';
+    @Input() accept: string = 'file';
     @Input() multiple: boolean = false;
     @Output() filesSelected = new EventEmitter<FileList>();
     @ContentChild('fileSelector', { read: ElementRef })
     inputTrigger: ElementRef;
-    @ViewChild('coverPhotoInputField') coverPhotoInputField: ElementRef;
+    @ViewChild('fileInputField') fileInputField: ElementRef;
 
     constructor(private renderer: Renderer2) {}
 
@@ -29,12 +29,11 @@ export class FileSelectorComponent {
     }
 
     ngAfterContentInit(): void {
-        console.log(this.inputTrigger);
         this.renderer.listen(
             this.inputTrigger.nativeElement,
             'click',
             (event) => {
-                this.coverPhotoInputField?.nativeElement.click();
+                this.fileInputField?.nativeElement.click();
             },
         );
     }

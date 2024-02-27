@@ -89,8 +89,6 @@ export class RestaurantDetailsPageComponent implements OnInit, OnDestroy {
         )[0];
 
         if (isDefNotNull(imageFile)) {
-            console.log('Uploading image');
-            console.log(imageFile);
             this.restaurantService
                 .uploadCoverPhoto(this.restaurant._id, imageFile)
                 .subscribe({
@@ -124,6 +122,12 @@ export class RestaurantDetailsPageComponent implements OnInit, OnDestroy {
                 'Ok',
             );
         }
+    }
+
+    restaurantUpdated(restaurant: Restaurant) {
+        this.restaurant = restaurant;
+
+        console.log(restaurant);
     }
 
     get coverImage(): string {
