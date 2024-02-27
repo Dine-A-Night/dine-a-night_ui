@@ -11,6 +11,7 @@ import { RestaurantsService } from 'src/app/services/restaurants.service';
 })
 export class RestaurantImagesComponent {
     @Input() restaurant: Restaurant;
+    @Input() showUploadButton = false;
     @Output() imageUploaded = new EventEmitter<Restaurant>();
 
     constructor(

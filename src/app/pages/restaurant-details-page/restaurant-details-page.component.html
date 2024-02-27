@@ -24,7 +24,7 @@
                     <div class="min-h-screen">
                         <!-- Controls -->
                         <section
-                            class="container-90-vw py-6 flex flex-wrap justify-center sm:justify-end items-center gap-6 sm:gap-10">
+                            class="container-90-vw py-3 flex flex-wrap justify-center sm:justify-end items-center gap-6 sm:gap-10">
                             <file-selector
                                 (filesSelected)="uploadCoverPhoto($event)"
                                 *ngIf="showEdit">
@@ -61,7 +61,7 @@
                                             let last = last
                                         "
                                         >{{ cuisineName
-                                        }}{{ !last ? ',' : '' }}</span
+                                        }}{{ !last ? ',&nbsp;' : '' }}</span
                                     >
                                 </div>
                                 <!-- Location -->
@@ -107,6 +107,7 @@
                     <div class="min-h-screen">
                         <restaurant-images
                             (imageUploaded)="restaurantUpdated($event)"
+                            [showUploadButton]="showEdit"
                             [restaurant]="restaurant"></restaurant-images>
                     </div>
                 </mat-tab>
