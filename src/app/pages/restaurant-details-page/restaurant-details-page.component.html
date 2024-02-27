@@ -1,5 +1,8 @@
 <div class="min-h-screen">
     <ng-container *ngIf="restaurant; else loadingContainer">
+        <h2 class="text-3xl font-bold container-90-vw py-4">{{
+            restaurant.name
+        }}</h2>
         <!-- Cover Image -->
         <section
             class="h-96 bg-cover bg-center backdrop-opacity-10"
@@ -19,34 +22,28 @@
 
                     <!-- Details Body -->
                     <div class="min-h-screen">
+                        <!-- Controls -->
                         <section
-                            class="container-90-vw py-4 flex flex-wrap justify-center sm:justify-between items-center gap-6 sm:gap-10">
-                            <h2 class="text-3xl font-bold">{{
-                                restaurant.name
-                            }}</h2>
-
-                            <!-- Controls -->
-                            <div class="flex flex-wrap gap-5">
-                                <file-selector
-                                    (filesSelected)="uploadCoverPhoto($event)"
-                                    *ngIf="showEdit">
-                                    <button
-                                        #fileSelector
-                                        mat-flat-button
-                                        color="accent">
-                                        <mat-icon>upload</mat-icon>
-                                        Upload Photo
-                                    </button>
-                                </file-selector>
+                            class="container-90-vw py-6 flex flex-wrap justify-center sm:justify-end items-center gap-6 sm:gap-10">
+                            <file-selector
+                                (filesSelected)="uploadCoverPhoto($event)"
+                                *ngIf="showEdit">
                                 <button
-                                    *ngIf="showEdit"
+                                    #fileSelector
                                     mat-flat-button
-                                    (click)="onEditClick()"
                                     color="accent">
-                                    <mat-icon>edit</mat-icon>
-                                    Edit
+                                    <mat-icon>upload</mat-icon>
+                                    Upload Cover Photo
                                 </button>
-                            </div>
+                            </file-selector>
+                            <button
+                                *ngIf="showEdit"
+                                mat-flat-button
+                                (click)="onEditClick()"
+                                color="accent">
+                                <mat-icon>edit</mat-icon>
+                                Edit
+                            </button>
                         </section>
 
                         <section class="container-90-vw text-lg">
@@ -107,7 +104,11 @@
                     </ng-template>
 
                     <!-- Images Body -->
-                    <div class="min-h-screen">Images</div>
+                    <div class="min-h-screen">
+                        <restaurant-images
+                            (imageUploaded)="restaurantUpdated($event)"
+                            [restaurant]="restaurant"></restaurant-images>
+                    </div>
                 </mat-tab>
 
                 <!-- Reviews Tab -->

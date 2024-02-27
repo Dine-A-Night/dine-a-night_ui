@@ -28,7 +28,7 @@ export class FileUploadService {
             catchError((error) => {
                 // If the error indicates the image was not found, handle it gracefully
                 if (error.code === 'storage/object-not-found') {
-                    console.log('Image not found at path:', filePath);
+                    console.warn('Image not found at path:', filePath);
                     // Return a observable indicating that the image was not found
                     return of(null);
                 }

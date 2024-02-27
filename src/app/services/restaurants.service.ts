@@ -8,6 +8,7 @@ import { Coordinates, Restaurant } from '../models/restaurant';
 import { GeolocationService } from './geolocation.service';
 import { FileUploadService } from './file-upload.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
     providedIn: 'root',
@@ -148,6 +149,34 @@ export class RestaurantsService {
             }),
             map((updatedRestaurant: Restaurant) => {
                 return updatedRestaurant.coverPhotoUri;
+            }),
+        );
+    }
+
+    private generateNewRestaurantImagePath(restaurantId: string) {
+        const uuid = uuidv4();
+
+        return `images/restaurants/${restaurantId}/${uuid}`;
+    }
+
+    uploadImage(restaurant: Restaurant, image: File): Observable<Restaurant> {
+        const { _id: restaurantId, photoUris } = restaurant;
+        const pathname = this.generateNewRestaurantImagePath(restaurantId);
+
+        const imageUrl$ = from(
+            this.fileUploadService.uploadFile(pathname, image),
+        );
+
+        // Persist to Mongo
+        return imageUrl$.pipe(
+            concatMap((imageUrl) => {
+                return this.updateRestaurant({
+                    _id: restaurantId,
+                    photoUris: [...(photoUris ?? []), imageUrl],
+                });
+            }),
+            map((res: any) => {
+                return res.restaurant as Restaurant;
             }),
         );
     }

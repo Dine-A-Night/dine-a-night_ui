@@ -1,0 +1,17 @@
+<div class="container-90-vw">
+    <!-- Header -->
+    <section class="flex justify-between items-center py-4">
+        <h2 class="text-3xl font-bold">Images</h2>
+
+        <file-selector
+            [accept]="'image/*'"
+            (filesSelected)="uploadImages($event)">
+            <button
+                #fileSelector
+                mat-flat-button
+                color="accent"
+                ><mat-icon>upload</mat-icon>Upload Images</button
+            >
+        </file-selector>
+    </section>
+</div>

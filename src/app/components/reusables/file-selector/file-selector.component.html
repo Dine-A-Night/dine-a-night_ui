@@ -2,8 +2,9 @@
 <ng-content></ng-content>
 
 <input
-    #coverPhotoInputField
-    [type]="type"
+    #fileInputField
+    [type]="'file'"
+    [accept]="accept"
     [multiple]="multiple"
     (change)="onFilesChanged($event)"
     hidden />
