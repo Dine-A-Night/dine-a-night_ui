@@ -9,7 +9,7 @@ export class FileUploadService {
     constructor(private afStorage: AngularFireStorage) {}
 
     async uploadFile(pathname: string, file: File): Promise<string> {
-        // Reference to storage bucket
+        // Reference to firebase storage bucket
         const ref = this.afStorage.ref(pathname);
 
         const uploadTask = this.afStorage.upload(pathname, file);
@@ -47,5 +47,9 @@ export class FileUploadService {
                 }
             }),
         );
+    }
+
+    deleteFileAtUrl(imageUrl: string) {
+        return this.afStorage.refFromURL(imageUrl).delete();
     }
 }

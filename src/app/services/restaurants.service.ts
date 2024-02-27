@@ -180,6 +180,22 @@ export class RestaurantsService {
             }),
         );
     }
+
+    deleteImage(imageUrl) {
+        // Delete image resource from firebase
+        const deleteImage$ = this.fileUploadService.deleteFileAtUrl(imageUrl);
+
+        /* Wait for backend route to finish
+
+        const restaurantId = imageUrl.split('/')[2];
+        const url = `${this.API_URL}/api/restaurants/${restaurantId}/delete-image`;
+        const headers = this.authService.getAuthHeaders();
+        // API Call to delete image from mongo
+        const deleteImageRef$ = this.http.post(url, { imageUrl }, { headers });
+        */
+
+        return zip(deleteImage$);
+    }
 }
 
 export type RestaurantFilters = {
