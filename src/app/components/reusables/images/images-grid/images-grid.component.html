@@ -1,0 +1,25 @@
+<div *ngIf="imageUrls.length; else NoImagesMessage">
+    <!-- Grid -->
+    <div
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <div
+            *ngFor="let url of imageUrls"
+            class="overflow-hidden shadow-xl h-36">
+            <img
+                (click)="openPreview(url)"
+                src="{{ url }}"
+                alt="Restaurant Image"
+                class="w-full h-full cursor-pointer" />
+        </div>
+    </div>
+</div>
+
+<ng-template #NoImagesMessage>
+    <div class="w-full flex justify-center items-center py-20">
+        <h2 class="flex items-center gap-3 text-2xl"
+            >No Images Available<mat-icon [inline]="true"
+                >error_outline</mat-icon
+            ></h2
+        >
+    </div>
+</ng-template>

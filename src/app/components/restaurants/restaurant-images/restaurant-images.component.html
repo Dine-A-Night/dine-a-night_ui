@@ -1,6 +1,6 @@
 <div class="container-90-vw">
     <!-- Header -->
-    <section class="flex justify-between items-center py-4">
+    <section class="flex flex-wrap gap-5 justify-between items-center py-4">
         <h2 class="text-3xl font-bold">Images</h2>
 
         <file-selector
@@ -17,5 +17,7 @@
     </section>
 
     <!-- Photo Grid -->
-    <images-grid [imageUrls]="restaurant.photoUris ?? []"></images-grid>
+    <images-grid
+        (imageDeleted)="onImageDelete($event)"
+        [imageUrls]="restaurant.photoUris ?? []"></images-grid>
 </div>

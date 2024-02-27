@@ -44,4 +44,13 @@ export class RestaurantImagesComponent {
                 },
             });
     }
+
+    onImageDelete(deletedUrl: string) {
+        const deleteAt = this.restaurant.photoUris?.findIndex(
+            (url) => url === deletedUrl,
+        )!;
+
+        this.restaurant.photoUris?.splice(deleteAt, 1);
+        this.restaurant = { ...this.restaurant };
+    }
 }
