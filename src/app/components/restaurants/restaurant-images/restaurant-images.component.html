@@ -4,6 +4,7 @@
         <h2 class="text-3xl font-bold">Images</h2>
 
         <file-selector
+            *ngIf="showUploadButton"
             [accept]="'image/*'"
             (filesSelected)="uploadImages($event)">
             <button
@@ -14,4 +15,7 @@
             >
         </file-selector>
     </section>
+
+    <!-- Photo Grid -->
+    <images-grid [imageUrls]="restaurant.photoUris ?? []"></images-grid>
 </div>

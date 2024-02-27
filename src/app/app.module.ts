@@ -46,6 +46,7 @@ import { LoadingSpinnerComponent } from './components/reusables/loading-spinner/
 import { MatTabsModule } from '@angular/material/tabs';
 import { FileSelectorComponent } from './components/reusables/file-selector/file-selector.component';
 import { RestaurantImagesComponent } from './components/restaurants/restaurant-images/restaurant-images.component';
+import { ImagesGridComponent } from './components/reusables/images-grid/images-grid.component';
 
 @NgModule({
     declarations: [
@@ -69,6 +70,7 @@ import { RestaurantImagesComponent } from './components/restaurants/restaurant-i
         LoadingSpinnerComponent,
         FileSelectorComponent,
         RestaurantImagesComponent,
+        ImagesGridComponent,
     ],
     imports: [
         BrowserModule,
