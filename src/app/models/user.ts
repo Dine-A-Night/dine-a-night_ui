@@ -28,3 +28,15 @@ export enum UserRole {
     ADMIN = 'Admin',
     CUSTOMER = 'Customer',
 }
+
+export class ProfileUserSlim {
+    uid?: string;
+    email?: string;
+    displayName?: string;
+
+    constructor(user: ProfileUser) {
+        this.uid = user.uid ?? '';
+        this.email = user.email ?? '';
+        this.displayName = user.displayName;
+    }
+}

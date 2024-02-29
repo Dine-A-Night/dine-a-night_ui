@@ -11,14 +11,16 @@ import { RestaurantsService } from 'src/app/services/restaurants.service';
 })
 export class ImagePreviewModalComponent implements OnInit {
     imageUrl: string;
+    showDelete: boolean;
 
     constructor(
-        @Inject(MAT_DIALOG_DATA) public data,
+        @Inject(MAT_DIALOG_DATA) public data: ImagePreviewModalParams,
         private restaurantService: RestaurantsService,
         private notificationService: MatSnackBar,
         public dialogRef: MatDialogRef<ImagePreviewModalComponent>,
     ) {
         this.imageUrl = data.imageUrl;
+        this.showDelete = data.showDelete ?? false;
     }
 
     ngOnInit(): void {
@@ -47,3 +49,8 @@ export class ImagePreviewModalComponent implements OnInit {
         });
     }
 }
+
+type ImagePreviewModalParams = {
+    imageUrl: string;
+    showDelete?: boolean;
+};

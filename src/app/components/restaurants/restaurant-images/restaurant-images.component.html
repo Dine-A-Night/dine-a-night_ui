@@ -19,5 +19,6 @@
     <!-- Photo Grid -->
     <images-grid
         (imageDeleted)="onImageDelete($event)"
-        [imageUrls]="restaurant.photoUris ?? []"></images-grid>
+        [imageUrls]="restaurant.photoUris ?? []"
+        [showDelete]="showDeleteInPreview"></images-grid>
 </div>

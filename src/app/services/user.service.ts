@@ -8,11 +8,10 @@ import {
     Observable,
     combineLatest,
     firstValueFrom,
-    from,
     map,
     of,
+    shareReplay,
     switchMap,
-    tap,
     zip,
 } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
@@ -26,13 +25,31 @@ import { FileUploadService } from './file-upload.service';
 export class UserService {
     private API_URL = environment.apiUrl;
 
+    private currentUserSlim$: Observable<any | null>;
+    currentUserSlim: Signal<ProfileUser | null>;
+
     constructor(
         private http: HttpClient,
         private afAuth: AngularFireAuth,
         private afStorage: AngularFireStorage,
         private authService: AuthService,
         private fileUploadService: FileUploadService,
-    ) {}
+    ) {
+        this.currentUserSlim$ = this.afAuth.authState.pipe(
+            map((user) =>
+                user
+                    ? {
+                          uid: user?.uid,
+                          email: user?.email,
+                          displayName: user?.displayName,
+                      }
+                    : null,
+            ),
+            shareReplay({ bufferSize: 1, refCount: true }),
+        );
+
+        this.currentUserSlim = toSignal(this.currentUserSlim$);
+    }
 
     userDataUpdated = new BehaviorSubject<boolean>(true);
 
@@ -154,7 +171,7 @@ export class UserService {
         }
 
         // Delete user data from MongoDB
-        const deleteMongoData$ = this.deleteUserData(user.uid).pipe();
+        const deleteMongoData$ = this.deleteUserData(user.uid);
 
         // Delete profile picture
         const profilePicturePath = this.getProfilePicturePath(user.uid ?? '');
