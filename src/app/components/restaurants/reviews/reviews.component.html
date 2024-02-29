@@ -1,0 +1,15 @@
+<div class="container-90">
+    <h2 class="text-3xl font-bold">Reviews</h2>
+
+    <!-- Review Form -->
+    <section></section>
+
+    <!-- Reviews List -->
+    <section
+        *ngIf="reviews"
+        class="py-4">
+        <review
+            *ngFor="let review of reviews"
+            [review]="review"></review>
+    </section>
+</div>

@@ -1,0 +1,31 @@
+<!-- Readonly -->
+<ng-container *ngIf="!editMode">
+    <span *ngFor="let _ of [1, 2, 3, 4, 5]; index as i">
+        <mat-icon
+            color="accent"
+            *ngIf="rating >= i + 1"
+            >star</mat-icon
+        >
+        <mat-icon
+            color="accent"
+            *ngIf="rating < i + 1"
+            >star_border</mat-icon
+        >
+    </span>
+</ng-container>
+
+<!-- Star Controls -->
+<ng-container *ngIf="editMode">
+    <span *ngFor="let _ of [1, 2, 3, 4, 5]; index as i">
+        <mat-icon
+            color="accent"
+            *ngIf="rating >= i + 1"
+            >star</mat-icon
+        >
+        <mat-icon
+            color="accent"
+            *ngIf="rating < i + 1"
+            >star_border</mat-icon
+        >
+    </span>
+</ng-container>

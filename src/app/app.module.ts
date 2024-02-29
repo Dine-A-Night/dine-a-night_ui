@@ -48,6 +48,9 @@ import { FileSelectorComponent } from './components/reusables/file-selector/file
 import { RestaurantImagesComponent } from './components/restaurants/restaurant-images/restaurant-images.component';
 import { ImagesGridComponent } from './components/reusables/images/images-grid/images-grid.component';
 import { ImagePreviewModalComponent } from './components/reusables/images/image-preview-modal/image-preview-modal.component';
+import { ReviewsComponent } from './components/restaurants/reviews/reviews.component';
+import { ReviewComponent } from './components/restaurants/reviews/review/review.component';
+import { RatingSelectorComponent } from './components/restaurants/reviews/rating-selector/rating-selector.component';
 
 @NgModule({
     declarations: [
@@ -73,6 +76,9 @@ import { ImagePreviewModalComponent } from './components/reusables/images/image-
         RestaurantImagesComponent,
         ImagesGridComponent,
         ImagePreviewModalComponent,
+        ReviewsComponent,
+        ReviewComponent,
+        RatingSelectorComponent,
     ],
     imports: [
         BrowserModule,

@@ -126,8 +126,6 @@ export class RestaurantDetailsPageComponent implements OnInit, OnDestroy {
 
     restaurantUpdated(restaurant: Restaurant) {
         this.restaurant = restaurant;
-
-        console.log(restaurant);
     }
 
     get coverImage(): string {
