@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ImagesGridComponent {
     @Input() imageUrls: string[] = [];
+    @Input() showDelete: boolean = false;
     @Output() imageDeleted = new EventEmitter<string>();
 
     dialog = inject(MatDialog);
@@ -18,6 +19,7 @@ export class ImagesGridComponent {
             .open(ImagePreviewModalComponent, {
                 data: {
                     imageUrl,
+                    showDelete: this.showDelete,
                 },
             })
             .afterClosed()

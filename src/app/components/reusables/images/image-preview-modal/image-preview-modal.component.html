@@ -17,6 +17,7 @@
             >Close</button
         >
         <button
+            *ngIf="showDelete"
             (click)="deleteImage()"
             mat-flat-button
             color="warn"

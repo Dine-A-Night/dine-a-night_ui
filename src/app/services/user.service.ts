@@ -154,7 +154,7 @@ export class UserService {
         }
 
         // Delete user data from MongoDB
-        const deleteMongoData$ = this.deleteUserData(user.uid).pipe();
+        const deleteMongoData$ = this.deleteUserData(user.uid);
 
         // Delete profile picture
         const profilePicturePath = this.getProfilePicturePath(user.uid ?? '');

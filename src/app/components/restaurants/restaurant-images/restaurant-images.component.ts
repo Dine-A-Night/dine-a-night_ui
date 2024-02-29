@@ -1,23 +1,31 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { updateProfile } from 'firebase/auth';
 import { Restaurant } from 'src/app/models/restaurant';
 import { RestaurantsService } from 'src/app/services/restaurants.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
     selector: 'restaurant-images',
     templateUrl: './restaurant-images.component.html',
     styleUrls: ['./restaurant-images.component.scss'],
 })
-export class RestaurantImagesComponent {
+export class RestaurantImagesComponent implements OnInit {
     @Input() restaurant: Restaurant;
     @Input() showUploadButton = false;
     @Output() imageUploaded = new EventEmitter<Restaurant>();
 
+    showDeleteInPreview: boolean = false;
+
     constructor(
         private restaurantService: RestaurantsService,
         private notificationService: MatSnackBar,
+        private userService: UserService,
     ) {}
+
+    ngOnInit(): void {
+        const currentUser = this.userService.currentUser();
+        this.showDeleteInPreview = currentUser?.uid === this.restaurant.ownerId;
+    }
 
     uploadImages(files: FileList) {
         const imageFile = files[0];
