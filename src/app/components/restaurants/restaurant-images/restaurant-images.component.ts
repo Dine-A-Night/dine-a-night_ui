@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    Output,
+    SimpleChanges,
+} from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Restaurant } from 'src/app/models/restaurant';
 import { RestaurantsService } from 'src/app/services/restaurants.service';
@@ -9,7 +16,7 @@ import { UserService } from 'src/app/services/user.service';
     templateUrl: './restaurant-images.component.html',
     styleUrls: ['./restaurant-images.component.scss'],
 })
-export class RestaurantImagesComponent implements OnInit {
+export class RestaurantImagesComponent implements OnChanges {
     @Input() restaurant: Restaurant;
     @Input() showUploadButton = false;
     @Output() imageUploaded = new EventEmitter<Restaurant>();
@@ -22,9 +29,12 @@ export class RestaurantImagesComponent implements OnInit {
         private userService: UserService,
     ) {}
 
-    ngOnInit(): void {
-        const currentUser = this.userService.currentUser();
-        this.showDeleteInPreview = currentUser?.uid === this.restaurant.ownerId;
+    ngOnChanges(changes: SimpleChanges): void {
+        if (this.restaurant) {
+            const currentUser = this.userService.currentUserSlim();
+            this.showDeleteInPreview =
+                currentUser?.uid === this.restaurant?.ownerId;
+        }
     }
 
     uploadImages(files: FileList) {
