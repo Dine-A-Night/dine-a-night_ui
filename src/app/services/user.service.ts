@@ -138,7 +138,7 @@ export class UserService {
     }
 
     updateUserById(uid: string, newUser: ProfileUser): Observable<any> {
-        const url = this.getProfilePicturePath(uid);
+        const url = `${this.API_URL}/api/users/${uid}`;
         const headers = this.authService.getAuthHeaders();
 
         return this.http.put<any>(url, newUser, { headers });
