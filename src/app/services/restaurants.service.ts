@@ -51,7 +51,7 @@ export class RestaurantsService {
                     );
                 }
 
-                const url = `${this.API_URL}/api/restaurants`;
+                const url = `${this.API_URL}/restaurants`;
 
                 return this.http.get<any>(url, { params: params });
             }),
@@ -59,13 +59,13 @@ export class RestaurantsService {
     }
 
     getCuisines() {
-        const url = `${this.API_URL}/api/cuisines`;
+        const url = `${this.API_URL}/cuisines`;
         return this.http.get<any>(url);
     }
 
     getOwnedRestaurants() {
         const currentUser = this.userService.currentUser();
-        const url = `${this.API_URL}/api/restaurants/by-owner/${currentUser?.uid}`;
+        const url = `${this.API_URL}/restaurants/by-owner/${currentUser?.uid}`;
         const headers = this.authService.getAuthHeaders();
 
         return this.http
@@ -74,7 +74,7 @@ export class RestaurantsService {
     }
 
     getCuisinesList() {
-        const url = `${this.API_URL}/api/cuisines`;
+        const url = `${this.API_URL}/cuisines`;
         const headers = this.authService.getAuthHeaders();
 
         return this.http
@@ -83,13 +83,13 @@ export class RestaurantsService {
     }
 
     getRestaurantById(id: string) {
-        const url = `${this.API_URL}/api/restaurants/${id}`;
+        const url = `${this.API_URL}/restaurants/${id}`;
 
         return this.http.get(url).pipe(map((res) => res['restaurant']));
     }
 
     createRestaurant(restaurant: Restaurant): Observable<Restaurant> {
-        const url = `${this.API_URL}/api/restaurants`;
+        const url = `${this.API_URL}/restaurants`;
         const headers = this.authService.getAuthHeaders();
 
         return this.http.post<Restaurant>(url, restaurant, {
@@ -98,7 +98,7 @@ export class RestaurantsService {
     }
 
     updateRestaurant(restaurant: Restaurant | any) {
-        const url = `${this.API_URL}/api/restaurants/${restaurant._id}`;
+        const url = `${this.API_URL}/restaurants/${restaurant._id}`;
         const headers = this.authService.getAuthHeaders();
 
         return this.http.put<Restaurant>(url, restaurant, {
@@ -107,7 +107,7 @@ export class RestaurantsService {
     }
 
     deleteRestaurant(id: string) {
-        const url = `${this.API_URL}/api/restaurants/${id}`;
+        const url = `${this.API_URL}/restaurants/${id}`;
         const headers = this.authService.getAuthHeaders();
 
         const deleteRestaurant$ = this.http.delete<Restaurant>(url, {
@@ -188,7 +188,7 @@ export class RestaurantsService {
         /* Wait for backend route to finish
 
         const restaurantId = imageUrl.split('/')[2];
-        const url = `${this.API_URL}/api/restaurants/${restaurantId}/delete-image`;
+        const url = `${this.API_URL}/restaurants/${restaurantId}/delete-image`;
         const headers = this.authService.getAuthHeaders();
         // API Call to delete image from mongo
         const deleteImageRef$ = this.http.post(url, { imageUrl }, { headers });

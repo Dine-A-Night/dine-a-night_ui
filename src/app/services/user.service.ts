@@ -124,21 +124,21 @@ export class UserService {
     }
 
     createUserProfile(user: ProfileUser): Observable<any> {
-        const postUrl = `${this.API_URL}/api/users`;
+        const postUrl = `${this.API_URL}/users`;
         const headers = this.authService.getAuthHeaders();
 
         return this.http.post<any>(postUrl, user, { headers });
     }
 
     getUserById(uid: string): Observable<any> {
-        const url = `${this.API_URL}/api/users/${uid}`;
+        const url = `${this.API_URL}/users/${uid}`;
         const headers = this.authService.getAuthHeaders();
 
         return this.http.get<any>(url, { headers });
     }
 
     updateUserById(uid: string, newUser: ProfileUser): Observable<any> {
-        const url = `${this.API_URL}/api/users/${uid}`;
+        const url = `${this.API_URL}/users/${uid}`;
         const headers = this.authService.getAuthHeaders();
 
         return this.http.put<any>(url, newUser, { headers });
@@ -190,7 +190,7 @@ export class UserService {
     }
 
     private deleteUserData(uid) {
-        const deleteUrl = `${environment.apiUrl}/api/users/${uid}`;
+        const deleteUrl = `${environment.apiUrl}/users/${uid}`;
         const headers = this.authService.getAuthHeaders();
 
         return this.http.delete(deleteUrl, {
