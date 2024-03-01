@@ -4,8 +4,8 @@ export class Review {
     restaurantId: string;
     rating: number;
     message: string;
-    createdAt?: Date | null;
-    updatedAt?: Date | null;
+    createdAt: Date;
+    updatedAt: Date;
 
     constructor(options: Review) {
         this._id = options._id ?? null;
@@ -13,8 +13,8 @@ export class Review {
         this.restaurantId = options.restaurantId;
         this.rating = options.rating;
         this.message = options.message;
-        this.createdAt = options.createdAt ?? null;
-        this.updatedAt = options.updatedAt ?? null;
+        this.createdAt = options.createdAt;
+        this.updatedAt = options.updatedAt;
     }
 }
 
