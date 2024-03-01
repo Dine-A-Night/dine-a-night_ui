@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
 import { AuthService } from './auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Reviews } from '../models/review';
+import { Review, Reviews } from '../models/review';
 import { Observable, map, of, switchMap } from 'rxjs';
 
 @Injectable({
@@ -26,14 +26,40 @@ export class ReviewService {
                         map((res) => res['reviews'] as Reviews),
                         map((reviews) =>
                             // Map date field to JS Date objects
-                            reviews.map((review) => ({
-                                ...review,
-                                createdAt: new Date(review.createdAt),
-                                updatedAt: new Date(review.updatedAt),
-                            })),
+                            reviews.map((review) =>
+                                this.getDateFormattedReview(review),
+                            ),
                         ),
                     );
             }),
         );
+    }
+
+    updateReviewById(
+        id: string,
+        updatedReview: Partial<Review>,
+    ): Observable<Review> {
+        const url = `${this.apiUrl}/reviews/${id}`;
+        const headers = this.authService.getAuthHeaders();
+
+        return this.http
+            .put(url, updatedReview, {
+                headers,
+            })
+            .pipe(
+                map((res) => {
+                    return this.getDateFormattedReview(
+                        res['updatedReview'] as Review,
+                    );
+                }),
+            );
+    }
+
+    private getDateFormattedReview(review: Review) {
+        return {
+            ...review,
+            createdAt: new Date(review.createdAt),
+            updatedAt: new Date(review.updatedAt),
+        };
     }
 }

@@ -9,24 +9,84 @@
         }}</mat-card-title>
         <mat-card-subtitle class="text-sm"
             >{{ modified ? 'Last Modified: ' : ''
-            }}{{ review.updatedAt | date }}</mat-card-subtitle
+            }}{{ review.updatedAt | date: 'medium' }}</mat-card-subtitle
         >
     </mat-card-header>
     <mat-card-content>
-        <rating-selector [rating]="review.rating"></rating-selector>
+        <rating-selector
+            [editMode]="editMode"
+            [(rating)]="updatedRating"></rating-selector>
 
-        <p
-            #messageContainer
-            class="text-gray-700"
-            [ngClass]="{ collapsed: !showMore }">
-            {{ review.message }}
-        </p>
-        <button
-            *ngIf="shouldShowMoreButton"
-            mat-button
-            color="primary"
-            (click)="toggleShowMore()"
-            >{{ showMore ? 'Show Less' : 'Show More' }}</button
-        >
+        <ng-container *ngIf="!editMode; else EditCommentField">
+            <p
+                #messageContainer
+                class="text-gray-700"
+                [ngClass]="{ collapsed: !showMore }">
+                {{ review.message }}
+            </p>
+            <button
+                *ngIf="shouldShowMoreButton"
+                mat-button
+                color="primary"
+                (click)="toggleShowMore()"
+                >{{ showMore ? 'Show Less' : 'Show More' }}</button
+            >
+        </ng-container>
+
+        <ng-template #EditCommentField>
+            <div>
+                <mat-form-field class="w-full">
+                    <textarea
+                        [(ngModel)]="updatedComment"
+                        matInput
+                        placeholder="I changed my mind about this restaurant..."></textarea>
+                </mat-form-field>
+            </div>
+        </ng-template>
     </mat-card-content>
+
+    <mat-card-actions
+        *ngIf="showEditControls"
+        [align]="'end'">
+        <ng-container *ngIf="!editMode; else EditModeControls">
+            <button
+                mat-icon-button
+                [disableRipple]="true"
+                color="secondary"
+                [matTooltip]="'Edit Review'"
+                aria-label="Edit Review"
+                (click)="onEditClick()">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button
+                mat-icon-button
+                [disableRipple]="true"
+                color="warn"
+                [matTooltip]="'Delete Review'"
+                aria-label="Delete Review">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </ng-container>
+
+        <ng-template #EditModeControls>
+            <div class="flex gap-5">
+                <button
+                    mat-stroked-button
+                    [disableRipple]="true"
+                    color="secondary"
+                    (click)="onCancelClick()">
+                    <mat-icon>cancel</mat-icon>
+                    Cancel
+                </button>
+                <button
+                    mat-stroked-button
+                    [disableRipple]="true"
+                    color="accent"
+                    (click)="onSaveClick()">
+                    <mat-icon>save</mat-icon>
+                    Save
+                </button>
+            </div>
+        </ng-template>
+    </mat-card-actions>
 </mat-card>

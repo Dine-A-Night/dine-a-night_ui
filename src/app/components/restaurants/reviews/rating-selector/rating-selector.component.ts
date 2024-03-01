@@ -11,4 +11,9 @@ export class RatingSelectorComponent {
     @Output() ratingChange = new EventEmitter<number>();
 
     @Input() editMode = false;
+
+    setRating(newRating: number) {
+        this.rating = newRating;
+        this.ratingChange.emit(this.rating);
+    }
 }

@@ -1,5 +1,5 @@
 export class Review {
-    _id?: string | null;
+    _id: string;
     user: User;
     restaurantId: string;
     rating: number;
@@ -8,7 +8,7 @@ export class Review {
     updatedAt: Date;
 
     constructor(options: Review) {
-        this._id = options._id ?? null;
+        this._id = options._id;
         this.user = options.user;
         this.restaurantId = options.restaurantId;
         this.rating = options.rating;
