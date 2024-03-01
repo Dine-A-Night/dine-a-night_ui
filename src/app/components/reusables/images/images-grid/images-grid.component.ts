@@ -12,6 +12,8 @@ export class ImagesGridComponent {
     @Input() showDelete: boolean = false;
     @Output() imageDeleted = new EventEmitter<string>();
 
+    @Input() restaurantId: string;
+
     dialog = inject(MatDialog);
 
     openPreview(imageUrl: string) {
@@ -20,6 +22,7 @@ export class ImagesGridComponent {
                 data: {
                     imageUrl,
                     showDelete: this.showDelete,
+                    restaurantId: this.restaurantId,
                 },
             })
             .afterClosed()

@@ -181,20 +181,16 @@ export class RestaurantsService {
         );
     }
 
-    deleteImage(imageUrl) {
+    deleteImage(restaurantId: string, imageUrl: string) {
         // Delete image resource from firebase
         const deleteImage$ = this.fileUploadService.deleteFileAtUrl(imageUrl);
 
-        /* Wait for backend route to finish
-
-        const restaurantId = imageUrl.split('/')[2];
         const url = `${this.API_URL}/restaurants/${restaurantId}/delete-image`;
         const headers = this.authService.getAuthHeaders();
         // API Call to delete image from mongo
         const deleteImageRef$ = this.http.post(url, { imageUrl }, { headers });
-        */
 
-        return zip(deleteImage$);
+        return zip(deleteImage$, deleteImageRef$);
     }
 }
 

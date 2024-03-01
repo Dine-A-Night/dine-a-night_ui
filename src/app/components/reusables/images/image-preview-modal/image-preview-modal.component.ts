@@ -12,6 +12,7 @@ import { RestaurantsService } from 'src/app/services/restaurants.service';
 export class ImagePreviewModalComponent implements OnInit {
     imageUrl: string;
     showDelete: boolean;
+    restaurantId: string;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: ImagePreviewModalParams,
@@ -21,6 +22,7 @@ export class ImagePreviewModalComponent implements OnInit {
     ) {
         this.imageUrl = data.imageUrl;
         this.showDelete = data.showDelete ?? false;
+        this.restaurantId = data.restaurantId;
     }
 
     ngOnInit(): void {
@@ -28,29 +30,32 @@ export class ImagePreviewModalComponent implements OnInit {
     }
 
     deleteImage() {
-        this.restaurantService.deleteImage(this.imageUrl).subscribe({
-            next: (res) => {
-                this.dialogRef.close(this.imageUrl);
+        this.restaurantService
+            .deleteImage(this.restaurantId, this.imageUrl)
+            .subscribe({
+                next: (res) => {
+                    this.dialogRef.close(this.imageUrl);
 
-                this.notificationService.open(
-                    'Image successfully deleted!',
-                    'Ok',
-                    {
-                        duration: 3000,
-                    },
-                );
-            },
-            error: (err: any) => {
-                this.notificationService.open(
-                    `Failed to delete the image: ${err.message}`,
-                    'Oops',
-                );
-            },
-        });
+                    this.notificationService.open(
+                        'Image successfully deleted!',
+                        'Ok',
+                        {
+                            duration: 3000,
+                        },
+                    );
+                },
+                error: (err: any) => {
+                    this.notificationService.open(
+                        `Failed to delete the image: ${err.message}`,
+                        'Oops',
+                    );
+                },
+            });
     }
 }
 
 type ImagePreviewModalParams = {
     imageUrl: string;
     showDelete?: boolean;
+    restaurantId: string;
 };
