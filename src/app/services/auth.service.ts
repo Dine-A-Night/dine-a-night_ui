@@ -5,7 +5,16 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthCredential } from 'firebase/auth';
-import { firstValueFrom, from, of, switchMap, take } from 'rxjs';
+import {
+    Observable,
+    filter,
+    firstValueFrom,
+    from,
+    map,
+    of,
+    switchMap,
+    take,
+} from 'rxjs';
 
 // Use authState observable with CAUTION
 // as it emits each time an auth related event happens
@@ -42,6 +51,20 @@ export class AuthService {
             Authorization: `Bearer ${idToken}`,
             // Add any other headers if needed
         });
+    }
+
+    authHeadersObservable(): Observable<HttpHeaders> {
+        return this.afAuth.idToken.pipe(
+            filter((token) => {
+                return token !== undefined && token !== null;
+            }),
+            map((token) => {
+                return new HttpHeaders({
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                });
+            }),
+        );
     }
 
     //#endregion
