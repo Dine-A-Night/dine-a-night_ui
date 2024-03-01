@@ -15,7 +15,18 @@ export class AuthService {
     private router = inject(Router);
     private notificationsService: MatSnackBar = inject(MatSnackBar);
 
-    constructor() {}
+    constructor() {
+        // Use authState observable with CAUTION
+        // as it emits each time an auth related event happens
+        // This may cause unexpected behaviours
+
+        // Keep the idToken in local storage for sync access
+        this.afAuth.idToken.subscribe((token) => {
+            if (token) {
+                localStorage.setItem('idToken', token);
+            }
+        });
+    }
 
     private _authProcessing = false;
 
@@ -28,18 +39,7 @@ export class AuthService {
     }
 
     idToken: Signal<string | null | undefined> = toSignal(
-        // Use authState observable with CAUTION
-        // as it emits each time an auth related event happens
-        // This may cause unexpected behaviours
-        this.afAuth.authState.pipe(
-            switchMap((user) => {
-                if (!user) {
-                    console.warn('User is null');
-                    return of(null);
-                }
-                return from(user.getIdToken());
-            }),
-        ),
+        of(localStorage.getItem('idToken')),
     );
 
     //#region Auth Header functions
