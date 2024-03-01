@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
 import { AuthCredential } from 'firebase/auth';
 import { firstValueFrom, from, of, switchMap, take } from 'rxjs';
 
+// Use authState observable with CAUTION
+// as it emits each time an auth related event happens
+// This may cause unexpected behaviours
 @Injectable({
     providedIn: 'root',
 })
@@ -15,18 +18,7 @@ export class AuthService {
     private router = inject(Router);
     private notificationsService: MatSnackBar = inject(MatSnackBar);
 
-    constructor() {
-        // Use authState observable with CAUTION
-        // as it emits each time an auth related event happens
-        // This may cause unexpected behaviours
-
-        // Keep the idToken in local storage for sync access
-        this.afAuth.idToken.subscribe((token) => {
-            if (token) {
-                localStorage.setItem('idToken', token);
-            }
-        });
-    }
+    constructor() {}
 
     private _authProcessing = false;
 
@@ -38,9 +30,7 @@ export class AuthService {
         this._authProcessing = _val;
     }
 
-    idToken: Signal<string | null | undefined> = toSignal(
-        of(localStorage.getItem('idToken')),
-    );
+    idToken: Signal<string | null | undefined> = toSignal(this.afAuth.idToken);
 
     //#region Auth Header functions
 
