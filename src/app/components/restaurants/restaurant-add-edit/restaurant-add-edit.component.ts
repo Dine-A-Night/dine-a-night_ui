@@ -125,7 +125,6 @@ export class RestaurantAddEditComponent implements OnInit {
 
         this.restaurantService.createRestaurant(newRestaurant).subscribe({
             next: (res) => {
-                console.log(res);
                 this.notificationService.open(
                     `${newRestaurant.name} has been added to your list of restaurants`,
                     'Yayy',

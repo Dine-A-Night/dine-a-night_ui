@@ -25,6 +25,8 @@ import { FileUploadService } from './file-upload.service';
 export class UserService {
     private API_URL = environment.apiUrl;
 
+    public static DEFAULT_PROFILE_PHOTO_URI = 'assets/images/profile.jpg';
+
     private currentUserSlim$: Observable<any | null>;
     currentUserSlim: Signal<ProfileUser | null>;
 
@@ -53,7 +55,7 @@ export class UserService {
 
     userDataUpdated = new BehaviorSubject<boolean>(true);
 
-    private user$: Observable<any | null> = combineLatest([
+    currentUser$: Observable<any | null> = combineLatest([
         this.afAuth.authState,
         this.userDataUpdated,
     ]).pipe(
@@ -92,7 +94,7 @@ export class UserService {
     /**
      * Current logged in user data (firebase and mongo combined)
      */
-    currentUser: Signal<ProfileUser | null> = toSignal(this.user$);
+    currentUser: Signal<ProfileUser | null> = toSignal(this.currentUser$);
 
     async register(email: string, password: string, userInfo: ProfileUser) {
         // The caller should handle any exceptions thrown by this function

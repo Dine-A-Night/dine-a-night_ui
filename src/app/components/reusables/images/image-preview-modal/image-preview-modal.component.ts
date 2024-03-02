@@ -9,7 +9,7 @@ import { RestaurantsService } from 'src/app/services/restaurants.service';
     templateUrl: './image-preview-modal.component.html',
     styleUrls: ['./image-preview-modal.component.scss'],
 })
-export class ImagePreviewModalComponent implements OnInit {
+export class ImagePreviewModalComponent {
     imageUrl: string;
     showDelete: boolean;
     restaurantId: string;
@@ -23,10 +23,6 @@ export class ImagePreviewModalComponent implements OnInit {
         this.imageUrl = data.imageUrl;
         this.showDelete = data.showDelete ?? false;
         this.restaurantId = data.restaurantId;
-    }
-
-    ngOnInit(): void {
-        console.log(this.data);
     }
 
     deleteImage() {

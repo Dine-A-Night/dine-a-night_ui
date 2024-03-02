@@ -40,7 +40,7 @@ export class UserManagementPageComponent {
 
         return currentUser?.profilePictureUrl?.length
             ? currentUser.profilePictureUrl
-            : 'assets/images/profile.jpg';
+            : UserService.DEFAULT_PROFILE_PHOTO_URI;
     }
 
     initForm() {

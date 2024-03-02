@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
 
     user: Signal<ProfileUser | null> = this.userService.currentUser;
 
-    profilePictureUrl: string = 'assets/images/profile.jpg';
+    profilePictureUrl: string = UserService.DEFAULT_PROFILE_PHOTO_URI;
 
     constructor(
         private location: Location,
@@ -46,7 +46,7 @@ export class HeaderComponent implements OnInit {
     }
 
     get defaultProfilePictureUrl() {
-        return 'assets/images/profile.jpg';
+        return UserService.DEFAULT_PROFILE_PHOTO_URI;
     }
 
     get displayName() {

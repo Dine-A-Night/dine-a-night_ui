@@ -1,0 +1,40 @@
+<!-- Readonly -->
+<ng-container *ngIf="!editMode">
+    <span
+        tabindex="0"
+        role=""
+        [attr.aria-label]="rating + ' stars rating'">
+        <span *ngFor="let _ of [1, 2, 3, 4, 5]; index as i">
+            <mat-icon
+                color="accent"
+                *ngIf="rating >= i + 1"
+                >star</mat-icon
+            >
+            <mat-icon
+                color="accent"
+                *ngIf="rating < i + 1"
+                >star_border</mat-icon
+            >
+        </span>
+    </span>
+</ng-container>
+
+<!-- Star Controls -->
+<ng-container *ngIf="editMode">
+    <span
+        role="button"
+        class="cursor-pointer"
+        *ngFor="let _ of [1, 2, 3, 4, 5]; index as i"
+        (click)="setRating(i + 1)">
+        <mat-icon
+            color="accent"
+            *ngIf="rating >= i + 1"
+            >star</mat-icon
+        >
+        <mat-icon
+            color="accent"
+            *ngIf="rating < i + 1"
+            >star_border</mat-icon
+        >
+    </span>
+</ng-container>

@@ -1,0 +1,39 @@
+<mat-card
+    *ngIf="currentUser"
+    class="bg-gray-100 rounded-lg my-5">
+    <mat-card-header>
+        <img
+            mat-card-avatar
+            [src]="profilePicture"
+            alt="User Avatar" />
+        <mat-card-title class="text-xl font-bold">{{
+            currentUser.displayName
+        }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+        <rating-selector
+            [editMode]="true"
+            [(rating)]="rating"></rating-selector>
+
+        <mat-form-field class="w-full">
+            <mat-label>Leave a Review</mat-label>
+            <textarea
+                [(ngModel)]="message"
+                matInput
+                placeholder="I love how..."></textarea>
+        </mat-form-field>
+    </mat-card-content>
+
+    <mat-card-actions [align]="'end'">
+        <button
+            mat-stroked-button
+            [disableRipple]="true"
+            color="accent"
+            (click)="addReview()"
+            [disabled]="saveDisabled">
+            <mat-icon>add</mat-icon>
+            Add Review
+        </button>
+    </mat-card-actions>
+</mat-card>
