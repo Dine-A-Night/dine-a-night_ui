@@ -65,7 +65,8 @@
                 [disableRipple]="true"
                 color="warn"
                 [matTooltip]="'Delete Review'"
-                aria-label="Delete Review">
+                aria-label="Delete Review"
+                (click)="onDeleteClick()">
                 <mat-icon>delete</mat-icon>
             </button>
         </ng-container>

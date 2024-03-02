@@ -4,7 +4,7 @@
     <!-- Review Form -->
     <section>
         <add-review-form
-            (reviewAdded)="reviewAdded($event)"
+            (reviewAdded)="onReviewAdded($event)"
             [restaurant]="restaurant"></add-review-form>
     </section>
 
@@ -14,7 +14,8 @@
         class="py-4">
         <review
             *ngFor="let review of reviews"
-            [review]="review"></review>
+            [review]="review"
+            (reviewDeleted)="onReviewDeleted($event)"></review>
     </section>
 </div>
 

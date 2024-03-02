@@ -69,6 +69,15 @@ export class ReviewService {
             );
     }
 
+    deleteReviewById(id: string): Observable<any> {
+        const url = `${this.apiUrl}/reviews/${id}`;
+        const headers = this.authService.getAuthHeaders();
+
+        return this.http.delete(url, {
+            headers,
+        });
+    }
+
     private getDateFormattedReview(review: Review) {
         return {
             ...review,

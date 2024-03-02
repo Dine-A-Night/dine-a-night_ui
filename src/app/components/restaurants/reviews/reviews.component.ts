@@ -1,4 +1,3 @@
-import { ReactiveFormsModule } from '@angular/forms';
 import {
     Component,
     Input,
@@ -6,10 +5,10 @@ import {
     SimpleChanges,
     inject,
 } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Restaurant } from 'src/app/models/restaurant';
 import { Review, Reviews } from 'src/app/models/review';
 import { ReviewService } from 'src/app/services/review.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'reviews',
@@ -48,7 +47,11 @@ export class ReviewsComponent implements OnChanges {
             });
     }
 
-    reviewAdded(newReview: Review) {
+    onReviewAdded(newReview: Review) {
         this.reviews = [newReview, ...this.reviews];
+    }
+
+    onReviewDeleted(reviewId: string) {
+        this.reviews = this.reviews.filter((review) => review._id !== reviewId);
     }
 }

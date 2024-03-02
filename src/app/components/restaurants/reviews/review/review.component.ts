@@ -3,13 +3,17 @@ import {
     ChangeDetectorRef,
     Component,
     ElementRef,
+    EventEmitter,
     Input,
     OnChanges,
+    Output,
     SimpleChanges,
     ViewChild,
     inject,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmDialogComponent } from 'src/app/components/reusables/confirm-dialog/confirm-dialog.component';
 import { Review } from 'src/app/models/review';
 import { ReviewService } from 'src/app/services/review.service';
 import { UserService } from 'src/app/services/user.service';
@@ -22,6 +26,7 @@ import { isDefNotNull } from 'src/app/utils/helper-functions';
 })
 export class ReviewComponent implements AfterViewChecked, OnChanges {
     @Input() review: Review;
+    @Output() reviewDeleted = new EventEmitter<string>(); // Emit reviewId
     maxMessageHeight = 100; //px
     @ViewChild('messageContainer') messageContainer: ElementRef;
 
@@ -31,6 +36,7 @@ export class ReviewComponent implements AfterViewChecked, OnChanges {
     userService = inject(UserService);
     reviewService = inject(ReviewService);
     notificationService = inject(MatSnackBar);
+    dialog = inject(MatDialog);
 
     updatedRating: number;
     updatedComment: string;
@@ -100,6 +106,44 @@ export class ReviewComponent implements AfterViewChecked, OnChanges {
                         { duration: 3000 },
                     );
                 },
+            });
+    }
+
+    onDeleteClick() {
+        this.dialog
+            .open(ConfirmDialogComponent, {
+                data: {
+                    title: 'Confirm Delete',
+                    message: 'Are you sure you want to delete this review?',
+                },
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response === true) {
+                    this.reviewService
+                        .deleteReviewById(this.review._id)
+                        .subscribe({
+                            next: (res) => {
+                                this.reviewDeleted.emit(this.review._id);
+
+                                this.notificationService.open(
+                                    'Review deleted',
+                                    'Ok',
+                                    {
+                                        duration: 3000,
+                                    },
+                                );
+                            },
+                            error: (err: any) => {
+                                console.error(err);
+
+                                this.notificationService.open(
+                                    "Review couldn't be deleted",
+                                    'Oops',
+                                );
+                            },
+                        });
+                }
             });
     }
 
