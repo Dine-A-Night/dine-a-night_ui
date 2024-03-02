@@ -7,7 +7,7 @@ import {
     inject,
 } from '@angular/core';
 import { Restaurant } from 'src/app/models/restaurant';
-import { Reviews } from 'src/app/models/review';
+import { Review, Reviews } from 'src/app/models/review';
 import { ReviewService } from 'src/app/services/review.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -47,5 +47,9 @@ export class ReviewsComponent implements OnChanges {
                     );
                 },
             });
+    }
+
+    reviewAdded(newReview: Review) {
+        this.reviews = [newReview, ...this.reviews];
     }
 }

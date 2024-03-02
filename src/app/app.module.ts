@@ -51,6 +51,7 @@ import { ImagePreviewModalComponent } from './components/reusables/images/image-
 import { ReviewsComponent } from './components/restaurants/reviews/reviews.component';
 import { ReviewComponent } from './components/restaurants/reviews/review/review.component';
 import { RatingSelectorComponent } from './components/restaurants/reviews/rating-selector/rating-selector.component';
+import { AddReviewFormComponent } from './components/restaurants/reviews/add-review-form/add-review-form.component';
 
 @NgModule({
     declarations: [
@@ -79,6 +80,7 @@ import { RatingSelectorComponent } from './components/restaurants/reviews/rating
         ReviewsComponent,
         ReviewComponent,
         RatingSelectorComponent,
+        AddReviewFormComponent,
     ],
     imports: [
         BrowserModule,

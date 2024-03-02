@@ -2,7 +2,11 @@
     <h2 class="text-3xl font-bold">Reviews</h2>
 
     <!-- Review Form -->
-    <section></section>
+    <section>
+        <add-review-form
+            (reviewAdded)="reviewAdded($event)"
+            [restaurant]="restaurant"></add-review-form>
+    </section>
 
     <!-- Reviews List -->
     <section

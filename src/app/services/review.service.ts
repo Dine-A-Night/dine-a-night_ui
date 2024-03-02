@@ -35,6 +35,20 @@ export class ReviewService {
         );
     }
 
+    addReview(
+        restaurantId: string,
+        review: Partial<Review>,
+    ): Observable<Review> {
+        const url = `${this.apiUrl}/restaurants/${restaurantId}/reviews`;
+        const headers = this.authService.getAuthHeaders();
+
+        return this.http
+            .post(url, review, {
+                headers,
+            })
+            .pipe(map((res) => this.getDateFormattedReview(res['review'])));
+    }
+
     updateReviewById(
         id: string,
         updatedReview: Partial<Review>,
