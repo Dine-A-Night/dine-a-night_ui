@@ -35,7 +35,6 @@ export class ReviewsComponent implements OnChanges {
             .getReviewsByRestaurant(this.restaurant._id)
             .subscribe({
                 next: (reviews) => {
-                    console.log(reviews);
                     this.reviews = reviews as Reviews;
                 },
                 error: (err: any) => {

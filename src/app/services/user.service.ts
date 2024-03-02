@@ -25,6 +25,8 @@ import { FileUploadService } from './file-upload.service';
 export class UserService {
     private API_URL = environment.apiUrl;
 
+    public static DEFAULT_PROFILE_PHOTO_URI = 'assets/images/profile.jpg';
+
     private currentUserSlim$: Observable<any | null>;
     currentUserSlim: Signal<ProfileUser | null>;
 

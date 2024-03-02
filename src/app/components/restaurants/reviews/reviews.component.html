@@ -1,5 +1,5 @@
 <div class="container-90">
-    <h2 class="text-3xl font-bold">Reviews</h2>
+    <h2 class="text-2xl sm:text-3xl font-bold py-4">Reviews</h2>
 
     <!-- Review Form -->
     <section>
@@ -10,10 +10,18 @@
 
     <!-- Reviews List -->
     <section
-        *ngIf="reviews"
+        *ngIf="reviews?.length; else NoReviewMessage"
         class="py-4">
         <review
             *ngFor="let review of reviews"
             [review]="review"></review>
     </section>
 </div>
+
+<ng-template #NoReviewMessage>
+    <div class="w-full flex justify-center items-center py-20">
+        <h2 class="flex items-center gap-3 text-xl"
+            >No Reviews Yet<mat-icon [inline]="true">error_outline</mat-icon>
+        </h2>
+    </div>
+</ng-template>

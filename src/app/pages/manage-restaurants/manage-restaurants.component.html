@@ -5,6 +5,7 @@
 
         <!-- Desktop -->
         <button
+            *ngIf="restaurants?.length"
             mat-button
             mat-flat-button
             class="hidden md:inline-flex"
@@ -15,6 +16,7 @@
         >
         <!-- Mobile -->
         <button
+            *ngIf="restaurants?.length"
             mat-icon-button
             color="accent"
             class="md:hidden"
@@ -29,17 +31,45 @@
     <section
         *ngIf="!isLoading; else fetchingDataLoader"
         class="flex flex-wrap gap-5 mt-8 justify-center lg:justify-start">
-        <restaurant-card
-            *ngFor="let restaurant of restaurants"
-            [restaurant]="restaurant"
-            (restaurantDeleted)="onRestaurantDelete($event)"></restaurant-card>
+        <ng-container *ngIf="restaurants?.length; else NoRestaurantsMessage">
+            <restaurant-card
+                *ngFor="let restaurant of restaurants"
+                [restaurant]="restaurant"
+                (restaurantDeleted)="
+                    onRestaurantDelete($event)
+                "></restaurant-card>
+        </ng-container>
     </section>
 </div>
 
 <ng-template #fetchingDataLoader>
     <div
-        class="min-h-screen flex flex-col gap-10 items-center justify-center pulse-animation">
-        <h2 class="text-2xl font-bold">Fetching Owned Restaurants</h2>
-        <mat-icon>cloud_download</mat-icon>
+        class="w-full flex flex-col justify-center items-center gap-5 py-20 pulse-animation">
+        <h2
+            class="flex flex-wrap text-center justify-center items-center gap-3 text-xl"
+            >Fetching owned restaurants
+            <mat-icon>cloud_download</mat-icon>
+        </h2>
+    </div>
+</ng-template>
+
+<ng-template #NoRestaurantsMessage>
+    <div class="w-full flex flex-col justify-center items-center gap-5 py-20">
+        <h2
+            class="flex flex-wrap text-center justify-center items-center gap-3 text-lg sm:text-xl"
+            >You don't have any registered restaurants<mat-icon
+                >error_outline</mat-icon
+            >
+        </h2>
+
+        <button
+            *ngIf="restaurants?.length === 0"
+            mat-button
+            mat-flat-button
+            [disableRipple]="true"
+            [routerLink]="['create']"
+            color="accent">
+            <mat-icon>add</mat-icon>Add Restaurant</button
+        >
     </div>
 </ng-template>

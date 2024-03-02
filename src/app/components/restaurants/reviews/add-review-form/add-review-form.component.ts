@@ -81,4 +81,10 @@ export class AddReviewFormComponent implements OnInit {
     get saveDisabled() {
         return !this.rating;
     }
+
+    get profilePicture() {
+        return this.currentUser.profilePictureUrl?.length
+            ? this.currentUser.profilePictureUrl
+            : UserService.DEFAULT_PROFILE_PHOTO_URI;
+    }
 }

@@ -46,6 +46,13 @@ export class ReviewComponent implements AfterViewChecked, OnChanges {
         }
     }
 
+    get profilePicture() {
+        return (
+            this.review.user.profilePictureUrl ??
+            UserService.DEFAULT_PROFILE_PHOTO_URI
+        );
+    }
+
     showMore: boolean = false;
 
     toggleShowMore(): void {
