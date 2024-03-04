@@ -76,13 +76,26 @@ export class AuthService {
 
     //#endregion
 
-    login(email: string, password: string) {
-        return this.afAuth.signInWithEmailAndPassword(email, password);
+    private clearCachedCurrentUser() {
+        localStorage.removeItem('currentUser');
+    }
+
+    async login(
+        email: string,
+        password: string,
+    ): Promise<firebase.default.auth.UserCredential> {
+        const res = await this.afAuth.signInWithEmailAndPassword(
+            email,
+            password,
+        );
+
+        return res;
     }
 
     async logout() {
         try {
             await this.afAuth.signOut();
+            this.clearCachedCurrentUser();
 
             this.notificationsService.open('Successfully logged out!', 'Ok', {
                 duration: 2000,
@@ -102,6 +115,7 @@ export class AuthService {
                     // If there's no authenticated user, return an observable that emits null
                     return of(null);
                 }
+                this.clearCachedCurrentUser();
                 // Return an observable that emits the promise returned by user?.delete()
                 return from(user.delete());
             }),

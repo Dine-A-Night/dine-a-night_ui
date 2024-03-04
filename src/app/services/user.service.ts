@@ -12,6 +12,7 @@ import {
     of,
     shareReplay,
     switchMap,
+    tap,
     zip,
 } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
@@ -55,7 +56,29 @@ export class UserService {
 
     userDataUpdated = new BehaviorSubject<boolean>(true);
 
-    currentUser$: Observable<any | null> = combineLatest([
+    private cacheCurrentUser(user: ProfileUser) {
+        try {
+            // Convert the user object to a JSON string and store it in localStorage
+            localStorage.setItem('currentUser', JSON.stringify(user));
+        } catch (error) {
+            // Handle errors, e.g., if localStorage is disabled or full
+            console.error('Error caching current user:', error);
+        }
+    }
+
+    private getCurrentUserCached(): ProfileUser | null {
+        try {
+            const cachedUser = localStorage.getItem('currentUser');
+            if (cachedUser) {
+                return JSON.parse(cachedUser) as ProfileUser;
+            }
+        } catch (error) {
+            console.error('Error retrieving current user from cache:', error);
+        }
+        return null;
+    }
+
+    currentUser$: Observable<any> = combineLatest([
         this.afAuth.authState,
         this.userDataUpdated,
     ]).pipe(
@@ -65,7 +88,12 @@ export class UserService {
             }
 
             if (!this.authService.authProcessing) {
-                const fullUser$ = this.getUserById(user.uid);
+                let fullUser$ = this.getUserById(user.uid);
+
+                const cachedUser = this.getCurrentUserCached();
+                if (cachedUser) {
+                    fullUser$ = of(cachedUser);
+                }
 
                 return combineLatest([
                     of({
@@ -87,7 +115,18 @@ export class UserService {
             const [firebaseUser, mongoUser] = data;
 
             // Merge the properties from both objects
-            return { ...firebaseUser, ...mongoUser?.user };
+            const profileUser: ProfileUser = {
+                ...firebaseUser,
+                ...mongoUser,
+            };
+
+            // Cache the profile user in local storage to
+            // avoid redundant requests
+            if (!this.getCurrentUserCached()) {
+                this.cacheCurrentUser(profileUser);
+            }
+
+            return profileUser;
         }),
     );
 
@@ -136,14 +175,22 @@ export class UserService {
         const url = `${this.API_URL}/users/${uid}`;
         const headers = this.authService.getAuthHeaders();
 
-        return this.http.get<any>(url, { headers });
+        return this.http
+            .get<any>(url, { headers })
+            .pipe(map((res) => res['user']));
+    }
+
+    private clearCachedCurrentUser() {
+        localStorage.removeItem('currentUser');
     }
 
     updateUserById(uid: string, newUser: ProfileUser): Observable<any> {
         const url = `${this.API_URL}/users/${uid}`;
         const headers = this.authService.getAuthHeaders();
 
-        return this.http.put<any>(url, newUser, { headers });
+        return this.http
+            .put<any>(url, newUser, { headers })
+            .pipe(tap(this.clearCachedCurrentUser));
     }
 
     /**
