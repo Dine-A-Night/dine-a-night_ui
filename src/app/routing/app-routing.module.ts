@@ -8,6 +8,9 @@ import { ExploreRestaurantsPageComponent } from '../pages/explore-restaurants-pa
 import { ManageRestaurantsComponent } from '../pages/manage-restaurants/manage-restaurants.component';
 import { RestaurantAddEditComponent } from '../components/restaurants/restaurant-add-edit/restaurant-add-edit.component';
 import { RestaurantDetailsPageComponent } from '../pages/restaurant-details-page/restaurant-details-page.component';
+import { authGuard } from './guards/auth.guard';
+import { roleGuard } from './guards/role.guard';
+import { UserRole } from '../models/user';
 
 const routes: Routes = [
     {
@@ -29,6 +32,7 @@ const routes: Routes = [
         path: 'userProfile',
         pathMatch: 'full',
         component: UserManagementPageComponent,
+        canActivate: [authGuard],
     },
     {
         path: 'explore-restaurants',
@@ -44,11 +48,13 @@ const routes: Routes = [
         path: 'manage-restaurants',
         pathMatch: 'full',
         component: ManageRestaurantsComponent,
+        canActivate: [authGuard, roleGuard(UserRole.ADMIN)],
     },
     {
         path: 'manage-restaurants/create',
         pathMatch: 'full',
         component: RestaurantAddEditComponent,
+        canActivate: [authGuard, roleGuard(UserRole.ADMIN)],
     },
     {
         path: '',

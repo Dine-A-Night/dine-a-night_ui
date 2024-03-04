@@ -67,6 +67,13 @@ export class AuthService {
         );
     }
 
+    isLoggedIn(): Observable<boolean> {
+        return this.afAuth.idToken.pipe(
+            filter((token) => token !== undefined),
+            map((token) => !!token),
+        );
+    }
+
     //#endregion
 
     login(email: string, password: string) {
