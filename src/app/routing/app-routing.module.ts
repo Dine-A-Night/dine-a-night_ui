@@ -48,13 +48,13 @@ const routes: Routes = [
         path: 'manage-restaurants',
         pathMatch: 'full',
         component: ManageRestaurantsComponent,
-        canActivate: [authGuard, roleGuard(UserRole.ADMIN)],
+        canActivate: [authGuard, roleGuard(UserRole.ADMIN, '/userProfile')],
     },
     {
         path: 'manage-restaurants/create',
         pathMatch: 'full',
         component: RestaurantAddEditComponent,
-        canActivate: [authGuard, roleGuard(UserRole.ADMIN)],
+        canActivate: [authGuard, roleGuard(UserRole.ADMIN, '/userProfile')],
     },
     {
         path: '',
