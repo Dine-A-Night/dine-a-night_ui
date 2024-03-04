@@ -178,6 +178,7 @@
                 Profile
             </a>
             <a
+                *ngIf="user()?.role === 'Admin'"
                 [routerLink]="['/manage-restaurants']"
                 (click)="toggleSideMenu()"
                 href="#"
