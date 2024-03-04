@@ -18,6 +18,7 @@ import { isDefNotNull } from 'src/app/utils/helper-functions';
 export class RegisterComponent {
     personalDetailsForm: FormGroup;
     credentialsForm: FormGroup;
+    hidePassword: boolean = true;
 
     stepperOrientation: Observable<StepperOrientation>;
 

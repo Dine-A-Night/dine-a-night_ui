@@ -115,7 +115,11 @@ export class UserManagementPageComponent {
             phoneUnchanged &&
             roleUnchanged;
 
-        return this.personalDetailsForm.pristine || dataUnchanged;
+        return (
+            this.personalDetailsForm.pristine ||
+            dataUnchanged ||
+            this.personalDetailsForm.invalid
+        );
     }
 
     deleteAccount() {

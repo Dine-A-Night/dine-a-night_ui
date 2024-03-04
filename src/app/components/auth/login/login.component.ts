@@ -12,6 +12,7 @@ import { isDefNotNull } from 'src/app/utils/helper-functions';
 })
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
+    hidePassword: boolean = true;
 
     constructor(
         private authService: AuthService,

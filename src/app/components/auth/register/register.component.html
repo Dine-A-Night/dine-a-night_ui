@@ -23,7 +23,9 @@
                     <div class="py-5">
                         <div class="flex flex-col md:flex-row md:gap-10">
                             <!-- First Name -->
-                            <mat-form-field color="primary">
+                            <mat-form-field
+                                class="w-full"
+                                color="primary">
                                 <mat-label>First Name</mat-label>
                                 <input
                                     matInput
@@ -40,7 +42,9 @@
                             </mat-form-field>
 
                             <!-- Last Name -->
-                            <mat-form-field color="primary">
+                            <mat-form-field
+                                class="w-full"
+                                color="primary">
                                 <mat-label>Last Name</mat-label>
                                 <input
                                     matInput
@@ -145,6 +149,8 @@
                             class="w-full"
                             color="primary">
                             <mat-label>Email</mat-label>
+
+                            <mat-icon matPrefix>person_outline</mat-icon>
                             <input
                                 matInput
                                 placeholder="Email"
@@ -175,10 +181,26 @@
                             class="w-full"
                             color="primary">
                             <mat-label>Password</mat-label>
+
+                            <mat-icon matPrefix>lock_outline</mat-icon>
                             <input
                                 matInput
                                 placeholder="Password"
+                                [type]="hidePassword ? 'password' : 'text'"
                                 formControlName="password" />
+                            <button
+                                mat-icon-button
+                                matSuffix
+                                (click)="hidePassword = !hidePassword"
+                                [attr.aria-label]="'Hide password'"
+                                [attr.aria-pressed]="hidePassword">
+                                <mat-icon>{{
+                                    hidePassword
+                                        ? 'visibility_off'
+                                        : 'visibility'
+                                }}</mat-icon>
+                            </button>
+
                             <mat-error
                                 *ngIf="
                                     credentialsForm
