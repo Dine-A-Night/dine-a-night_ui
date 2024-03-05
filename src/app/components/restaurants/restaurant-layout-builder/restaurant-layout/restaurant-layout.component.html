@@ -15,6 +15,7 @@
             matInput
             type="number"
             placeholder="Number of Columns"
+            max="30"
             [(ngModel)]="layoutColumns"
             (ngModelChange)="onLayoutDiemensionsChanged()" />
     </mat-form-field>
@@ -25,8 +26,7 @@
     cdkDropListGroup>
     <!-- Rows -->
     <div
-        class="grid grid-rows-1 border h-24 auto-cols-auto"
-        [ngClass]="['grid-cols-' + layoutColumns]"
+        class="border h-24 flex"
         cdkDropList
         cdkDropListOrientation="horizontal"
         [cdkDropListData]="row"
@@ -34,7 +34,7 @@
         *ngFor="let row of restaurantLayout">
         <!-- Columns -->
         <div
-            class="drag-box"
+            class="drag-box flex-1"
             *ngFor="let cell of row"
             [ngClass]="{ 'cursor-move': cell !== null }"
             cdkDrag
