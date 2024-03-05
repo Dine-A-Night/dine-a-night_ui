@@ -1,0 +1,46 @@
+<div class="flex gap-5">
+    <mat-form-field color="primary">
+        <mat-label>Length</mat-label>
+        <input
+            matInput
+            type="number"
+            placeholder="Number of Rows"
+            [(ngModel)]="layoutRows"
+            (ngModelChange)="onLayoutDiemensionsChanged()" />
+    </mat-form-field>
+
+    <mat-form-field color="primary">
+        <mat-label>Width</mat-label>
+        <input
+            matInput
+            type="number"
+            placeholder="Number of Columns"
+            [(ngModel)]="layoutColumns"
+            (ngModelChange)="onLayoutDiemensionsChanged()" />
+    </mat-form-field>
+</div>
+
+<div
+    *ngIf="restaurantLayout && layoutColumns && layoutRows"
+    cdkDropListGroup>
+    <!-- Rows -->
+    <div
+        class="grid grid-rows-1 border h-24 auto-cols-auto"
+        [ngClass]="['grid-cols-' + layoutColumns]"
+        cdkDropList
+        cdkDropListOrientation="horizontal"
+        [cdkDropListData]="row"
+        (cdkDropListDropped)="drop($event)"
+        *ngFor="let row of restaurantLayout">
+        <!-- Columns -->
+        <div
+            class="drag-box"
+            *ngFor="let cell of row"
+            [ngClass]="{ 'cursor-move': cell !== null }"
+            cdkDrag
+            [cdkDragDisabled]="cell === null"
+            [cdkDragData]="cell"
+            >{{ cell ? cell.tableType.name : '' }}</div
+        >
+    </div>
+</div>

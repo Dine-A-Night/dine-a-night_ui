@@ -10,7 +10,7 @@ import { RestaurantAddEditComponent } from '../components/restaurants/restaurant
 import { RestaurantDetailsPageComponent } from '../pages/restaurant-details-page/restaurant-details-page.component';
 import { authGuard } from './guards/auth.guard';
 import { roleGuard } from './guards/role.guard';
-import { UserRole } from '../models/user';
+import { UserRole } from '../models/user.model';
 
 const routes: Routes = [
     {

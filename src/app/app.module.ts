@@ -40,7 +40,10 @@ import { MenuItemsComponent } from './components/menu-items/menu-items.component
 import { RestaurantAddEditComponent } from './components/restaurants/restaurant-add-edit/restaurant-add-edit.component';
 import { RestaurantCardComponent } from './components/restaurants/restaurant-card/restaurant-card.component';
 import { RestaurantDetailedCardComponent } from './components/restaurants/restaurant-detailed-card/restaurant-detailed-card.component';
+import { RestaurantDetailsTabComponent } from './components/restaurants/restaurant-details-tab/restaurant-details-tab.component';
 import { RestaurantImagesComponent } from './components/restaurants/restaurant-images/restaurant-images.component';
+import { RestaurantLayoutBuilderComponent } from './components/restaurants/restaurant-layout-builder/restaurant-layout-builder.component';
+import { RestaurantLayoutComponent } from './components/restaurants/restaurant-layout-builder/restaurant-layout/restaurant-layout.component';
 import { AddReviewFormComponent } from './components/restaurants/reviews/add-review-form/add-review-form.component';
 import { RatingSelectorComponent } from './components/restaurants/reviews/rating-selector/rating-selector.component';
 import { ReviewComponent } from './components/restaurants/reviews/review/review.component';
@@ -55,7 +58,8 @@ import { LandingPageComponent } from './pages/landing-page/landing-page.componen
 import { ManageRestaurantsComponent } from './pages/manage-restaurants/manage-restaurants.component';
 import { RestaurantDetailsPageComponent } from './pages/restaurant-details-page/restaurant-details-page.component';
 import { UserManagementPageComponent } from './pages/user-management-page/user-management-page.component';
-import { RestaurantDetailsTabComponent } from './components/restaurants/restaurant-details-tab/restaurant-details-tab.component';
+
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
     declarations: [
@@ -89,6 +93,8 @@ import { RestaurantDetailsTabComponent } from './components/restaurants/restaura
         AddMenuItemDialogComponent,
         MenuItemComponent,
         RestaurantDetailsTabComponent,
+        RestaurantLayoutBuilderComponent,
+        RestaurantLayoutComponent,
     ],
     imports: [
         BrowserModule,
@@ -117,6 +123,7 @@ import { RestaurantDetailsTabComponent } from './components/restaurants/restaura
         GoogleMapsModule,
         MatProgressSpinnerModule,
         MatTabsModule,
+        DragDropModule,
     ],
     providers: [{ provide: MAT_DIALOG_DATA, useValue: {} }], // Provide an empty object as a default value],
     bootstrap: [AppComponent],

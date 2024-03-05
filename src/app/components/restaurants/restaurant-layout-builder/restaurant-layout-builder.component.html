@@ -1,0 +1,29 @@
+<div class="layout-builder-container">
+    <h2
+        class="text-3xl font-bold"
+        mat-dialog-title
+        >Layout Builder
+    </h2>
+
+    <mat-dialog-content class="h-full">
+        <div class="max-h-screen-80">
+            <restaurant-layout [restaurant]="restaurant"></restaurant-layout>
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions [align]="'end'">
+        <button
+            mat-raised-button
+            mat-dialog-close>
+            <mat-icon>cancel</mat-icon>
+            Cancel
+        </button>
+
+        <button
+            mat-raised-button
+            color="accent">
+            <mat-icon>save</mat-icon>
+            Save
+        </button>
+    </mat-dialog-actions>
+</div>

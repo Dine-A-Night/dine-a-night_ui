@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Cuisine } from 'src/app/models/restaurant';
+import { Cuisine } from 'src/app/models/restaurant.model';
 
 @Component({
     selector: 'cuisine-card',

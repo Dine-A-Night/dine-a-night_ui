@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CanActivateFn, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { ProfileUser, UserRole } from 'src/app/models/user';
+import { ProfileUser, UserRole } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 
 export function roleGuard(

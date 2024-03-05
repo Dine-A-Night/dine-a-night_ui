@@ -1,4 +1,4 @@
-import { ProfileUser } from './user';
+import { ProfileUser } from './user.model';
 
 export type Restaurants = Restaurant[];
 
@@ -12,8 +12,8 @@ export class Restaurant {
     photoUris?: string[];
     staffMembers: ProfileUser[];
     layout: {
-        length: string;
-        width: string;
+        length: number;
+        width: number;
     };
     cuisines: Cuisine[];
     reviews?: any[]; // any for now

@@ -4,7 +4,7 @@ import { Observable, concatMap, filter, from, map, switchMap, zip } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { UserService } from './user.service';
 import { AuthService } from './auth.service';
-import { Coordinates, Restaurant } from '../models/restaurant';
+import { Coordinates, Restaurant } from '../models/restaurant.model';
 import { GeolocationService } from './geolocation.service';
 import { FileUploadService } from './file-upload.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';

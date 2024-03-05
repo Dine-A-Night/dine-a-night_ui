@@ -7,7 +7,7 @@ import {
     distinctUntilChanged,
     filter,
 } from 'rxjs';
-import { Cuisine, Restaurant } from 'src/app/models/restaurant';
+import { Cuisine, Restaurant } from 'src/app/models/restaurant.model';
 import {
     RestaurantFilters,
     RestaurantsService,

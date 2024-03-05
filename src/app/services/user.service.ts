@@ -16,7 +16,7 @@ import {
     zip,
 } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
-import { ProfileUser, UserRole } from '../models/user';
+import { ProfileUser, UserRole } from '../models/user.model';
 import { AuthService } from './auth.service';
 import { FileUploadService } from './file-upload.service';
 

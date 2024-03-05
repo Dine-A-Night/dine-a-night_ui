@@ -7,9 +7,9 @@ import {
     inject,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Restaurant } from 'src/app/models/restaurant';
-import { Review } from 'src/app/models/review';
-import { ProfileUser } from 'src/app/models/user';
+import { Restaurant } from 'src/app/models/restaurant.model';
+import { Review } from 'src/app/models/review.model';
+import { ProfileUser } from 'src/app/models/user.model';
 import { ReviewService } from 'src/app/services/review.service';
 import { UserService } from 'src/app/services/user.service';
 
