@@ -90,6 +90,14 @@
                             <section class="py-4 text-justify sm:text-start">
                                 <p>{{ restaurant.description }}</p>
                             </section>
+
+                            <!-- Menu Items -->
+                            <section class="py-8">
+                                <menu-items
+                                    [restaurantId]="
+                                        restaurant._id
+                                    "></menu-items>
+                            </section>
                         </section>
                     </div>
                 </mat-tab>

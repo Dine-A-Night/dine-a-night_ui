@@ -9,6 +9,7 @@ import { RestaurantsService } from 'src/app/services/restaurants.service';
 import { UserService } from 'src/app/services/user.service';
 import { deepEqual, isDefNotNull } from 'src/app/utils/helper-functions';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MenuItemsComponent } from 'src/app/components/menu-items/menu-items.component';
 
 @Component({
     selector: 'restaurant-details-page',
