@@ -52,6 +52,8 @@ import { ReviewsComponent } from './components/restaurants/reviews/reviews.compo
 import { ReviewComponent } from './components/restaurants/reviews/review/review.component';
 import { RatingSelectorComponent } from './components/restaurants/reviews/rating-selector/rating-selector.component';
 import { AddReviewFormComponent } from './components/restaurants/reviews/add-review-form/add-review-form.component';
+import { MenuItemsComponent } from './components/menu-items/menu-items.component';
+import { AddMenuItemDialogComponent } from './components/menu-item/add-menu-item-dialog/add-menu-item-dialog.component';
 
 @NgModule({
     declarations: [
@@ -81,6 +83,8 @@ import { AddReviewFormComponent } from './components/restaurants/reviews/add-rev
         ReviewComponent,
         RatingSelectorComponent,
         AddReviewFormComponent,
+        MenuItemsComponent,
+        AddMenuItemDialogComponent,
     ],
     imports: [
         BrowserModule,
