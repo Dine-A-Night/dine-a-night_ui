@@ -34,7 +34,7 @@
         *ngFor="let row of restaurantLayout">
         <!-- Columns -->
         <div
-            class="drag-box flex-1"
+            class="drag-box flex-1 flex justify-center items-center text-center"
             *ngFor="let cell of row"
             [ngClass]="{ 'cursor-move': cell !== null }"
             cdkDrag

@@ -82,7 +82,9 @@ export class RestaurantLayoutComponent implements OnChanges {
             transferArrayItem(
                 event.container.data,
                 event.previousContainer.data,
-                event.currentIndex - 1,
+                event.currentIndex - 1 >= 0
+                    ? event.currentIndex - 1
+                    : event.currentIndex + 1,
                 event.previousIndex,
             );
         }
