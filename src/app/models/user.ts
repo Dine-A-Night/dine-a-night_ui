@@ -5,7 +5,7 @@ export class ProfileUser {
     firstName: string;
     lastName: string;
     phone: string;
-    profilePictureUrl?: string;
+    profilePictureUrl?: string | null;
     role: UserRole;
     createdAt?: Date;
     updatedAt?: Date;
@@ -18,7 +18,7 @@ export class ProfileUser {
         this.lastName = user.lastName;
         this.phone = user.phone;
         this.role = user.role;
-        this.profilePictureUrl = user.profilePictureUrl ?? '';
+        this.profilePictureUrl = user.profilePictureUrl ?? null;
         this.createdAt = user.createdAt;
         this.updatedAt = user.updatedAt;
     }

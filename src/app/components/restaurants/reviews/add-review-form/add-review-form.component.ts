@@ -83,8 +83,9 @@ export class AddReviewFormComponent implements OnInit {
     }
 
     get profilePicture() {
-        return this.currentUser.profilePictureUrl?.length
-            ? this.currentUser.profilePictureUrl
-            : UserService.DEFAULT_PROFILE_PHOTO_URI;
+        return (
+            this.currentUser.profilePictureUrl ||
+            UserService.DEFAULT_PROFILE_PHOTO_URI
+        );
     }
 }

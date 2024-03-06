@@ -22,7 +22,7 @@ export class RestaurantCardComponent {
         new EventEmitter<string>();
 
     get coverPhoto(): string {
-        return this.restaurant?.coverPhotoUri ?? this.DEFAULT_COVER_PHOTO_URL;
+        return this.restaurant?.coverPhotoUri || this.DEFAULT_COVER_PHOTO_URL;
     }
 
     confirmDelete() {

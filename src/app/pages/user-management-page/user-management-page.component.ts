@@ -38,9 +38,10 @@ export class UserManagementPageComponent {
     get profilePictureUrl() {
         const currentUser = this.userService.currentUser();
 
-        return currentUser?.profilePictureUrl?.length
-            ? currentUser.profilePictureUrl
-            : UserService.DEFAULT_PROFILE_PHOTO_URI;
+        return (
+            currentUser?.profilePictureUrl ||
+            UserService.DEFAULT_PROFILE_PHOTO_URI
+        );
     }
 
     initForm() {
