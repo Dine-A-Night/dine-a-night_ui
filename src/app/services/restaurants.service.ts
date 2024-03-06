@@ -1,14 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, concatMap, filter, from, map, switchMap, zip } from 'rxjs';
+import { Observable, concatMap, from, map, switchMap, zip } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
-import { UserService } from './user.service';
-import { AuthService } from './auth.service';
-import { Coordinates, Restaurant } from '../models/restaurant.model';
-import { GeolocationService } from './geolocation.service';
-import { FileUploadService } from './file-upload.service';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { v4 as uuidv4 } from 'uuid';
+import { Coordinates, Restaurant } from '../models/restaurant.model';
+import { AuthService } from './auth.service';
+import { FileUploadService } from './file-upload.service';
+import { GeolocationService } from './geolocation.service';
+import { UserService } from './user.service';
 
 @Injectable({
     providedIn: 'root',
@@ -24,7 +23,6 @@ export class RestaurantsService {
         private authService: AuthService,
         private geoLocationService: GeolocationService,
         private fileUploadService: FileUploadService,
-        private afStorage: AngularFireStorage,
     ) {}
 
     getRestaurants(filters?: RestaurantFilters): Observable<any> {
