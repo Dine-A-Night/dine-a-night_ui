@@ -10,6 +10,7 @@
         <mat-icon>add</mat-icon>Add Menu Item
     </button>
 </div>
+
 <mat-divider class="mb-4"></mat-divider>
 
 <!-- Search input field -->
@@ -17,102 +18,55 @@
     <input
         type="text"
         class="bg-white border border-gray-400 text-gray-700 font-bold py-3 px-6 rounded-full text-lg pl-10 pr-8"
-        placeholder="Search Menu Items" />
+        placeholder="Search Menu Items"
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="filterMenuItems()" />
     <div class="absolute inset-y-0 left-0 pl-3 flex items-center">
         <mat-icon class="material-icons text-gray-600">search</mat-icon>
     </div>
 </div>
 
-<div class="flex flex-row gap-4">
+<!-- Use overflow-x-auto to enable horizontal scrolling -->
+<div class="overflow-x-auto">
     <div
-        class="w-full md:w-1/4 transform transition-transform hover:-translate-y-1">
-        <mat-card class="p-4 rounded-lg shadow-md hover:shadow-lg">
-            <mat-card-header>
-                <mat-card-title class="text-lg">Burger</mat-card-title>
-                <mat-card-subtitle class="mb-2">Price: $9.99</mat-card-subtitle>
-            </mat-card-header>
-            <img
-                mat-card-image
-                src="../../../assets/images/RestaurantCover.jpg"
-                alt="Burger"
-                class="h-48 w-full object-cover mb-4" />
-            <mat-card-content>
-                <p class="text-base"
-                    >Delicious beef burger with fresh lettuce and tomatoes.
-                    Served with fries.</p
-                >
-            </mat-card-content>
-        </mat-card>
+        *ngIf="filteredMenuItems.length === 0"
+        class="text-gray-500 text-lg">
+        No menu items available.
     </div>
-    <div
-        class="w-full md:w-1/4 transform transition-transform hover:-translate-y-1">
-        <mat-card class="p-4 rounded-lg shadow-md hover:shadow-lg">
-            <mat-card-header>
-                <mat-card-title class="text-lg">Pizza</mat-card-title>
-                <mat-card-subtitle class="mb-2"
-                    >Price: $12.99</mat-card-subtitle
-                >
-            </mat-card-header>
-            <img
-                mat-card-image
-                src="../../../assets/images/RestaurantCover.jpg"
-                alt="Pizza"
-                class="h-48 w-full object-cover mb-4" />
-            <mat-card-content>
-                <p class="text-base"
-                    >Classic Italian pizza topped with cheese, pepperoni, and
-                    mushrooms.</p
-                >
-            </mat-card-content>
-        </mat-card>
-    </div>
-    <div
-        class="w-full md:w-1/4 transform transition-transform hover:-translate-y-1">
-        <mat-card class="p-4 rounded-lg shadow-md hover:shadow-lg">
-            <mat-card-header>
-                <mat-card-title class="text-lg">Salad</mat-card-title>
-                <mat-card-subtitle class="mb-2">Price: $6.99</mat-card-subtitle>
-            </mat-card-header>
-            <img
-                mat-card-image
-                src="../../../assets/images/RestaurantCover.jpg"
-                alt="Salad"
-                class="h-48 w-full object-cover mb-4" />
-            <mat-card-content>
-                <p class="text-base"
-                    >Fresh garden salad with mixed greens, cherry tomatoes, and
-                    balsamic vinaigrette.</p
-                >
-            </mat-card-content>
-        </mat-card>
-    </div>
-</div>
 
-<!--
-<div class="flex flex-row gap-4">
-    <div
-        *ngFor="let menuItem of menuItems"
-        class="w-1/3 transform transition-transform hover:-translate-y-1">
-        <mat-card class="p-2 rounded-lg shadow-md">
-            <mat-card-header>
-                <mat-card-title class="text-lg">{{
-                    menuItem.name
-                }}</mat-card-title>
-                <mat-card-subtitle
-                    >Price: ${{ menuItem.unitPrice }}</mat-card-subtitle
-                >
-            </mat-card-header>
-            <img
-                mat-card-image
-                [src]="
-                    menuItem.imageUri || 'https://via.placeholder.com/150x300'
-                "
-                alt="Sample Image"
-                class="h-48 w-full object-cover" />
-            <mat-card-content>
-                <p class="text-sm">{{ menuItem.description }}</p>
-            </mat-card-content>
+    <div *ngFor="let menuItem of filteredMenuItems">
+        <mat-card class="p-4 rounded-lg shadow-md mb-4 relative">
+            <div class="flex flex-row">
+                <div class="flex-shrink-0 mr-4">
+                    <!-- Image on the left side -->
+                    <img
+                        mat-card-image
+                        [src]="
+                            menuItem.imageUri ||
+                            'assets/images/RestaurantCover.jpg'
+                        "
+                        alt="Menu Item Image"
+                        class="h-48 w-64 object-cover mb-4 rounded-lg" />
+                </div>
+                <mat-card-content>
+                    <!-- Name on the right side of the image -->
+                    <mat-card-title>{{ menuItem.name }}</mat-card-title>
+                    <!-- Description below the name -->
+                    <p class="text-base">{{ menuItem.description }}</p>
+                    <!-- Price below the description -->
+                    <p class="text-base font-bold mt-2"
+                        >${{ menuItem.unitPrice }}</p
+                    >
+                </mat-card-content>
+            </div>
+            <!-- Delete button -->
+            <button
+                mat-icon-button
+                color="warn"
+                class="absolute bottom-0 right-0 mb-4 mr-4"
+                (click)="deleteMenuItem(menuItem._id)">
+                <mat-icon class="text-4xl">delete</mat-icon>
+            </button>
         </mat-card>
     </div>
 </div>
--->
