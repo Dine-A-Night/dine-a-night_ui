@@ -55,6 +55,7 @@ import { LandingPageComponent } from './pages/landing-page/landing-page.componen
 import { ManageRestaurantsComponent } from './pages/manage-restaurants/manage-restaurants.component';
 import { RestaurantDetailsPageComponent } from './pages/restaurant-details-page/restaurant-details-page.component';
 import { UserManagementPageComponent } from './pages/user-management-page/user-management-page.component';
+import { RestaurantDetailsTabComponent } from './components/restaurants/restaurant-details-tab/restaurant-details-tab.component';
 
 @NgModule({
     declarations: [
@@ -87,6 +88,7 @@ import { UserManagementPageComponent } from './pages/user-management-page/user-m
         MenuItemsComponent,
         AddMenuItemDialogComponent,
         MenuItemComponent,
+        RestaurantDetailsTabComponent,
     ],
     imports: [
         BrowserModule,

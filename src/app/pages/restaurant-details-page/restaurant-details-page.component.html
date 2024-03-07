@@ -22,81 +22,12 @@
 
                     <!-- Details Body -->
                     <div class="min-h-screen">
-                        <!-- Controls -->
-                        <section
-                            class="container-90-vw py-3 flex flex-wrap justify-center sm:justify-end items-center gap-6 sm:gap-10">
-                            <file-selector
-                                (filesSelected)="uploadCoverPhoto($event)"
-                                *ngIf="showEdit">
-                                <button
-                                    #fileSelector
-                                    mat-flat-button
-                                    color="accent">
-                                    <mat-icon>upload</mat-icon>
-                                    Upload Cover Photo
-                                </button>
-                            </file-selector>
-                            <button
-                                *ngIf="showEdit"
-                                mat-flat-button
-                                (click)="onEditClick()"
-                                color="accent">
-                                <mat-icon>edit</mat-icon>
-                                Edit
-                            </button>
-                        </section>
-
-                        <section class="container-90-vw">
-                            <section
-                                class="flex flex-wrap justify-center sm:justify-start gap-7 my-2">
-                                <!-- Cuisine -->
-                                <div
-                                    class="flex flex-wrap items-center justify-center text-center">
-                                    <mat-icon class="mr-1"
-                                        >restaurant_menu</mat-icon
-                                    >
-                                    <span
-                                        *ngFor="
-                                            let cuisineName of cuisines;
-                                            let last = last
-                                        "
-                                        >{{ cuisineName
-                                        }}{{ !last ? ',&nbsp;' : '' }}</span
-                                    >
-                                </div>
-                                <!-- Location -->
-                                <div
-                                    class="flex flex-wrap items-center justify-center text-center">
-                                    <mat-icon class="mr-1">place</mat-icon>
-                                    <p>{{ location }}</p>
-                                </div>
-                                <!-- Reviews -->
-                                <div
-                                    class="flex flex-wrap items-center justify-center text-center">
-                                    <mat-icon class="mr-1"
-                                        >rate_review</mat-icon
-                                    >
-                                    <span
-                                        >{{
-                                            restaurant.reviews?.length ?? 0
-                                        }}
-                                        Reviews</span
-                                    >
-                                </div>
-                            </section>
-
-                            <mat-divider />
-
-                            <section class="py-4 text-justify sm:text-start">
-                                <p>{{ restaurant.description }}</p>
-                            </section>
-
-                            <!-- Menu Items -->
-                            <section class="py-8">
-                                <menu-items
-                                    [restaurant]="restaurant"></menu-items>
-                            </section>
-                        </section>
+                        <restaurant-details-tab
+                            [restaurant]="restaurant"
+                            [showEdit]="showEdit"
+                            (restaurantUpdated)="
+                                restaurantUpdated($event)
+                            "></restaurant-details-tab>
                     </div>
                 </mat-tab>
 
