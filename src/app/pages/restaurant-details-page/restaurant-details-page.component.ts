@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { RestaurantLayoutBuilderComponent } from 'src/app/components/restaurants/restaurant-layout-builder/restaurant-layout-builder.component';
-import { Restaurant } from 'src/app/models/restaurant';
-import { UserRole } from 'src/app/models/user';
+import { Restaurant } from 'src/app/models/restaurant.model';
+import { UserRole } from 'src/app/models/user.model';
 import { RestaurantsService } from 'src/app/services/restaurants.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -60,26 +59,4 @@ export class RestaurantDetailsPageComponent implements OnInit, OnDestroy {
             this.restaurant?.ownerId === this.userService.currentUser()?.uid
         );
     }
-
-    //#region Layout Builder
-
-    onBuildLayoutClick() {
-        this.dialog
-            .open(RestaurantLayoutBuilderComponent, {
-                data: {
-                    restaurant: this.restaurant,
-                },
-            })
-            .afterClosed()
-            .subscribe({
-                next: (result) => {
-                    // Save the Layout
-                },
-                error: (err) => {
-                    console.log(err);
-                },
-            });
-    }
-
-    //#endregion
 }

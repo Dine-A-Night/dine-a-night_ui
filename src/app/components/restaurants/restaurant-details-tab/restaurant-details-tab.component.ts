@@ -8,10 +8,11 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Restaurant } from 'src/app/models/restaurant';
+import { Restaurant } from 'src/app/models/restaurant.model';
 import { RestaurantsService } from 'src/app/services/restaurants.service';
 import { deepEqual, isDefNotNull } from 'src/app/utils/helper-functions';
 import { RestaurantAddEditComponent } from '../restaurant-add-edit/restaurant-add-edit.component';
+import { RestaurantLayoutBuilderComponent } from '../restaurant-layout-builder/restaurant-layout-builder.component';
 
 @Component({
     selector: 'restaurant-details-tab',
@@ -96,4 +97,26 @@ export class RestaurantDetailsTabComponent implements OnInit {
         // Implement your formatting logic here based on the structure of RestaurantLocation
         return `${location.streetAddress}, ${location.city}, ${location.province}, ${location.country} ${location.postal}`;
     }
+
+    //#region Layout Builder
+
+    onBuildLayoutClick() {
+        this.dialog
+            .open(RestaurantLayoutBuilderComponent, {
+                data: {
+                    restaurant: this.restaurant,
+                },
+            })
+            .afterClosed()
+            .subscribe({
+                next: (result) => {
+                    // Save the Layout
+                },
+                error: (err) => {
+                    console.log(err);
+                },
+            });
+    }
+
+    //#endregion
 }

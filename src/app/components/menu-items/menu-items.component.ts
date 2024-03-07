@@ -5,8 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddMenuItemDialogComponent } from './menu-item/add-menu-item-dialog/add-menu-item-dialog.component';
 import { Subject, debounceTime } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
-import { Restaurant } from 'src/app/models/restaurant';
-import { ProfileUser } from 'src/app/models/user';
+import { Restaurant } from 'src/app/models/restaurant.model';
+import { ProfileUser } from 'src/app/models/user.model';
 
 @Component({
     selector: 'menu-items',

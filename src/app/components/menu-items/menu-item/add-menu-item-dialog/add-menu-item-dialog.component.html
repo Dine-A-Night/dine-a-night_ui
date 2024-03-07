@@ -32,11 +32,16 @@
                     [(ngModel)]="menuItem.unitPrice"
                     name="price"
                     type="number"
+                    min="1"
                     required />
                 <span matTextPrefix>$&nbsp;</span>
                 <mat-error
                     *ngIf="menuItemForm.controls['price']?.errors?.['required']"
                     >Price is required.</mat-error
+                >
+                <mat-error
+                    *ngIf="menuItemForm.controls['price']?.errors?.['min']"
+                    >Price needs to be greater than $0</mat-error
                 >
             </mat-form-field>
             <mat-form-field>
