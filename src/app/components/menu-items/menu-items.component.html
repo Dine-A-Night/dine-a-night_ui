@@ -1,10 +1,10 @@
-<div class="mb-6 flex justify-between items-center">
-    <h2 class="text-xl font-bold mb-0">Menu Items</h2>
+<div class="mb-3 flex justify-between items-center">
+    <h2 class="text-2xl font-bold">Menu Items</h2>
     <button
+        *ngIf="showEditControls"
         mat-button
         mat-flat-button
         (click)="openAddMenuItemDialog()"
-        class="hidden md:inline-flex"
         [disableRipple]="true"
         color="accent">
         <mat-icon>add</mat-icon>Add Menu Item
@@ -20,53 +20,22 @@
         class="bg-white border border-gray-400 text-gray-700 font-bold py-3 px-6 rounded-full text-lg pl-10 pr-8"
         placeholder="Search Menu Items"
         [(ngModel)]="searchTerm"
-        (ngModelChange)="filterMenuItems()" />
+        (ngModelChange)="searchTextUpdated.next($event)" />
     <div class="absolute inset-y-0 left-0 pl-3 flex items-center">
         <mat-icon class="material-icons text-gray-600">search</mat-icon>
     </div>
 </div>
 
-<!-- Use overflow-x-auto to enable horizontal scrolling -->
-<div class="overflow-x-auto">
-    <div
-        *ngIf="filteredMenuItems.length === 0"
-        class="text-gray-500 text-lg">
-        No menu items available.
-    </div>
+<div
+    *ngIf="filteredMenuItems.length === 0"
+    class="text-gray-500 text-lg">
+    No menu items available.
+</div>
 
-    <div *ngFor="let menuItem of filteredMenuItems">
-        <mat-card class="p-4 rounded-lg shadow-md mb-4 relative">
-            <div class="flex flex-row">
-                <div class="flex-shrink-0 mr-4">
-                    <!-- Image on the left side -->
-                    <img
-                        mat-card-image
-                        [src]="
-                            menuItem.imageUri ||
-                            'assets/images/RestaurantCover.jpg'
-                        "
-                        alt="Menu Item Image"
-                        class="h-48 w-64 object-cover mb-4 rounded-lg" />
-                </div>
-                <mat-card-content>
-                    <!-- Name on the right side of the image -->
-                    <mat-card-title>{{ menuItem.name }}</mat-card-title>
-                    <!-- Description below the name -->
-                    <p class="text-base">{{ menuItem.description }}</p>
-                    <!-- Price below the description -->
-                    <p class="text-base font-bold mt-2"
-                        >${{ menuItem.unitPrice }}</p
-                    >
-                </mat-card-content>
-            </div>
-            <!-- Delete button -->
-            <button
-                mat-icon-button
-                color="warn"
-                class="absolute bottom-0 right-0 mb-4 mr-4"
-                (click)="deleteMenuItem(menuItem._id)">
-                <mat-icon class="text-4xl">delete</mat-icon>
-            </button>
-        </mat-card>
-    </div>
+<div class="flex flex-col gap-5">
+    <menu-item
+        *ngFor="let menuItem of filteredMenuItems"
+        [menuItem]="menuItem"
+        [showDelete]="showEditControls"
+        (itemDeleted)="onMenuItemDeleted($event)"></menu-item>
 </div>

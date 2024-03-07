@@ -1,0 +1,16 @@
+.menu-item-grid {
+    display: grid;
+    height: 150px;
+    grid-template-columns: 1fr 3fr;
+}
+
+.menu-item-description {
+    max-height: 100px;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 900px) {
+    .menu-item-grid {
+        grid-template-columns: 1fr 2fr;
+    }
+}
