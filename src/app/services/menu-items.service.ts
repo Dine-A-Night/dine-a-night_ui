@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { MenuItem } from '../models/menu-item';
 import { AuthService } from './auth.service';
 import { environment } from 'src/environments/environment';
@@ -10,6 +10,8 @@ import { environment } from 'src/environments/environment';
 })
 export class MenuItemsService {
     private API_URL = environment.apiUrl;
+
+    static DEFAULT_MENU_ITEM_IMAGE = 'assets/images/RestaurantCover.jpg';
 
     constructor(
         private http: HttpClient,
@@ -28,12 +30,15 @@ export class MenuItemsService {
     ): Observable<MenuItem> {
         const url = `${this.API_URL}/restaurants/${restaurantId}/menu`;
         const headers = this.authService.getAuthHeaders();
-        return this.http.post<MenuItem>(url, menuItem, { headers });
+        return this.http
+            .post<MenuItem>(url, menuItem, { headers })
+            .pipe(map((res) => res['menuItem']));
     }
 
     deleteMenuItem(menuItemId: string): Observable<any> {
         const url = `${this.API_URL}/menuitems/${menuItemId}`;
         const headers = this.authService.getAuthHeaders();
+
         return this.http.delete(url, { headers });
     }
 }

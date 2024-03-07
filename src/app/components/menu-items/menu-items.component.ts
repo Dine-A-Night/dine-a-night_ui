@@ -3,6 +3,10 @@ import { MenuItemsService } from '../../services/menu-items.service';
 import { MenuItem } from '../../models/menu-item';
 import { MatDialog } from '@angular/material/dialog';
 import { AddMenuItemDialogComponent } from './menu-item/add-menu-item-dialog/add-menu-item-dialog.component';
+import { Subject, debounceTime } from 'rxjs';
+import { UserService } from 'src/app/services/user.service';
+import { Restaurant } from 'src/app/models/restaurant';
+import { ProfileUser } from 'src/app/models/user';
 
 @Component({
     selector: 'menu-items',
@@ -10,93 +14,70 @@ import { AddMenuItemDialogComponent } from './menu-item/add-menu-item-dialog/add
     styleUrls: ['./menu-items.component.scss'],
 })
 export class MenuItemsComponent implements OnInit {
-    @Input() restaurantId: string;
+    @Input() restaurant: Restaurant;
     menuItems: MenuItem[] = [];
     filteredMenuItems: MenuItem[] = [];
     searchTerm: string = '';
-    isAdmin: boolean = false; // Variable to track if the user is an admin
+    showEditControls = false;
+
+    searchTextUpdated: Subject<any> = new Subject<any>();
 
     constructor(
         private menuItemsService: MenuItemsService,
         private dialog: MatDialog,
+        private userService: UserService,
     ) {}
 
     ngOnInit(): void {
         this.fetchMenuItems();
+
+        this.searchTextUpdated.pipe(debounceTime(300)).subscribe((newText) => {
+            this.filterMenuItems();
+        });
+
+        this.userService.currentUser$.subscribe((user: ProfileUser) => {
+            this.showEditControls = user.uid === this.restaurant.ownerId;
+        });
     }
 
     fetchMenuItems(): void {
-        this.menuItemsService.getMenuItems(this.restaurantId).subscribe(
-            (data: any) => {
-                if (data.status === 'ok' && Array.isArray(data.menu)) {
-                    this.menuItems = data.menu;
-                    this.filteredMenuItems = this.menuItems; // Initialize filteredMenuItems
-                } else {
-                    console.error('Unexpected data format:', data);
-                }
+        this.menuItemsService.getMenuItems(this.restaurant._id).subscribe({
+            next: (data: any) => {
+                this.menuItems = data.menu;
+                this.filteredMenuItems = [...this.menuItems];
             },
-            (error) => {
+            error: (error) => {
                 console.error('Error fetching menu items:', error);
             },
-        );
+        });
     }
 
     // Function to filter menu items based on search term
     filterMenuItems(): void {
         this.filteredMenuItems = this.menuItems.filter((menuItem) =>
-            menuItem.name.toLowerCase().includes(this.searchTerm.toLowerCase()),
+            menuItem.name
+                ?.toLowerCase()
+                .includes(this.searchTerm.toLowerCase()),
         );
     }
 
     openAddMenuItemDialog(): void {
-        console.log('Opening Add Menu Item dialog...');
         const dialogRef = this.dialog.open(AddMenuItemDialogComponent, {
             data: {
-                restaurantId: this.restaurantId, // Pass the restaurantId to the dialog
+                restaurantId: this.restaurant._id, // Pass the restaurantId to the dialog
             },
         });
-        dialogRef.afterClosed().subscribe((result) => {
-            console.log('Dialog closed with result:', result);
-            if (result) {
-                // If result is truthy (i.e., if the user added a new menu item)
-                // Fetch the updated menu items from the backend
-                this.fetchMenuItems();
+        dialogRef.afterClosed().subscribe((newItem) => {
+            if (newItem) {
+                this.menuItems.push(newItem);
+                this.filterMenuItems();
             }
         });
     }
 
-    addMenuItem(menuItem: MenuItem): void {
-        this.menuItemsService
-            .addMenuItem(this.restaurantId, menuItem)
-            .subscribe(
-                (data: any) => {
-                    // Handle success response
-                    console.log('Menu item added successfully:', data);
-                    this.fetchMenuItems(); // Refresh menu items after adding
-                },
-                (error) => {
-                    // Handle error response
-                    console.error('Error adding menu item:', error);
-                },
-            );
-    }
+    onMenuItemDeleted(itemId: string) {
+        this.menuItems = this.menuItems.filter((item) => item._id !== itemId);
 
-    deleteMenuItem(menuItemId?: string): void {
-        if (!menuItemId) {
-            console.error('Invalid menu item ID:', menuItemId);
-            return;
-        }
-
-        this.menuItemsService.deleteMenuItem(menuItemId).subscribe(
-            (data: any) => {
-                // Handle success response
-                console.log('Menu item deleted successfully:', data);
-                this.fetchMenuItems(); // Refresh menu items after deletion
-            },
-            (error) => {
-                // Handle error response
-                console.error('Error deleting menu item:', error);
-            },
-        );
+        this.filterMenuItems();
     }
 }

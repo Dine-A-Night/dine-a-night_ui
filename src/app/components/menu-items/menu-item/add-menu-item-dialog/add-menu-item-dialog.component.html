@@ -11,33 +11,43 @@
         novalidate>
         <div class="flex flex-col gap-4">
             <mat-form-field>
+                <mat-label>Item Name</mat-label>
+
                 <input
                     matInput
                     placeholder="Name"
                     [(ngModel)]="menuItem.name"
                     name="name"
+                    maxlength="30"
                     required />
                 <mat-error
                     *ngIf="menuItemForm.controls['name']?.errors?.['required']"
                     >Name is required.</mat-error
                 >
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field floatLabel="always">
+                <mat-label>Unit Price</mat-label>
+
                 <input
                     matInput
-                    placeholder="Price"
+                    placeholder="15.99"
                     [(ngModel)]="menuItem.unitPrice"
                     name="price"
+                    type="number"
                     required />
+                <span matTextPrefix>$&nbsp;</span>
+
                 <mat-error
                     *ngIf="menuItemForm.controls['price']?.errors?.['required']"
                     >Price is required.</mat-error
                 >
             </mat-form-field>
             <mat-form-field>
+                <mat-label>Description</mat-label>
+
                 <textarea
                     matInput
-                    placeholder="Description"
+                    placeholder="Renowned for its..."
                     [(ngModel)]="menuItem.description"
                     name="description"
                     required
@@ -53,19 +63,19 @@
             </mat-form-field>
             <!-- Add more form fields for other properties of the menu item -->
         </div>
-        <mat-dialog-actions align="end">
+        <mat-dialog-actions [align]="'end'">
             <button
-                mat-button
-                color="accent"
+                mat-flat-button
+                type="button"
                 (click)="onCancel()"
-                >Cancel</button
+                ><mat-icon>cancel</mat-icon>Cancel</button
             >
             <button
-                mat-button
+                mat-flat-button
                 color="accent"
                 type="submit"
                 [disabled]="menuItemForm.invalid"
-                >Create Menu Item</button
+                ><mat-icon>save</mat-icon>Create Menu Item</button
             >
         </mat-dialog-actions>
     </form>
