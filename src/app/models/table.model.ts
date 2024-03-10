@@ -31,4 +31,5 @@ export interface TableType {
     name: string;
     description: string;
     capacity: number;
+    svgHtml: string;
 }

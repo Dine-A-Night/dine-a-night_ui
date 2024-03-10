@@ -1,29 +1,25 @@
-<div class="layout-builder-container">
-    <h2
-        class="text-3xl font-bold"
-        mat-dialog-title
-        >Layout Builder
-    </h2>
+<h2 class="text-3xl font-bold text-center py-5 bg-slate-950 text-color-light"
+    >Layout Builder<mat-icon class="mx-2">build</mat-icon>
+</h2>
 
-    <mat-dialog-content class="h-full">
-        <div class="max-h-screen-80">
-            <restaurant-layout [restaurant]="restaurant"></restaurant-layout>
-        </div>
-    </mat-dialog-content>
+<mat-dialog-content class="h-full">
+    <restaurant-layout [restaurant]="restaurant"></restaurant-layout>
+</mat-dialog-content>
 
-    <mat-dialog-actions [align]="'end'">
-        <button
-            mat-raised-button
-            mat-dialog-close>
-            <mat-icon>cancel</mat-icon>
-            Cancel
-        </button>
+<mat-dialog-actions
+    class="absolute right-0 bottom-0"
+    [align]="'end'">
+    <button
+        mat-raised-button
+        mat-dialog-close>
+        <mat-icon>cancel</mat-icon>
+        Cancel
+    </button>
 
-        <button
-            mat-raised-button
-            color="accent">
-            <mat-icon>save</mat-icon>
-            Save
-        </button>
-    </mat-dialog-actions>
-</div>
+    <button
+        mat-raised-button
+        color="accent">
+        <mat-icon>save</mat-icon>
+        Save
+    </button>
+</mat-dialog-actions>

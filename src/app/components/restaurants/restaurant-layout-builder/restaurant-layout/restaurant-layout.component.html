@@ -21,26 +21,37 @@
     </mat-form-field>
 </div>
 
+<!-- Layout -->
 <div
-    *ngIf="restaurantLayout && layoutColumns && layoutRows"
+    class="border"
+    *ngIf="restaurantLayout && layoutColumns && layoutRows && tableTypes"
     cdkDropListGroup>
     <!-- Rows -->
     <div
-        class="border h-24 flex"
+        class="h-24 flex"
         cdkDropList
         cdkDropListOrientation="horizontal"
         [cdkDropListData]="row"
         (cdkDropListDropped)="drop($event)"
-        *ngFor="let row of restaurantLayout">
+        *ngFor="let row of restaurantLayout; index as yCoord">
         <!-- Columns -->
         <div
-            class="drag-box flex-1 flex justify-center items-center text-center"
-            *ngFor="let cell of row"
-            [ngClass]="{ 'cursor-move': cell !== null }"
+            class="drag-box flex-1 flex justify-center items-center text-center border border-slate-50"
+            *ngFor="let table of row; index as xCoord"
+            [ngClass]="{
+                'bg-accent': isTableSelected(xCoord, yCoord),
+                'cursor-move': table !== null && editMode
+            }"
             cdkDrag
-            [cdkDragDisabled]="cell === null"
-            [cdkDragData]="cell"
-            >{{ cell ? cell.tableType.name : '' }}</div
-        >
+            [cdkDragDisabled]="table === null || !editMode"
+            [cdkDragData]="table">
+            <table-cell-renderer
+                *ngIf="table"
+                [table]="table"
+                [editMode]="editMode"
+                (tableSelected)="
+                    onTableSelected(xCoord, yCoord)
+                "></table-cell-renderer>
+        </div>
     </div>
 </div>

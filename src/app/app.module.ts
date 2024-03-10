@@ -60,6 +60,7 @@ import { RestaurantDetailsPageComponent } from './pages/restaurant-details-page/
 import { UserManagementPageComponent } from './pages/user-management-page/user-management-page.component';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { TableCellRendererComponent } from './components/restaurants/restaurant-layout-builder/restaurant-layout/table-cell-renderer/table-cell-renderer.component';
 
 @NgModule({
     declarations: [
@@ -95,6 +96,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
         RestaurantDetailsTabComponent,
         RestaurantLayoutBuilderComponent,
         RestaurantLayoutComponent,
+        TableCellRendererComponent,
     ],
     imports: [
         BrowserModule,

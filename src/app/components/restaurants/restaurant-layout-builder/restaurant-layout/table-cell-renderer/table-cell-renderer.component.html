@@ -1,0 +1,26 @@
+<ng-container *ngIf="table">
+    <button
+        *ngIf="!editMode; else TableSVG"
+        matRipple
+        class="flex flex-col justify-center items-center"
+        (click)="onTableCellSelected()"
+        [matTooltip]="table.tableType.description">
+        <div
+            [innerHTML]="
+                getSanitizerBypassedHtml(table.tableType.svgHtml) ||
+                table.tableType.name
+            "></div>
+        <p class="text-xs">{{ table.tableType.name }}</p>
+    </button>
+
+    <ng-template #TableSVG>
+        <div class="flex flex-col justify-center items-center">
+            <div
+                [innerHTML]="
+                    getSanitizerBypassedHtml(table.tableType.svgHtml) ||
+                    table.tableType.name
+                "></div>
+            <p class="text-xs">{{ table.tableType.name }}</p>
+        </div>
+    </ng-template>
+</ng-container>

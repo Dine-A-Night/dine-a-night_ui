@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 export class MenuItemsService {
     private API_URL = environment.apiUrl;
 
-    static DEFAULT_MENU_ITEM_IMAGE = 'assets/images/RestaurantCover.jpg';
+    static DEFAULT_MENU_ITEM_IMAGE = 'assets/images/defaultMenuItem.jpg';
 
     constructor(
         private http: HttpClient,

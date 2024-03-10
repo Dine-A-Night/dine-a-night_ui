@@ -106,6 +106,7 @@ export class RestaurantDetailsTabComponent implements OnInit {
                 data: {
                     restaurant: this.restaurant,
                 },
+                panelClass: ['dine-a-night-modal_large'],
             })
             .afterClosed()
             .subscribe({
