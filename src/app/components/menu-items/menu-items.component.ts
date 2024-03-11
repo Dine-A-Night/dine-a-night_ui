@@ -54,11 +54,13 @@ export class MenuItemsComponent implements OnInit {
 
     // Function to filter menu items based on search term
     filterMenuItems(): void {
-        this.filteredMenuItems = this.menuItems.filter((menuItem) =>
-            menuItem.name
+        this.filteredMenuItems = this.menuItems.filter((menuItem) => {
+            const searchContent = `${menuItem.name} ${menuItem.description}`;
+
+            return searchContent
                 ?.toLowerCase()
-                .includes(this.searchTerm.toLowerCase()),
-        );
+                .includes(this.searchTerm.toLowerCase());
+        });
     }
 
     openAddMenuItemDialog(): void {
