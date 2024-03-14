@@ -1,12 +1,12 @@
 interface TableData {
-    _id: string;
+    _id?: string;
     restaurantId: string;
     position: TablePosition;
     tableType: TableType;
 }
 
 export class Table {
-    _id: string;
+    _id?: string | null;
     restaurantId: string;
     position: TablePosition;
     tableType: TableType;
@@ -32,4 +32,14 @@ export interface TableType {
     description: string;
     capacity: number;
     svgHtml: string;
+    evalue?: TableTypeEvalues;
+}
+
+export enum TableTypeEvalues {
+    FRONT_DESK = 0,
+    ENTRY = 1,
+    SINGLE = 2,
+    DOUBLE = 3,
+    GROUP = 4,
+    PARTY = 5,
 }

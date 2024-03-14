@@ -1,4 +1,4 @@
-<ng-container *ngIf="table">
+<ng-container *ngIf="table; else EmptyTableCell">
     <button
         *ngIf="!editMode; else TableSVG"
         matRipple
@@ -16,6 +16,7 @@
     <ng-template #TableSVG>
         <div class="flex flex-col justify-center items-center">
             <div
+                [matTooltip]="table.tableType.description"
                 [innerHTML]="
                     getSanitizerBypassedHtml(table.tableType.svgHtml) ||
                     table.tableType.name
@@ -24,3 +25,35 @@
         </div>
     </ng-template>
 </ng-container>
+
+<ng-template #EmptyTableCell>
+    <div
+        *ngIf="tableTypes$"
+        class="absolute inset-0 cursor-pointer"
+        [matMenuTriggerFor]="tableTypesMenu"></div>
+
+    <mat-menu #tableTypesMenu="matMenu">
+        <ng-container *ngFor="let tableType of tableTypes$ | async">
+            <button
+                *ngIf="
+                    !(tableType.evalue === TableTypeEvalues.ENTRY) || isEdgeCell
+                "
+                mat-menu-item
+                (click)="onTableAdded(tableType)">
+                <div class="flex items-center gap-3">
+                    <span
+                        [innerHTML]="
+                            sanitizeSvg(tableType.svgHtml, 20, 20)
+                        "></span>
+
+                    <div>
+                        <p>{{ tableType.name }}</p>
+                        <p class="text-slate-500">{{
+                            tableType.description
+                        }}</p>
+                    </div>
+                </div>
+            </button>
+        </ng-container>
+    </mat-menu>
+</ng-template>

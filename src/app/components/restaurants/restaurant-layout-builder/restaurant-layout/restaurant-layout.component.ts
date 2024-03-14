@@ -27,7 +27,7 @@ import { ReservationService } from 'src/app/services/reservation.service';
 })
 export class RestaurantLayoutComponent implements OnInit, OnChanges {
     @Input() restaurant: Restaurant;
-    @Input() editMode: boolean = true;
+    @Input() editMode: boolean = false;
 
     restaurantLayout: RestaurantLayout;
     layoutRows: number = 5;
@@ -92,8 +92,8 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
     private populateExistingTables() {
         // Fetch tables belonging to the restaurant and populate the existing array
         for (let table of this.tables) {
-            this.restaurantLayout[table.position.xCoord][
-                table.position.yCoord
+            this.restaurantLayout[table.position.yCoord][
+                table.position.xCoord
             ] = table;
         }
     }
@@ -144,8 +144,31 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
                   yCoord,
               }
             : null;
+    }
 
-        console.log(this.selectedTable);
+    onTableAddedToCell(tableType: TableType, xCoord: number, yCoord: number) {
+        const newTable = new Table({
+            position: {
+                xCoord,
+                yCoord,
+            },
+            restaurantId: this.restaurant._id,
+            tableType,
+        });
+
+        this.tables.push(newTable);
+        this.restaurantLayout[yCoord][xCoord] = newTable;
+
+        console.log(this.restaurantLayout);
+    }
+
+    isEdgeCell(xCoord: number, yCoord: number) {
+        return (
+            xCoord === 0 ||
+            yCoord === 0 ||
+            xCoord === this.layoutColumns - 1 ||
+            yCoord === this.layoutRows - 1
+        );
     }
 
     tables: Tables = [

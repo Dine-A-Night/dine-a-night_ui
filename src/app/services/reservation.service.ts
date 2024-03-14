@@ -67,12 +67,3 @@ export class ReservationService {
         return of(tableTypes);
     }
 }
-
-export enum TableTypeEvalues {
-    FRONT_DESK = 0,
-    ENTRY = 1,
-    SINGLE = 2,
-    DOUBLE = 3,
-    GROUP = 4,
-    PARTY = 5,
-}

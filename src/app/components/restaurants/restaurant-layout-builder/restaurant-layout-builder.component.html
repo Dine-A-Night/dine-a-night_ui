@@ -3,7 +3,9 @@
 </h2>
 
 <mat-dialog-content class="h-full">
-    <restaurant-layout [restaurant]="restaurant"></restaurant-layout>
+    <restaurant-layout
+        [editMode]="true"
+        [restaurant]="restaurant"></restaurant-layout>
 </mat-dialog-content>
 
 <mat-dialog-actions

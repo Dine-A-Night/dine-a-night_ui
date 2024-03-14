@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MenuItem } from 'src/app/models/menu-item';
 import { MenuItemsService } from 'src/app/services/menu-items.service';
+import { RestaurantsService } from 'src/app/services/restaurants.service';
 import { ConfirmDialogComponent } from '../../reusables/confirm-dialog/confirm-dialog.component';
 import { AddMenuItemDialogComponent } from './add-menu-item-dialog/add-menu-item-dialog.component';
 
@@ -75,7 +76,7 @@ export class MenuItemComponent {
 
     get itemImage() {
         return (
-            this.menuItem.imageUri || MenuItemsService.DEFAULT_MENU_ITEM_IMAGE
+            this.menuItem.imageUri || RestaurantsService.DEFAULT_COVER_PHOTO_URI
         );
     }
 }

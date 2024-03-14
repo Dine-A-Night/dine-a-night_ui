@@ -23,7 +23,7 @@
 
 <!-- Layout -->
 <div
-    class="border"
+    class="border overflow-x-auto"
     *ngIf="restaurantLayout && layoutColumns && layoutRows && tableTypes"
     cdkDropListGroup>
     <!-- Rows -->
@@ -36,7 +36,7 @@
         *ngFor="let row of restaurantLayout; index as yCoord">
         <!-- Columns -->
         <div
-            class="drag-box flex-1 flex justify-center items-center text-center border border-slate-50"
+            class="drag-box min-w-12 relative flex-1 flex justify-center items-center text-center border border-slate-50"
             *ngFor="let table of row; index as xCoord"
             [ngClass]="{
                 'bg-accent': isTableSelected(xCoord, yCoord),
@@ -46,9 +46,10 @@
             [cdkDragDisabled]="table === null || !editMode"
             [cdkDragData]="table">
             <table-cell-renderer
-                *ngIf="table"
                 [table]="table"
                 [editMode]="editMode"
+                [isEdgeCell]="isEdgeCell(xCoord, yCoord)"
+                (tableAdded)="onTableAddedToCell($event, xCoord, yCoord)"
                 (tableSelected)="
                     onTableSelected(xCoord, yCoord)
                 "></table-cell-renderer>
