@@ -50,6 +50,9 @@
                 [editMode]="editMode"
                 [isEdgeCell]="isEdgeCell(xCoord, yCoord)"
                 (tableAdded)="onTableAddedToCell($event, xCoord, yCoord)"
+                (tableRemoved)="
+                    onTableRemovedFromCell($event, { xCoord, yCoord })
+                "
                 (tableSelected)="
                     onTableSelected(xCoord, yCoord)
                 "></table-cell-renderer>

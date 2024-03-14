@@ -162,6 +162,19 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
         console.log(this.restaurantLayout);
     }
 
+    onTableRemovedFromCell(tableId: string, position: TablePosition) {
+        const { xCoord, yCoord } = position;
+
+        if (this.tables.find((table) => table._id === tableId)) {
+            this.tables.splice(
+                this.tables.findIndex((table) => table._id === tableId),
+                1,
+            );
+        }
+
+        this.restaurantLayout[yCoord][xCoord] = null;
+    }
+
     isEdgeCell(xCoord: number, yCoord: number) {
         return (
             xCoord === 0 ||

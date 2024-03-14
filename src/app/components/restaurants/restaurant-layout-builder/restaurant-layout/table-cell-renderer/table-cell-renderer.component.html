@@ -2,7 +2,7 @@
     <button
         *ngIf="!editMode; else TableSVG"
         matRipple
-        class="flex flex-col justify-center items-center"
+        class="flex flex-col justify-center items-center absolute inset-0"
         (click)="onTableCellSelected()"
         [matTooltip]="table.tableType.description">
         <div
@@ -14,7 +14,9 @@
     </button>
 
     <ng-template #TableSVG>
-        <div class="flex flex-col justify-center items-center">
+        <div
+            class="flex flex-col justify-center items-center absolute inset-0"
+            [matMenuTriggerFor]="tableOptions">
             <div
                 [matTooltip]="table.tableType.description"
                 [innerHTML]="
@@ -23,6 +25,15 @@
                 "></div>
             <p class="text-xs">{{ table.tableType.name }}</p>
         </div>
+
+        <mat-menu #tableOptions="matMenu">
+            <button
+                mat-menu-item
+                (click)="onTableRemoved(table._id || '')">
+                <mat-icon color="warn">delete</mat-icon>
+                Remove Table
+            </button>
+        </mat-menu>
     </ng-template>
 </ng-container>
 

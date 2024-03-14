@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
-import { Table, TablePosition, TableType } from 'src/app/models/table.model';
+import { Table, TableType } from 'src/app/models/table.model';
 import { ReservationService } from 'src/app/services/reservation.service';
 
 @Component({
@@ -60,11 +60,16 @@ export class TableCellRendererComponent implements OnInit {
         return this.sanitizer.bypassSecurityTrustHtml(modifiedSvgHtml);
     }
 
-    //#region  Layout FormBuilder
+    //#region  Layout Builder
     @Output() tableAdded = new EventEmitter<TableType>();
+    @Output() tableRemoved = new EventEmitter<string>();
 
     onTableAdded(tableType: TableType) {
         this.tableAdded.emit(tableType);
+    }
+
+    onTableRemoved(tableId: string) {
+        this.tableRemoved.emit(tableId);
     }
 
     //#endregion
