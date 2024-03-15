@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MenuItem } from 'src/app/models/menu-item';
 import { MenuItemsService } from 'src/app/services/menu-items.service';
 import { ConfirmDialogComponent } from '../../reusables/confirm-dialog/confirm-dialog.component';
+import { AddMenuItemDialogComponent } from './add-menu-item-dialog/add-menu-item-dialog.component';
 
 @Component({
     selector: 'menu-item',
@@ -58,6 +59,18 @@ export class MenuItemComponent {
                     });
                 }
             });
+    }
+
+    openEditDialog(): void {
+        const dialogRef = this.dialog.open(AddMenuItemDialogComponent, {
+            width: '420px',
+            data: {
+                isEdit: true,
+                menuItem: this.menuItem,
+            },
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {});
     }
 
     get itemImage() {
