@@ -1,18 +1,17 @@
 <h2
     mat-dialog-title
     class="text-xl font-semibold"
-    >Add Menu Item</h2
+    >{{ isEdit ? 'Edit' : 'Add' }} Menu Item</h2
 >
 
 <mat-dialog-content class="w-200 sm:w-96">
     <form
         #menuItemForm="ngForm"
-        (ngSubmit)="onCreate()"
+        (ngSubmit)="onSave()"
         novalidate>
         <div class="flex flex-col gap-4">
             <mat-form-field>
                 <mat-label>Item Name</mat-label>
-
                 <input
                     matInput
                     placeholder="Name"
@@ -27,7 +26,6 @@
             </mat-form-field>
             <mat-form-field floatLabel="always">
                 <mat-label>Unit Price</mat-label>
-
                 <input
                     matInput
                     placeholder="15.99"
@@ -36,7 +34,6 @@
                     type="number"
                     required />
                 <span matTextPrefix>$&nbsp;</span>
-
                 <mat-error
                     *ngIf="menuItemForm.controls['price']?.errors?.['required']"
                     >Price is required.</mat-error
@@ -44,7 +41,6 @@
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Description</mat-label>
-
                 <textarea
                     matInput
                     placeholder="Renowned for its..."
@@ -75,7 +71,8 @@
                 color="accent"
                 type="submit"
                 [disabled]="menuItemForm.invalid"
-                ><mat-icon>save</mat-icon>Create Menu Item</button
+                ><mat-icon>save</mat-icon
+                >{{ isEdit ? 'Update' : 'Create' }} Menu Item</button
             >
         </mat-dialog-actions>
     </form>
