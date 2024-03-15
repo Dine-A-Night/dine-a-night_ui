@@ -21,13 +21,25 @@
             >
             <div class="flex justify-between items-center mt-4 pb-2">
                 <p class="text-gray-700">{{ menuItem.unitPrice | currency }}</p>
-                <button
-                    *ngIf="showDelete"
-                    mat-icon-button
-                    color="warn"
-                    (click)="deleteMenuItem()"
-                    ><mat-icon>delete</mat-icon></button
-                >
+                <div class="flex">
+                    <!-- Add the edit button -->
+                    <button
+                        mat-icon-button
+                        (click)="openEditDialog()"
+                        matTooltip="Edit Menu Item"
+                        color="secondary">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+
+                    <button
+                        *ngIf="showDelete"
+                        mat-icon-button
+                        matTooltip="Delete Menu Item"
+                        color="warn"
+                        (click)="deleteMenuItem()">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
             </div>
         </div>
     </mat-card-content>
