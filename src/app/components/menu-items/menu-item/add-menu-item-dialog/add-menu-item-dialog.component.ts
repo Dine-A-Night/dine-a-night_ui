@@ -1,5 +1,3 @@
-// add-menu-item-dialog.component.ts
-
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MenuItemsService } from '../../../../services/menu-items.service';
@@ -12,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     styleUrls: ['./add-menu-item-dialog.component.scss'],
 })
 export class AddMenuItemDialogComponent implements OnInit {
+    isEdit: boolean = false;
     menuItem: MenuItem = new MenuItem();
 
     constructor(
@@ -21,13 +20,26 @@ export class AddMenuItemDialogComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any,
     ) {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        if (this.data && this.data.menuItem) {
+            this.isEdit = true;
+            this.menuItem = this.data.menuItem;
+        }
+    }
 
     onCancel(): void {
         this.dialogRef.close();
     }
 
-    onCreate(): void {
+    onSave(): void {
+        if (this.isEdit) {
+            this.updateMenuItem();
+        } else {
+            this.createMenuItem();
+        }
+    }
+
+    private createMenuItem(): void {
         const restaurantId = this.data.restaurantId;
         this.menuItemsService
             .addMenuItem(restaurantId, this.menuItem)
@@ -40,12 +52,41 @@ export class AddMenuItemDialogComponent implements OnInit {
                             duration: 3000,
                         },
                     );
-
                     this.dialogRef.close(response);
                 },
                 error: (error) => {
                     this.notificationService.open(
                         'Failed to create the item',
+                        'Oops',
+                    );
+                    console.error(error);
+                },
+            });
+    }
+
+    private updateMenuItem(): void {
+        // Ensure menuItem has an ID
+        if (!this.menuItem._id) {
+            console.error('Menu item ID is missing.');
+            return;
+        }
+
+        this.menuItemsService
+            .updateMenuItem(this.menuItem._id, this.menuItem)
+            .subscribe({
+                next: (response) => {
+                    this.notificationService.open(
+                        'Item successfully updated',
+                        'Ok',
+                        {
+                            duration: 3000,
+                        },
+                    );
+                    this.dialogRef.close(response);
+                },
+                error: (error) => {
+                    this.notificationService.open(
+                        'Failed to update the item',
                         'Oops',
                     );
                     console.error(error);
