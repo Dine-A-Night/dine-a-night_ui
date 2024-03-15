@@ -35,6 +35,18 @@ export class MenuItemsService {
             .pipe(map((res) => res['menuItem']));
     }
 
+    updateMenuItem(
+        menuItemId: string,
+        updatedMenuItem: MenuItem,
+    ): Observable<MenuItem> {
+        const url = `${this.API_URL}/menuitems/${menuItemId}`;
+        const headers = this.authService.getAuthHeaders();
+
+        return this.http
+            .put<MenuItem>(url, updatedMenuItem, { headers })
+            .pipe(map((res: any) => res));
+    }
+
     deleteMenuItem(menuItemId: string): Observable<any> {
         const url = `${this.API_URL}/menuitems/${menuItemId}`;
         const headers = this.authService.getAuthHeaders();
