@@ -3,7 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable, concatMap, from, map, switchMap, zip } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { v4 as uuidv4 } from 'uuid';
-import { Coordinates, Restaurant } from '../models/restaurant.model';
+import {
+    Coordinates,
+    Restaurant,
+    RestaurantDimensions,
+} from '../models/restaurant.model';
+import { Tables } from '../models/table.model';
 import { AuthService } from './auth.service';
 import { FileUploadService } from './file-upload.service';
 import { GeolocationService } from './geolocation.service';
@@ -189,6 +194,33 @@ export class RestaurantsService {
         const deleteImageRef$ = this.http.post(url, { imageUrl }, { headers });
 
         return zip(deleteImage$, deleteImageRef$);
+    }
+
+    getAllTables(restaurantId: string): Observable<Tables> {
+        const url = `${this.API_URL}/restaurants/${restaurantId}/tables`;
+        const headers = this.authService.getAuthHeaders();
+
+        return this.http
+            .get(url, { headers })
+            .pipe(map((res) => res['tables'] as Tables));
+    }
+
+    updateLayout(
+        restaurantId,
+        layout: RestaurantDimensions,
+        tables: Tables,
+    ): Observable<Restaurant> {
+        const url = `${this.API_URL}/restaurants/${restaurantId}/tables`;
+        const headers = this.authService.getAuthHeaders();
+
+        const body = {
+            layout,
+            tables,
+        };
+
+        return this.http
+            .post(url, body, { headers })
+            .pipe(map((res) => res['restaurant'] as Restaurant));
     }
 }
 

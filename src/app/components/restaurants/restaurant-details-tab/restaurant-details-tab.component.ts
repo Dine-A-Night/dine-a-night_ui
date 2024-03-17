@@ -111,8 +111,9 @@ export class RestaurantDetailsTabComponent implements OnInit {
             })
             .afterClosed()
             .subscribe({
-                next: (result) => {
+                next: (restaurant) => {
                     // Save the Layout
+                    this.restaurant = new Restaurant(restaurant);
                 },
                 error: (err) => {
                     console.log(err);

@@ -39,12 +39,12 @@
 
 <ng-template #EmptyTableCell>
     <div
-        *ngIf="tableTypes$"
+        *ngIf="tableTypes"
         class="absolute inset-0 cursor-pointer"
         [matMenuTriggerFor]="tableTypesMenu"></div>
 
     <mat-menu #tableTypesMenu="matMenu">
-        <ng-container *ngFor="let tableType of tableTypes$ | async">
+        <ng-container *ngFor="let tableType of tableTypes">
             <button
                 *ngIf="
                     !(tableType.evalue === TableTypeEvalues.ENTRY) || isEdgeCell

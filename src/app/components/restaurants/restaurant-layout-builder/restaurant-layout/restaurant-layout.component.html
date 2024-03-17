@@ -47,6 +47,7 @@
             [cdkDragData]="table">
             <table-cell-renderer
                 [table]="table"
+                [tableTypes]="tableTypes"
                 [editMode]="editMode"
                 [isEdgeCell]="isEdgeCell(xCoord, yCoord)"
                 (tableAdded)="onTableAddedToCell($event, xCoord, yCoord)"

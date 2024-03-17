@@ -1,15 +1,7 @@
 import { TableTypeEvalues } from './../../../../../models/table.model';
 
-import {
-    Component,
-    EventEmitter,
-    Input,
-    OnInit,
-    Output,
-    inject,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Observable } from 'rxjs';
 import { Table, TableType } from 'src/app/models/table.model';
 import { ReservationService } from 'src/app/services/reservation.service';
 
@@ -18,22 +10,17 @@ import { ReservationService } from 'src/app/services/reservation.service';
     templateUrl: './table-cell-renderer.component.html',
     styleUrls: ['./table-cell-renderer.component.scss'],
 })
-export class TableCellRendererComponent implements OnInit {
+export class TableCellRendererComponent {
     @Input() table: Table | null;
     @Input() editMode: boolean = false;
-
     @Input() isEdgeCell = false;
+    @Input() tableTypes: TableType[];
 
-    tableTypes$: Observable<TableType[]>;
     TableTypeEvalues = TableTypeEvalues;
 
     // Services
     private sanitizer = inject(DomSanitizer);
     private reservationService = inject(ReservationService);
-
-    ngOnInit(): void {
-        this.tableTypes$ = this.reservationService.getTableTypes();
-    }
 
     getSanitizerBypassedHtml(rawHtml: string) {
         return rawHtml ? this.sanitizer.bypassSecurityTrustHtml(rawHtml) : null;

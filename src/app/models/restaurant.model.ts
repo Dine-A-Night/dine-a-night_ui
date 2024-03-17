@@ -11,10 +11,7 @@ export class Restaurant {
     coverPhotoUri: string;
     photoUris?: string[];
     staffMembers: ProfileUser[];
-    layout: {
-        length: number;
-        width: number;
-    };
+    layout: RestaurantDimensions;
     cuisines: Cuisine[];
     reviews?: any[]; // any for now
 
@@ -53,3 +50,8 @@ export interface Coordinates {
     lat: number;
     lng: number;
 }
+
+export type RestaurantDimensions = {
+    length: number;
+    width: number;
+};
