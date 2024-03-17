@@ -4,6 +4,7 @@
 
 <mat-dialog-content class="h-full">
     <restaurant-layout
+        (tablesUpdated)="tables = $event"
         [editMode]="true"
         [restaurant]="restaurant"></restaurant-layout>
 </mat-dialog-content>
@@ -13,14 +14,16 @@
     [align]="'end'">
     <button
         mat-raised-button
-        mat-dialog-close>
+        (click)="onCancel()">
         <mat-icon>cancel</mat-icon>
         Cancel
     </button>
 
     <button
         mat-raised-button
-        color="accent">
+        color="accent"
+        (click)="onSaveLayout()"
+        [disabled]="saveDisabled">
         <mat-icon>save</mat-icon>
         Save
     </button>

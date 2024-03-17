@@ -5,9 +5,11 @@ import {
 } from '@angular/cdk/drag-drop';
 import {
     Component,
+    EventEmitter,
     Input,
     OnChanges,
     OnInit,
+    Output,
     SimpleChanges,
     inject,
 } from '@angular/core';
@@ -19,6 +21,7 @@ import {
     Tables,
 } from 'src/app/models/table.model';
 import { ReservationService } from 'src/app/services/reservation.service';
+import { isDefNotNull } from 'src/app/utils/helper-functions';
 
 @Component({
     selector: 'restaurant-layout',
@@ -28,6 +31,8 @@ import { ReservationService } from 'src/app/services/reservation.service';
 export class RestaurantLayoutComponent implements OnInit, OnChanges {
     @Input() restaurant: Restaurant;
     @Input() editMode: boolean = false;
+
+    @Output() tablesUpdated = new EventEmitter<Tables>();
 
     restaurantLayout: RestaurantLayout;
     layoutRows: number = 5;
@@ -67,6 +72,21 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
         });
     }
 
+    private get tablesInLayout(): Tables {
+        return this.restaurantLayout
+            .flat()
+            .filter(
+                (table) => table && this.checkTableInBounds(table),
+            ) as Tables;
+    }
+
+    private checkTableInBounds(table: Table) {
+        return (
+            table.position.xCoord < this.layoutColumns &&
+            table.position.yCoord < this.layoutRows
+        );
+    }
+
     private setupGrid() {
         this.restaurantLayout = this.createEmptyLayout(
             this.layoutRows,
@@ -92,9 +112,30 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
     private populateExistingTables() {
         // Fetch tables belonging to the restaurant and populate the existing array
         for (let table of this.tables) {
-            this.restaurantLayout[table.position.yCoord][
-                table.position.xCoord
-            ] = table;
+            if (this.checkTableInBounds(table)) {
+                this.restaurantLayout[table.position.yCoord][
+                    table.position.xCoord
+                ] = table;
+            }
+        }
+    }
+
+    private recalculatePositions() {
+        for (let yCoord = 0; yCoord < this.restaurantLayout.length; ++yCoord) {
+            for (
+                let xCoord = 0;
+                xCoord < this.restaurantLayout[yCoord].length;
+                ++xCoord
+            ) {
+                let table = this.restaurantLayout[yCoord][xCoord];
+
+                if (table) {
+                    table.position = {
+                        xCoord,
+                        yCoord,
+                    };
+                }
+            }
         }
     }
 
@@ -105,8 +146,10 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
         );
     }
 
-    onLayoutDiemensionsChanged() {
+    onLayoutDimensionsChanged() {
         this.setupGrid();
+
+        this.tablesUpdated.emit(this.tablesInLayout);
     }
 
     drop(event: CdkDragDrop<(Table | null)[]>) {
@@ -134,6 +177,8 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
             );
         }
 
+        this.recalculatePositions();
+        this.tablesUpdated.emit(this.tablesInLayout);
         console.log(this.restaurantLayout);
     }
 
@@ -159,7 +204,7 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
         this.tables.push(newTable);
         this.restaurantLayout[yCoord][xCoord] = newTable;
 
-        console.log(this.restaurantLayout);
+        this.tablesUpdated.emit(this.tablesInLayout);
     }
 
     onTableRemovedFromCell(tableId: string, position: TablePosition) {
@@ -173,6 +218,8 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
         }
 
         this.restaurantLayout[yCoord][xCoord] = null;
+
+        this.tablesUpdated.emit(this.tablesInLayout);
     }
 
     isEdgeCell(xCoord: number, yCoord: number) {
