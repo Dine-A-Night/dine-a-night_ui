@@ -36,6 +36,6 @@
     <menu-item
         *ngFor="let menuItem of filteredMenuItems"
         [menuItem]="menuItem"
-        [showDelete]="showEditControls"
+        [showEditControls]="showEditControls"
         (itemDeleted)="onMenuItemDeleted($event)"></menu-item>
 </div>

@@ -24,6 +24,7 @@
                 <div class="flex">
                     <!-- Add the edit button -->
                     <button
+                        *ngIf="showEditControls"
                         mat-icon-button
                         (click)="openEditDialog()"
                         matTooltip="Edit Menu Item"
@@ -32,7 +33,7 @@
                     </button>
 
                     <button
-                        *ngIf="showDelete"
+                        *ngIf="showEditControls"
                         mat-icon-button
                         matTooltip="Delete Menu Item"
                         color="warn"

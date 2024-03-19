@@ -14,7 +14,7 @@ import { AddMenuItemDialogComponent } from './add-menu-item-dialog/add-menu-item
 })
 export class MenuItemComponent {
     @Input() menuItem: MenuItem;
-    @Input() showDelete: boolean;
+    @Input() showEditControls: boolean;
     @Output() itemDeleted = new EventEmitter<string>();
 
     menuItemsService = inject(MenuItemsService);

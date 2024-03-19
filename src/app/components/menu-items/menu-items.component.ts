@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MenuItemsService } from '../../services/menu-items.service';
-import { MenuItem } from '../../models/menu-item';
 import { MatDialog } from '@angular/material/dialog';
-import { AddMenuItemDialogComponent } from './menu-item/add-menu-item-dialog/add-menu-item-dialog.component';
 import { Subject, debounceTime } from 'rxjs';
-import { UserService } from 'src/app/services/user.service';
 import { Restaurant } from 'src/app/models/restaurant.model';
-import { ProfileUser } from 'src/app/models/user.model';
+import { ProfileUser, UserRole } from 'src/app/models/user.model';
+import { UserService } from 'src/app/services/user.service';
+import { MenuItem } from '../../models/menu-item';
+import { MenuItemsService } from '../../services/menu-items.service';
+import { AddMenuItemDialogComponent } from './menu-item/add-menu-item-dialog/add-menu-item-dialog.component';
 
 @Component({
     selector: 'menu-items',
@@ -36,7 +36,9 @@ export class MenuItemsComponent implements OnInit {
         });
 
         this.userService.currentUser$.subscribe((user: ProfileUser) => {
-            this.showEditControls = user.uid === this.restaurant.ownerId;
+            this.showEditControls =
+                user.role === UserRole.ADMIN &&
+                user.uid === this.restaurant.ownerId;
         });
     }
 
