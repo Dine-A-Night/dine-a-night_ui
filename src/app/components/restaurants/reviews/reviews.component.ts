@@ -6,8 +6,8 @@ import {
     inject,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Restaurant } from 'src/app/models/restaurant';
-import { Review, Reviews } from 'src/app/models/review';
+import { Restaurant } from 'src/app/models/restaurant.model';
+import { Review, Reviews } from 'src/app/models/review.model';
 import { ReviewService } from 'src/app/services/review.service';
 
 @Component({

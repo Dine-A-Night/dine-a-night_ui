@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
 import { AuthService } from './auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Review, Reviews } from '../models/review';
+import { Review, Reviews } from '../models/review.model';
 import { Observable, map, of, switchMap } from 'rxjs';
 
 @Injectable({

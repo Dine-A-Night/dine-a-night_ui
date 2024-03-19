@@ -16,6 +16,14 @@
         <button
             *ngIf="showEdit"
             mat-flat-button
+            (click)="onBuildLayoutClick()"
+            color="accent">
+            <mat-icon>build</mat-icon>
+            Build Layout
+        </button>
+        <button
+            *ngIf="showEdit"
+            mat-flat-button
             (click)="onEditClick()"
             color="accent">
             <mat-icon>edit</mat-icon>

@@ -1,0 +1,30 @@
+<h2 class="text-3xl font-bold text-center py-5 bg-slate-950 text-color-light"
+    >Layout Builder<mat-icon class="mx-2">build</mat-icon>
+</h2>
+
+<mat-dialog-content class="h-full">
+    <restaurant-layout
+        (tablesUpdated)="tables = $event"
+        [editMode]="true"
+        [restaurant]="restaurant"></restaurant-layout>
+</mat-dialog-content>
+
+<mat-dialog-actions
+    class="absolute right-0 bottom-0"
+    [align]="'end'">
+    <button
+        mat-raised-button
+        (click)="onCancel()">
+        <mat-icon>cancel</mat-icon>
+        Cancel
+    </button>
+
+    <button
+        mat-raised-button
+        color="accent"
+        (click)="onSaveLayout()"
+        [disabled]="saveDisabled">
+        <mat-icon>save</mat-icon>
+        Save
+    </button>
+</mat-dialog-actions>

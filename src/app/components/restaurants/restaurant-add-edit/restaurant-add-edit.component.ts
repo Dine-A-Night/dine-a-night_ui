@@ -14,7 +14,7 @@ import {
     Cuisine,
     Restaurant,
     RestaurantLocation,
-} from 'src/app/models/restaurant';
+} from 'src/app/models/restaurant.model';
 import { RestaurantsService } from 'src/app/services/restaurants.service';
 import { UserService } from 'src/app/services/user.service';
 import { POSTAL_CODE_REGEX } from 'src/app/utils/static-helpers';

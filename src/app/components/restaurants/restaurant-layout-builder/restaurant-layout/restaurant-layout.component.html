@@ -1,0 +1,62 @@
+<div class="flex gap-5">
+    <mat-form-field color="primary">
+        <mat-label>Length</mat-label>
+        <input
+            matInput
+            type="number"
+            placeholder="Number of Rows"
+            [(ngModel)]="layoutRows"
+            (ngModelChange)="onLayoutDimensionsChanged()" />
+    </mat-form-field>
+
+    <mat-form-field color="primary">
+        <mat-label>Width</mat-label>
+        <input
+            matInput
+            type="number"
+            placeholder="Number of Columns"
+            max="30"
+            [(ngModel)]="layoutColumns"
+            (ngModelChange)="onLayoutDimensionsChanged()" />
+    </mat-form-field>
+</div>
+
+<!-- Layout -->
+<div
+    class="border overflow-x-auto"
+    *ngIf="restaurantLayout && layoutColumns && layoutRows && tableTypes"
+    cdkDropListGroup>
+    <!-- Rows -->
+    <div
+        class="h-24 flex"
+        cdkDropList
+        cdkDropListOrientation="horizontal"
+        [cdkDropListData]="row"
+        (cdkDropListDropped)="drop($event)"
+        *ngFor="let row of restaurantLayout; index as yCoord">
+        <!-- Columns -->
+        <div
+            class="drag-box min-w-12 relative flex-1 flex justify-center items-center text-center border border-slate-50"
+            *ngFor="let table of row; index as xCoord"
+            [ngClass]="{
+                'bg-accent': isTableSelected(xCoord, yCoord),
+                'cursor-move': table !== null && editMode
+            }"
+            cdkDrag
+            [cdkDragDisabled]="table === null || !editMode"
+            [cdkDragData]="table">
+            <table-cell-renderer
+                [table]="table"
+                [tableTypes]="tableTypes"
+                [editMode]="editMode"
+                [isEdgeCell]="isEdgeCell(xCoord, yCoord)"
+                (tableAdded)="onTableAddedToCell($event, xCoord, yCoord)"
+                (tableRemoved)="
+                    onTableRemovedFromCell($event, { xCoord, yCoord })
+                "
+                (tableSelected)="
+                    onTableSelected(xCoord, yCoord)
+                "></table-cell-renderer>
+        </div>
+    </div>
+</div>

@@ -10,7 +10,10 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { GoogleMap } from '@angular/google-maps';
-import { Coordinates, RestaurantLocation } from 'src/app/models/restaurant';
+import {
+    Coordinates,
+    RestaurantLocation,
+} from 'src/app/models/restaurant.model';
 import { GeolocationService } from 'src/app/services/geolocation.service';
 import { GoogleMapsService } from 'src/app/services/google-maps.service';
 

@@ -3,7 +3,7 @@ import { Component, OnInit, Signal } from '@angular/core';
 import { Observable, firstValueFrom, map, tap } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ProfileUser } from 'src/app/models/user';
+import { ProfileUser } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({

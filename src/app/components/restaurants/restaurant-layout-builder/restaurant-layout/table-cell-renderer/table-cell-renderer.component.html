@@ -1,0 +1,70 @@
+<ng-container *ngIf="table; else EmptyTableCell">
+    <button
+        *ngIf="!editMode; else TableSVG"
+        matRipple
+        class="flex flex-col justify-center items-center absolute inset-0"
+        (click)="onTableCellSelected()"
+        [matTooltip]="table.tableType.description">
+        <div
+            [innerHTML]="
+                getSanitizerBypassedHtml(table.tableType.svgHtml) ||
+                table.tableType.name
+            "></div>
+        <p class="text-xs">{{ table.tableType.name }}</p>
+    </button>
+
+    <ng-template #TableSVG>
+        <div
+            class="flex flex-col justify-center items-center absolute inset-0"
+            [matMenuTriggerFor]="tableOptions">
+            <div
+                [matTooltip]="table.tableType.description"
+                [innerHTML]="
+                    getSanitizerBypassedHtml(table.tableType.svgHtml) ||
+                    table.tableType.name
+                "></div>
+            <p class="text-xs">{{ table.tableType.name }}</p>
+        </div>
+
+        <mat-menu #tableOptions="matMenu">
+            <button
+                mat-menu-item
+                (click)="onTableRemoved(table._id || '')">
+                <mat-icon color="warn">delete</mat-icon>
+                Remove Table
+            </button>
+        </mat-menu>
+    </ng-template>
+</ng-container>
+
+<ng-template #EmptyTableCell>
+    <div
+        *ngIf="tableTypes"
+        class="absolute inset-0 cursor-pointer"
+        [matMenuTriggerFor]="tableTypesMenu"></div>
+
+    <mat-menu #tableTypesMenu="matMenu">
+        <ng-container *ngFor="let tableType of tableTypes">
+            <button
+                *ngIf="
+                    !(tableType.evalue === TableTypeEvalues.ENTRY) || isEdgeCell
+                "
+                mat-menu-item
+                (click)="onTableAdded(tableType)">
+                <div class="flex items-center gap-3">
+                    <span
+                        [innerHTML]="
+                            sanitizeSvg(tableType.svgHtml, 20, 20)
+                        "></span>
+
+                    <div>
+                        <p>{{ tableType.name }}</p>
+                        <p class="text-slate-500">{{
+                            tableType.description
+                        }}</p>
+                    </div>
+                </div>
+            </button>
+        </ng-container>
+    </mat-menu>
+</ng-template>

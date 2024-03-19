@@ -7,7 +7,7 @@ import {
     SimpleChanges,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Restaurant } from 'src/app/models/restaurant';
+import { Restaurant } from 'src/app/models/restaurant.model';
 import { RestaurantsService } from 'src/app/services/restaurants.service';
 import { UserService } from 'src/app/services/user.service';
 

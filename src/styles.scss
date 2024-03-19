@@ -164,3 +164,15 @@ a:hover {
     color: purple;
     border: 1px solid orange;
 }
+
+/* Modals */
+
+.dine-a-night-modal_large {
+    height: min(750px, 90vh);
+    width: min(1000px, 80vw);
+    overflow-y: auto;
+}
+
+.mat-mdc-dialog-content.mdc-dialog__content {
+    max-height: 80%;
+}

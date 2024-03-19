@@ -5,7 +5,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ReAuthenticateDialogComponent } from 'src/app/components/auth/re-authenticate-dialog/re-authenticate-dialog.component';
-import { ProfileUser } from 'src/app/models/user';
+import { ProfileUser } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { isDefNotNull } from 'src/app/utils/helper-functions';
