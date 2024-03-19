@@ -13,6 +13,9 @@ import { RestaurantsService } from 'src/app/services/restaurants.service';
 import { deepEqual, isDefNotNull } from 'src/app/utils/helper-functions';
 import { RestaurantAddEditComponent } from '../restaurant-add-edit/restaurant-add-edit.component';
 import { RestaurantLayoutBuilderComponent } from '../restaurant-layout-builder/restaurant-layout-builder.component';
+import { UserService } from 'src/app/services/user.service';
+import { UserRole } from 'src/app/models/user.model';
+import { CreateReservationDialogComponent } from '../../reservations/create-reservation-dialog/create-reservation-dialog.component';
 
 @Component({
     selector: 'restaurant-details-tab',
@@ -27,9 +30,14 @@ export class RestaurantDetailsTabComponent implements OnInit {
 
     restaurantService = inject(RestaurantsService);
     notificationService = inject(MatSnackBar);
+    userService = inject(UserService);
     dialog = inject(MatDialog);
 
     ngOnInit(): void {}
+
+    get canMakeReservation() {
+        return this.userService.currentUser()?.role === UserRole.CUSTOMER;
+    }
 
     onEditClick(): void {
         this.dialog
@@ -103,6 +111,29 @@ export class RestaurantDetailsTabComponent implements OnInit {
     onBuildLayoutClick() {
         this.dialog
             .open(RestaurantLayoutBuilderComponent, {
+                data: {
+                    restaurant: this.restaurant,
+                },
+                panelClass: ['dine-a-night-modal_large'],
+                disableClose: true,
+            })
+            .afterClosed()
+            .subscribe({
+                next: (restaurant: Restaurant) => {
+                    if (restaurant?.layout) {
+                        // Save the Layout
+                        this.restaurant = new Restaurant(restaurant);
+                    }
+                },
+                error: (err) => {
+                    console.log(err);
+                },
+            });
+    }
+
+    onMakeReservationClick() {
+        this.dialog
+            .open(CreateReservationDialogComponent, {
                 data: {
                     restaurant: this.restaurant,
                 },

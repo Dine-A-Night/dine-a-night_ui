@@ -22,6 +22,14 @@
             Build Layout
         </button>
         <button
+            *ngIf="canMakeReservation"
+            mat-flat-button
+            (click)="onMakeReservationClick()"
+            color="accent">
+            <mat-icon>today</mat-icon>
+            Reserve a Table
+        </button>
+        <button
             *ngIf="showEdit"
             mat-flat-button
             (click)="onEditClick()"

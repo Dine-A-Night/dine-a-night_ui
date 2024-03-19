@@ -32,7 +32,7 @@ export interface TableType {
     description: string;
     capacity: number;
     svgHtml: string;
-    evalue?: TableTypeEvalues;
+    evalue: TableTypeEvalues;
 }
 
 export enum TableTypeEvalues {
