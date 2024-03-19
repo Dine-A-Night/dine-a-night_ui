@@ -17,7 +17,7 @@ import { ReviewService } from 'src/app/services/review.service';
 })
 export class ReviewsComponent implements OnChanges {
     @Input() restaurant: Restaurant;
-    reviews: Reviews = [];
+    reviews: Reviews;
 
     reviewService = inject(ReviewService);
     notificationService = inject(MatSnackBar);
@@ -47,11 +47,28 @@ export class ReviewsComponent implements OnChanges {
             });
     }
 
+    onReviewUpdated(updatedReview: Review) {
+        this.reviews[
+            this.reviews.findIndex((review) => review._id === updatedReview._id)
+        ] = updatedReview;
+    }
+
     onReviewAdded(newReview: Review) {
         this.reviews = [newReview, ...this.reviews];
     }
 
     onReviewDeleted(reviewId: string) {
         this.reviews = this.reviews.filter((review) => review._id !== reviewId);
+    }
+
+    get overallRating() {
+        const ratingCount = this.reviews.length;
+        return Number(
+            (
+                this.reviews
+                    .map((review) => review.rating)
+                    .reduce((a, b) => a + b) / ratingCount
+            ).toFixed(1),
+        );
     }
 }
