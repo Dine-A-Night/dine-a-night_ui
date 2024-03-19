@@ -220,7 +220,12 @@ export class RestaurantsService {
 
         return this.http
             .post(url, body, { headers })
-            .pipe(map((res) => res['restaurant'] as Restaurant));
+            .pipe(
+                map(
+                    (res) =>
+                        res['tableData']['updatedRestaurant'] as Restaurant,
+                ),
+            );
     }
 }
 
