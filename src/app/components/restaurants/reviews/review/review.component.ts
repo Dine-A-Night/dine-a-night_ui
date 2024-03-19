@@ -27,6 +27,7 @@ import { isDefNotNull } from 'src/app/utils/helper-functions';
 export class ReviewComponent implements AfterViewChecked, OnChanges {
     @Input() review: Review;
     @Output() reviewDeleted = new EventEmitter<string>(); // Emit reviewId
+    @Output() reviewUpdated = new EventEmitter<Review>();
     maxMessageHeight = 100; //px
     @ViewChild('messageContainer') messageContainer: ElementRef;
 
@@ -88,10 +89,11 @@ export class ReviewComponent implements AfterViewChecked, OnChanges {
                 rating: this.updatedRating,
             })
             .subscribe({
-                next: (updatedReview) => {
+                next: (updatedReview: Review) => {
                     this.review = updatedReview;
                     this.toggleEditMode();
 
+                    this.reviewUpdated.emit(updatedReview);
                     this.notificationService.open(
                         'Review updated successfully!',
                         'Ok',

@@ -13,7 +13,8 @@ export class Restaurant {
     staffMembers: ProfileUser[];
     layout: RestaurantDimensions;
     cuisines: Cuisine[];
-    reviews?: any[]; // any for now
+    reviewCount: number;
+    rating: number;
 
     constructor(data: any) {
         this._id = data?._id ?? null;
@@ -26,7 +27,8 @@ export class Restaurant {
         this.staffMembers = data?.staffMembers ?? [];
         this.layout = data?.layout ?? null;
         this.cuisines = data?.cuisines ?? [];
-        this.reviews = data?.reviews ?? [];
+        this.reviewCount = data?.reviewCount ?? 0;
+        this.rating = data?.rating ?? 0;
     }
 }
 
