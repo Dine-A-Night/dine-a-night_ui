@@ -1,7 +1,16 @@
 <ng-container *ngIf="table; else EmptyTableCell">
-    <button
+    <div
+        role="button"
+        [attr.aria-disabled]="selectionDisabled"
+        [ngClass]="{
+            'cursor-pointer': !selectionDisabled,
+            'cursor-default': selectionDisabled,
+            'bg-slate-100': selectionDisabled,
+            'opacity-80': selectionDisabled
+        }"
         *ngIf="!editMode; else TableSVG"
         matRipple
+        [matRippleDisabled]="selectionDisabled"
         class="flex flex-col justify-center items-center absolute inset-0"
         (click)="onTableCellSelected()"
         [matTooltip]="table.tableType.description">
@@ -11,7 +20,7 @@
                 table.tableType.name
             "></div>
         <p class="text-xs">{{ table.tableType.name }}</p>
-    </button>
+    </div>
 
     <ng-template #TableSVG>
         <div
@@ -39,7 +48,7 @@
 
 <ng-template #EmptyTableCell>
     <div
-        *ngIf="tableTypes"
+        *ngIf="editMode && tableTypes"
         class="absolute inset-0 cursor-pointer"
         [matMenuTriggerFor]="tableTypesMenu"></div>
 

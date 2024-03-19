@@ -1,4 +1,6 @@
-<div class="flex gap-5">
+<div
+    *ngIf="editMode"
+    class="flex gap-5">
     <mat-form-field color="primary">
         <mat-label>Length</mat-label>
         <input

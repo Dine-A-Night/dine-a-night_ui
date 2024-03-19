@@ -64,8 +64,19 @@ export class TableCellRendererComponent {
     //#region Make Reservations
     @Output() tableSelected = new EventEmitter<boolean>();
 
+    get selectionDisabled() {
+        const tableEvalue = this.table?.tableType.evalue;
+
+        return (
+            tableEvalue === TableTypeEvalues.ENTRY ||
+            tableEvalue === TableTypeEvalues.FRONT_DESK
+        );
+    }
+
     onTableCellSelected() {
-        this.tableSelected.emit(true);
+        if (!this.selectionDisabled) {
+            this.tableSelected.emit(true);
+        }
     }
 
     //#endregion

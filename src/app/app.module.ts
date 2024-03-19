@@ -62,6 +62,7 @@ import { UserManagementPageComponent } from './pages/user-management-page/user-m
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TableCellRendererComponent } from './components/restaurants/restaurant-layout-builder/restaurant-layout/table-cell-renderer/table-cell-renderer.component';
 import { MetersToKmsPipe } from './pipes/meters-to-kms.pipe';
+import { CreateReservationDialogComponent } from './components/reservations/create-reservation-dialog/create-reservation-dialog.component';
 
 @NgModule({
     declarations: [
@@ -99,6 +100,7 @@ import { MetersToKmsPipe } from './pipes/meters-to-kms.pipe';
         RestaurantLayoutComponent,
         TableCellRendererComponent,
         MetersToKmsPipe,
+        CreateReservationDialogComponent,
     ],
     imports: [
         BrowserModule,
