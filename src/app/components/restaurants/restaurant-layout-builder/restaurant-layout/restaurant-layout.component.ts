@@ -51,7 +51,6 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
     private notificationService = inject(MatSnackBar);
 
     ngOnInit(): void {
-        this.fetchExistingTables();
         this.getTableTypes();
     }
 
@@ -67,7 +66,7 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
                 };
             }
 
-            this.setupGrid();
+            this.fetchExistingTables();
         }
     }
 
@@ -75,8 +74,6 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
         this.reservationService.getTableTypes().subscribe({
             next: (tableTypes) => {
                 this.tableTypes = tableTypes;
-
-                console.log(tableTypes);
             },
             error: (err) => {
                 console.error(err);
@@ -88,6 +85,8 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
         this.restaurantService.getAllTables(this.restaurant._id).subscribe({
             next: (tables) => {
                 this.tables = tables;
+
+                this.setupGrid();
             },
             error: (err: any) => {
                 console.error(err);
