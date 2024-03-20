@@ -62,7 +62,17 @@
                     >Description is required.</mat-error
                 >
             </mat-form-field>
-            <!-- Add more form fields for other properties of the menu item -->
+            <file-selector
+                (filesSelected)="uploadMenuPhoto($event)"
+                *ngIf="showEdit">
+                <button
+                    #fileSelector
+                    mat-flat-button
+                    color="accent">
+                    <mat-icon>upload</mat-icon>
+                    Upload Cover Photo
+                </button>
+            </file-selector>
         </div>
         <mat-dialog-actions [align]="'end'">
             <button
@@ -75,9 +85,9 @@
                 mat-flat-button
                 color="accent"
                 type="submit"
-                [disabled]="menuItemForm.invalid"
-                ><mat-icon>save</mat-icon
-                >{{ isEdit ? 'Update' : 'Create' }} Menu Item</button
+                [disabled]="menuItemForm.invalid">
+                <mat-icon>save</mat-icon>{{ isEdit ? 'Update' : 'Create' }} Menu
+                Item</button
             >
         </mat-dialog-actions>
     </form>

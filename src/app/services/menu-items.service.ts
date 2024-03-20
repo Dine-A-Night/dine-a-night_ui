@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, concatMap, from, map } from 'rxjs';
 import { MenuItem } from '../models/menu-item';
 import { AuthService } from './auth.service';
 import { environment } from 'src/environments/environment';
+import { FileUploadService } from './file-upload.service';
 
 @Injectable({
     providedIn: 'root',
@@ -16,6 +17,7 @@ export class MenuItemsService {
     constructor(
         private http: HttpClient,
         private authService: AuthService,
+        private fileUploadService: FileUploadService,
     ) {}
 
     getMenuItems(restaurantId: string): Observable<MenuItem[]> {
@@ -52,5 +54,25 @@ export class MenuItemsService {
         const headers = this.authService.getAuthHeaders();
 
         return this.http.delete(url, { headers });
+    }
+
+    uploadMenuPhoto(menuItemId: string, image: File): Observable<string> {
+        const pathname = this.getMenuItemPhotoPath(menuItemId);
+
+        const imageUrl$ = from(
+            this.fileUploadService.uploadFile(pathname, image),
+        );
+        return imageUrl$.pipe(
+            concatMap((imageUrl) => {
+                return this.updateMenuItem(menuItemId, {
+                    imageUri: imageUrl,
+                });
+            }),
+            map((res: any) => res.imageUri),
+        );
+    }
+
+    private getMenuItemPhotoPath(menuItemId: string): string {
+        return `images/menuItems/${menuItemId}`;
     }
 }

@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MenuItemsService } from '../../../../services/menu-items.service';
-import { MenuItem } from '../../../../models/menu-item'; // Import the MenuItem model
+import { MenuItem } from '../../../../models/menu-item';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { isDefNotNull } from 'src/app/utils/helper-functions';
 
 @Component({
     selector: 'app-add-menu-item-dialog',
@@ -12,6 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class AddMenuItemDialogComponent implements OnInit {
     isEdit: boolean = false;
     menuItem: MenuItem = new MenuItem();
+    showEdit: boolean = true;
 
     constructor(
         public dialogRef: MatDialogRef<AddMenuItemDialogComponent>,
@@ -92,5 +94,60 @@ export class AddMenuItemDialogComponent implements OnInit {
                     console.error(error);
                 },
             });
+    }
+
+    uploadMenuPhoto(event) {
+        const files = event; // Get the selected files
+
+        const imageFile = [...files].filter((file) =>
+            file.type.startsWith('image/'),
+        )[0];
+
+        if (isDefNotNull(imageFile)) {
+            if (this.isEdit) {
+                // Update existing menu item
+                if (!this.menuItem || !this.menuItem._id) {
+                    console.error('Menu item ID is missing.');
+                    return;
+                }
+
+                this.menuItemsService
+                    .uploadMenuPhoto(this.menuItem._id, imageFile)
+                    .subscribe({
+                        next: (imageUrl) => {
+                            this.menuItem = {
+                                ...this.menuItem,
+                                imageUri: imageUrl,
+                            };
+
+                            this.notificationService.open(
+                                'Successfully uploaded menu photo',
+                                'Ok',
+                                {
+                                    duration: 3000,
+                                },
+                            );
+                        },
+                        error: (err: any) => {
+                            this.notificationService.open(
+                                `Failed to upload menu photo: ${err.message}`,
+                                'Oops',
+                                {
+                                    duration: 3000,
+                                },
+                            );
+                        },
+                    });
+            } else {
+                // Create new menu item
+                console.error('Cannot upload photo before creating the item.');
+                return;
+            }
+        } else {
+            this.notificationService.open(
+                'Make sure you select an image file for upload!',
+                'Ok',
+            );
+        }
     }
 }
