@@ -14,7 +14,7 @@ export class Restaurant {
     layout: RestaurantDimensions;
     cuisines: Cuisine[];
     reviewCount: number;
-    rating: number;
+    rating?: number;
 
     constructor(data: any) {
         this._id = data?._id ?? null;
@@ -46,6 +46,7 @@ export interface RestaurantLocation {
     country: string;
     postal: string;
     coordinates: Coordinates;
+    distance?: number; // Meters
 }
 
 export interface Coordinates {
