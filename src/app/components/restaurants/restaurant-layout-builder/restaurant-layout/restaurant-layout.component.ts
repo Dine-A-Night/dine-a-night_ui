@@ -32,6 +32,7 @@ import { RestaurantsService } from 'src/app/services/restaurants.service';
 export class RestaurantLayoutComponent implements OnInit, OnChanges {
     @Input() restaurant: Restaurant;
     @Input() editMode: boolean = false;
+    @Input() selectionDisabled: boolean = false;
 
     @Output() tablesUpdated = new EventEmitter<Tables>();
     @Output() tableSelected = new EventEmitter<Table | null>();

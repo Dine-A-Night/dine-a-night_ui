@@ -12,6 +12,10 @@ import { Observable, map } from 'rxjs';
 import { Restaurant } from 'src/app/models/restaurant.model';
 import { Table } from 'src/app/models/table.model';
 import { ReservationService } from 'src/app/services/reservation.service';
+import {
+    DateAfterValidator,
+    DateBeforeValidator,
+} from 'src/app/utils/custom-validators';
 
 @Component({
     selector: 'create-reservation-dialog',
@@ -49,12 +53,39 @@ export class CreateReservationDialogComponent implements OnInit {
     private initForms() {
         this.reservationDurationForm = this.fb.group({
             reservationDate: [this.startAt, [Validators.required]],
-            startDateTime: [null, [Validators.required]],
+            startDateTime: [null, [Validators.required, ,]],
             endDateTime: [null, [Validators.required]],
         });
 
+        const startDateTimeControl =
+            this.reservationDurationForm.controls['startDateTime'];
+        const endDateTimeControl =
+            this.reservationDurationForm.controls['endDateTime'];
+
+        startDateTimeControl.addValidators([
+            DateBeforeValidator(
+                endDateTimeControl,
+                new Date(
+                    this.reservationDurationForm.controls[
+                        'reservationDate'
+                    ].value,
+                ),
+            ),
+        ]);
+
+        endDateTimeControl.addValidators([
+            DateAfterValidator(
+                startDateTimeControl,
+                new Date(
+                    this.reservationDurationForm.controls[
+                        'reservationDate'
+                    ].value,
+                ),
+            ),
+        ]);
+
         this.reservationDurationForm.valueChanges.subscribe((val) =>
-            console.log(val),
+            console.log(this.reservationDurationForm),
         );
     }
 
@@ -88,22 +119,12 @@ export class CreateReservationDialogComponent implements OnInit {
     }
 
     get saveDisabled() {
-        return true;
+        return this.reservationDurationForm.invalid || !this.selectedTable;
     }
 
-    //#region Duration Limiters
-
-    // get minStartDateTime() {
-    //     return (
-    //         this.reservationDurationForm.get('reservationDate')?.value ?? null
-    //     );
-    // }
-
-    // get maxStartDateTime() {
-    //     return this.reservationDurationForm.get('endDateTime')?.value ?? null;
-    // }
-
-    //#endregion
+    get selectionDisabled() {
+        return this.reservationDurationForm.invalid;
+    }
 
     //#region Table and Time selection
 

@@ -2,7 +2,11 @@
 module.exports = {
   content: ["./src/**/*.{html,ts}"],
   theme: {
-    extend: {},
+    extend: {
+      zIndex: {
+        1200: "1200",
+      },
+    },
   },
   plugins: [],
   important: true,

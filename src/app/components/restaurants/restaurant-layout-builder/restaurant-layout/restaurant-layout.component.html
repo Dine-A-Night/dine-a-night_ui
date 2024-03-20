@@ -25,7 +25,7 @@
 
 <!-- Layout -->
 <div
-    class="border overflow-x-auto"
+    class="relative border overflow-x-auto"
     *ngIf="restaurantLayout && layoutColumns && layoutRows && tableTypes"
     cdkDropListGroup>
     <!-- Rows -->
@@ -61,4 +61,9 @@
                 "></table-cell-renderer>
         </div>
     </div>
+
+    <!-- Overlay -->
+    <div
+        *ngIf="selectionDisabled && !editMode"
+        class="absolute inset-0 z-1200 opacity-50 bg-slate-50"></div>
 </div>
