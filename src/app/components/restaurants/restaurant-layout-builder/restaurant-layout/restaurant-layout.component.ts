@@ -34,6 +34,7 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
     @Input() editMode: boolean = false;
 
     @Output() tablesUpdated = new EventEmitter<Tables>();
+    @Output() tableSelected = new EventEmitter<Table | null>();
 
     tables: Tables = [];
 
@@ -121,7 +122,6 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
         );
 
         this.populateExistingTables();
-        console.log(this.restaurantLayout);
     }
 
     private createEmptyLayout(rows: number, columns: number): RestaurantLayout {
@@ -173,6 +173,16 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
         );
     }
 
+    getTableAt(positon: TablePosition) {
+        const { xCoord, yCoord } = positon;
+
+        return this.tables.find(
+            (table) =>
+                table.position.xCoord === xCoord &&
+                table.position.yCoord === yCoord,
+        );
+    }
+
     onLayoutDimensionsChanged() {
         this.setupGrid();
 
@@ -211,7 +221,6 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
 
         this.recalculatePositions();
         this.tablesUpdated.emit(this.tablesInLayout);
-        console.log(this.restaurantLayout);
     }
 
     onTableSelected(xCoord: number, yCoord: number) {
@@ -221,6 +230,9 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
                   yCoord,
               }
             : null;
+
+        const position = this.selectedTable;
+        this.tableSelected.emit(position ? this.getTableAt(position) : null);
     }
 
     onTableAddedToCell(tableType: TableType, xCoord: number, yCoord: number) {
