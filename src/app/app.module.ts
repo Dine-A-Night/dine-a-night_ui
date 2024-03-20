@@ -13,7 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatRippleModule } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -63,6 +63,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TableCellRendererComponent } from './components/restaurants/restaurant-layout-builder/restaurant-layout/table-cell-renderer/table-cell-renderer.component';
 import { MetersToKmsPipe } from './pipes/meters-to-kms.pipe';
 import { CreateReservationDialogComponent } from './components/reservations/create-reservation-dialog/create-reservation-dialog.component';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
     declarations: [
@@ -130,6 +133,9 @@ import { CreateReservationDialogComponent } from './components/reservations/crea
         MatProgressSpinnerModule,
         MatTabsModule,
         DragDropModule,
+        NgxMaterialTimepickerModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
     ],
     providers: [{ provide: MAT_DIALOG_DATA, useValue: {} }], // Provide an empty object as a default value],
     bootstrap: [AppComponent],
