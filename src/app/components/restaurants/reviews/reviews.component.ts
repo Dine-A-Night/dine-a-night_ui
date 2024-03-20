@@ -63,12 +63,14 @@ export class ReviewsComponent implements OnChanges {
 
     get overallRating() {
         const ratingCount = this.reviews.length;
-        return Number(
-            (
-                this.reviews
-                    .map((review) => review.rating)
-                    .reduce((a, b) => a + b) / ratingCount
-            ).toFixed(1),
-        );
+        return ratingCount
+            ? Number(
+                  (
+                      this.reviews
+                          .map((review) => review.rating)
+                          .reduce((a, b) => a + b) / ratingCount
+                  ).toFixed(1),
+              )
+            : 0;
     }
 }

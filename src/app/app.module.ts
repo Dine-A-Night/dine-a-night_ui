@@ -61,6 +61,7 @@ import { UserManagementPageComponent } from './pages/user-management-page/user-m
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TableCellRendererComponent } from './components/restaurants/restaurant-layout-builder/restaurant-layout/table-cell-renderer/table-cell-renderer.component';
+import { MetersToKmsPipe } from './pipes/meters-to-kms.pipe';
 
 @NgModule({
     declarations: [
@@ -97,6 +98,7 @@ import { TableCellRendererComponent } from './components/restaurants/restaurant-
         RestaurantLayoutBuilderComponent,
         RestaurantLayoutComponent,
         TableCellRendererComponent,
+        MetersToKmsPipe,
     ],
     imports: [
         BrowserModule,

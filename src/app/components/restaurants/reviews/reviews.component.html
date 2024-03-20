@@ -2,7 +2,7 @@
     <h2 class="text-2xl sm:text-3xl font-bold py-4">Reviews</h2>
 
     <div
-        *ngIf="reviews"
+        *ngIf="reviews?.length"
         class="flex gap-2">
         <p class="font-bold">{{ overallRating }}</p>
         <rating-selector
