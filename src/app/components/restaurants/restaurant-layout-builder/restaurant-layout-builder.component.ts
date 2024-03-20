@@ -55,9 +55,6 @@ export class RestaurantLayoutBuilderComponent {
     }
 
     onSaveLayout() {
-        console.log(this.restaurant.layout);
-        console.log(this.tables);
-
         this.restaurantService
             .updateLayout(
                 this.restaurant._id,
@@ -66,7 +63,6 @@ export class RestaurantLayoutBuilderComponent {
             )
             .subscribe({
                 next: (restaurant: Restaurant) => {
-                    console.log(restaurant);
                     this.notificationService.open(
                         'Layout successfully updated',
                         'Ok',
