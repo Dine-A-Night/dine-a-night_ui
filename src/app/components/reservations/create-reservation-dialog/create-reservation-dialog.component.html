@@ -57,6 +57,7 @@
                             matInput
                             [ngxTimepicker]="startTimePicker" />
                         <ngx-material-timepicker
+                            [enableKeyboardInput]="true"
                             [timepickerClass]="'dine-a-night_time-picker'"
                             #startTimePicker></ngx-material-timepicker>
 
@@ -68,6 +69,14 @@
                                     ?.errors?.['required']
                             "
                             >Start Date is Required</mat-error
+                        >
+
+                        <mat-error
+                            *ngIf="
+                                reservationDurationForm.get('startDateTime')
+                                    ?.errors?.['DateBeforeValidator']
+                            "
+                            >Cannot be after end time</mat-error
                         >
                     </mat-form-field>
 
@@ -81,6 +90,7 @@
                             matInput
                             [ngxTimepicker]="endTimePicker" />
                         <ngx-material-timepicker
+                            [enableKeyboardInput]="true"
                             [timepickerClass]="'dine-a-night_time-picker'"
                             #endTimePicker></ngx-material-timepicker>
 
@@ -93,6 +103,14 @@
                             "
                             >End Date is Required</mat-error
                         >
+
+                        <mat-error
+                            *ngIf="
+                                reservationDurationForm.get('endDateTime')
+                                    ?.errors?.['DateAfterValidator']
+                            "
+                            >Cannot be before Start Time</mat-error
+                        >
                     </mat-form-field>
                 </form>
                 <h2 class="text-xl font-bold mb-2 text-color-primary"
@@ -100,6 +118,7 @@
                 >
                 <restaurant-layout
                     (tableSelected)="onTableSelected($event)"
+                    [selectionDisabled]="selectionDisabled"
                     [editMode]="false"
                     [restaurant]="restaurant"></restaurant-layout>
             </div>
