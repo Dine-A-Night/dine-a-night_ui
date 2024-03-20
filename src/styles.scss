@@ -201,3 +201,18 @@ a:hover {
         color: white !important;
     }
 }
+
+/* ngx-timepicker  */
+.timepicker-overlay {
+    z-index: 1100 !important;
+}
+
+.timepicker-backdrop-overlay {
+    z-index: 1100 !important;
+}
+
+.dine-a-night_time-picker {
+    --dial-background-color: #d17341;
+    --clock-hand-color: #d17341;
+    --button-color: #d17341;
+}
