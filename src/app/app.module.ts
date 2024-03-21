@@ -66,6 +66,7 @@ import { CreateReservationDialogComponent } from './components/reservations/crea
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { PreorderFormComponent } from './components/reservations/preorder-form/preorder-form.component';
 
 @NgModule({
     declarations: [
@@ -104,6 +105,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
         TableCellRendererComponent,
         MetersToKmsPipe,
         CreateReservationDialogComponent,
+        PreorderFormComponent,
     ],
     imports: [
         BrowserModule,

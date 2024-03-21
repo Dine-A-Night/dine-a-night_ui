@@ -15,7 +15,11 @@ import { AddMenuItemDialogComponent } from './add-menu-item-dialog/add-menu-item
 export class MenuItemComponent {
     @Input() menuItem: MenuItem;
     @Input() showEditControls: boolean;
+    @Input() showOrderControls: boolean = false;
     @Output() itemDeleted = new EventEmitter<string>();
+
+    @Input() itemQuantity = 0;
+    @Output() itemQuantityChange = new EventEmitter<number>();
 
     menuItemsService = inject(MenuItemsService);
     notificationService = inject(MatSnackBar);
@@ -82,5 +86,18 @@ export class MenuItemComponent {
         return (
             this.menuItem.imageUri || RestaurantsService.DEFAULT_COVER_PHOTO_URI
         );
+    }
+
+    onItemAdded() {
+        ++this.itemQuantity;
+
+        this.itemQuantityChange.emit(this.itemQuantity);
+    }
+
+    onItemRemoved() {
+        if (this.itemQuantity > 0) {
+            --this.itemQuantity;
+            this.itemQuantityChange.emit(this.itemQuantity);
+        }
     }
 }
