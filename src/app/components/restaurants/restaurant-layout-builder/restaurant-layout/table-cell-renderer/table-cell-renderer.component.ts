@@ -15,6 +15,7 @@ export class TableCellRendererComponent {
     @Input() editMode: boolean = false;
     @Input() isEdgeCell = false;
     @Input() tableTypes: TableType[];
+    @Input() isTableUnavailable: boolean = false;
 
     TableTypeEvalues = TableTypeEvalues;
 
@@ -69,7 +70,15 @@ export class TableCellRendererComponent {
 
         return (
             tableEvalue === TableTypeEvalues.ENTRY ||
-            tableEvalue === TableTypeEvalues.FRONT_DESK
+            tableEvalue === TableTypeEvalues.FRONT_DESK ||
+            this.isTableUnavailable
+        );
+    }
+
+    get tooltipContent() {
+        return (
+            (this.table?.tableType?.description ?? '') +
+            (this.isTableUnavailable ? ' (Unavailable)' : '')
         );
     }
 

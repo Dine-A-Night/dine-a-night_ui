@@ -22,3 +22,5 @@ export class Reservation {
         this.specialRequests = this.specialRequests ?? '';
     }
 }
+
+export type Reservations = Reservation[];
