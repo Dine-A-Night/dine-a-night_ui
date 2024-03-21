@@ -31,11 +31,11 @@ import { RestaurantsService } from 'src/app/services/restaurants.service';
 })
 export class RestaurantLayoutComponent implements OnInit, OnChanges {
     @Input() restaurant: Restaurant;
+    @Input() unavailableTableIds: string[];
     @Input() editMode: boolean = false;
     @Input() selectionDisabled: boolean = false;
 
     @Output() tablesUpdated = new EventEmitter<Tables>();
-    @Output() tableSelected = new EventEmitter<Table | null>();
 
     tables: Tables = [];
 
@@ -45,7 +45,10 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
 
     tableTypes: TableType[];
 
-    selectedTable: TablePosition | null;
+    selectedTablePosition: TablePosition | null;
+
+    @Input() selectedTable: Table | null;
+    @Output() selectedTableChange = new EventEmitter<Table | null>();
 
     // Services
     private reservationService = inject(ReservationService);
@@ -70,6 +73,14 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
 
             this.fetchExistingTables();
         }
+
+        if (changes['selectedTable']) {
+            this.selectedTablePosition = this.selectedTable?.position ?? null;
+        }
+    }
+
+    isTableUnavailable(tableId?: string | null) {
+        return this.unavailableTableIds?.includes(tableId ?? '');
     }
 
     private getTableTypes() {
@@ -169,8 +180,8 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
 
     isTableSelected(xCoord: number, yCoord: number) {
         return (
-            xCoord === this.selectedTable?.xCoord &&
-            yCoord === this.selectedTable?.yCoord
+            xCoord === this.selectedTablePosition?.xCoord &&
+            yCoord === this.selectedTablePosition?.yCoord
         );
     }
 
@@ -225,15 +236,17 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
     }
 
     onTableSelected(xCoord: number, yCoord: number) {
-        this.selectedTable = !this.isTableSelected(xCoord, yCoord)
+        this.selectedTablePosition = !this.isTableSelected(xCoord, yCoord)
             ? {
                   xCoord,
                   yCoord,
               }
             : null;
 
-        const position = this.selectedTable;
-        this.tableSelected.emit(position ? this.getTableAt(position) : null);
+        const position = this.selectedTablePosition;
+        this.selectedTableChange.emit(
+            position ? this.getTableAt(position) : null,
+        );
     }
 
     onTableAddedToCell(tableType: TableType, xCoord: number, yCoord: number) {

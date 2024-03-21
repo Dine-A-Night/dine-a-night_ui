@@ -57,7 +57,6 @@
                             matInput
                             [ngxTimepicker]="startTimePicker" />
                         <ngx-material-timepicker
-                            [enableKeyboardInput]="true"
                             [timepickerClass]="'dine-a-night_time-picker'"
                             #startTimePicker></ngx-material-timepicker>
 
@@ -90,7 +89,6 @@
                             matInput
                             [ngxTimepicker]="endTimePicker" />
                         <ngx-material-timepicker
-                            [enableKeyboardInput]="true"
                             [timepickerClass]="'dine-a-night_time-picker'"
                             #endTimePicker></ngx-material-timepicker>
 
@@ -117,7 +115,14 @@
                     >Seating Scheme</h2
                 >
                 <restaurant-layout
-                    (tableSelected)="onTableSelected($event)"
+                    [(selectedTable)]="selectedTable"
+                    [unavailableTableIds]="
+                        getUnavailableTableIds(
+                            currentReservations,
+                            startDateTime,
+                            endDateTime
+                        )
+                    "
                     [selectionDisabled]="selectionDisabled"
                     [editMode]="false"
                     [restaurant]="restaurant"></restaurant-layout>

@@ -5,7 +5,8 @@
         [ngClass]="{
             'cursor-pointer': !selectionDisabled,
             'cursor-default': selectionDisabled,
-            'bg-slate-100': selectionDisabled,
+            'bg-slate-100': selectionDisabled && !isTableUnavailable,
+            'bg-red-100': isTableUnavailable,
             'opacity-80': selectionDisabled
         }"
         *ngIf="!editMode; else TableSVG"
@@ -13,7 +14,7 @@
         [matRippleDisabled]="selectionDisabled"
         class="flex flex-col justify-center items-center absolute inset-0"
         (click)="onTableCellSelected()"
-        [matTooltip]="table.tableType.description">
+        [matTooltip]="tooltipContent">
         <div
             [innerHTML]="
                 getSanitizerBypassedHtml(table.tableType.svgHtml) ||
