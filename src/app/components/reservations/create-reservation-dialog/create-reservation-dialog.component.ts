@@ -13,12 +13,15 @@ import { Reservation, Reservations } from 'src/app/models/reservation.model';
 import { Restaurant } from 'src/app/models/restaurant.model';
 import { Table } from 'src/app/models/table.model';
 import { ReservationService } from 'src/app/services/reservation.service';
+import { UserService } from 'src/app/services/user.service';
 import {
     DateAfterValidator,
     DateBeforeValidator,
 } from 'src/app/utils/custom-validators';
-import { ConfirmDialogComponent } from '../../reusables/confirm-dialog/confirm-dialog.component';
 import { isDefNotNull } from 'src/app/utils/helper-functions';
+import { ConfirmDialogComponent } from '../../reusables/confirm-dialog/confirm-dialog.component';
+import { MenuItem } from 'src/app/models/menu-item';
+import { MenuItemsService } from 'src/app/services/menu-items.service';
 
 @Component({
     selector: 'create-reservation-dialog',
@@ -28,6 +31,7 @@ import { isDefNotNull } from 'src/app/utils/helper-functions';
 export class CreateReservationDialogComponent implements OnInit, OnDestroy {
     stepperOrientation: Observable<StepperOrientation>;
     restaurant: Restaurant;
+    menuItems: MenuItem[];
 
     startAt: Date = new Date(Date.now());
 
@@ -35,6 +39,8 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
     reservationDurationFormChangesSub: Subscription;
 
     currentReservations: Reservations;
+
+    selectedStepIndex = ReservationStepIndex.TIME_AND_TABLE;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: CreateReservationDialogParams,
@@ -44,8 +50,11 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
         private notificationService: MatSnackBar,
         private breakpointObserver: BreakpointObserver,
         private fb: FormBuilder,
+        private userService: UserService,
+        private menuItemsService: MenuItemsService,
     ) {
         this.restaurant = new Restaurant(data.restaurant);
+        this.getMenuItems();
 
         this.stepperOrientation = this.breakpointObserver
             .observe('(min-width: 1000px)')
@@ -71,8 +80,28 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
                 },
             });
     }
+
     ngOnDestroy(): void {
         this.reservationDurationFormChangesSub?.unsubscribe();
+    }
+
+    private getMenuItems() {
+        this.menuItemsService.getMenuItems(this.restaurant._id).subscribe({
+            next: (res) => {
+                this.menuItems = res['menu'];
+            },
+            error: (err) => {
+                console.error(err);
+
+                this.notificationService.open(
+                    'Failed to fetch menu items',
+                    'Oops',
+                    {
+                        panelClass: ['fail-snackbar'],
+                    },
+                );
+            },
+        });
     }
 
     private initForms() {
@@ -183,12 +212,13 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
         const unavailableTableIds = new Set<string>();
 
         if (startDateTime && endDateTime && reservations) {
-            const conflictingReservations = reservations.filter((reservation) =>
-                this.isReservationConflicting(
-                    reservation,
-                    startDateTime,
-                    endDateTime,
-                ),
+            const conflictingReservations = reservations.filter(
+                (reservation) =>
+                    this.isReservationConflicting(
+                        reservation,
+                        startDateTime,
+                        endDateTime,
+                    ) && !reservation.isCancelled,
             );
 
             conflictingReservations.forEach((reservation) => {
@@ -253,9 +283,57 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
         }
     }
 
-    makeReservation() {}
+    makeReservation() {
+        if (this.selectedStepIndex !== ReservationStepIndex.SUMMARY) {
+            this.selectedStepIndex = ReservationStepIndex.SUMMARY;
+        } else {
+            const userId = this.userService.currentUser()?.uid!;
+
+            const reservation = new Reservation({
+                startDateTime: this.startDateTime!,
+                endDateTime: this.endDateTime!,
+                isCancelled: false,
+                preOrder: null,
+                tables: [this.selectedTable!],
+                userId,
+                specialRequests: '',
+            });
+
+            this.reservationService
+                .createReservation(this.restaurant._id, reservation)
+                .subscribe({
+                    next: (reservation) => {
+                        this.notificationService.open(
+                            'Reservation Successfull',
+                            'Ok',
+                            {
+                                duration: 3000,
+                                panelClass: ['success-snackbar'],
+                            },
+                        );
+
+                        this.dialogRef.close();
+                    },
+                    error: (err) => {
+                        this.notificationService.open(
+                            'Reservation Failed',
+                            'Oops',
+                            {
+                                panelClass: ['fail-snackbar'],
+                            },
+                        );
+                    },
+                });
+        }
+    }
 }
 
 type CreateReservationDialogParams = {
     restaurant: Restaurant;
 };
+
+enum ReservationStepIndex {
+    TIME_AND_TABLE = 0,
+    ORDER = 1,
+    SUMMARY = 2,
+}

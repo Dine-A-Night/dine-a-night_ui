@@ -8,7 +8,8 @@
         class="border rounded-lg"
         [autofocus]="false"
         [orientation]="(stepperOrientation | async)!"
-        [linear]="true"
+        [linear]="false"
+        [(selectedIndex)]="selectedStepIndex"
         #stepper>
         <mat-step
             [stepControl]="reservationDurationForm"
@@ -138,10 +139,36 @@
             </div>
         </mat-step>
 
-        <mat-step label="Order Beforehand"> </mat-step>
+        <mat-step label="Order Beforehand">
+            <preorder-form [menuItems]="menuItems"></preorder-form>
+            <div class="flex justify-between">
+                <button
+                    mat-flat-button
+                    color="accent"
+                    matStepperPrevious
+                    >Previous</button
+                >
+                <button
+                    mat-flat-button
+                    color="accent"
+                    matStepperNext
+                    >Next</button
+                >
+            </div>
+        </mat-step>
 
         <mat-step label="Reservation Summary">
-            <div class="container-80"> </div>
+            <div class="min-h-80 py-3">
+                <h2 class="text-2xl font-bold text-color-primary"
+                    >Confirm Reservation</h2
+                >
+            </div>
+            <button
+                mat-flat-button
+                color="accent"
+                matStepperPrevious
+                >Previous</button
+            >
         </mat-step>
     </mat-stepper>
 </mat-dialog-content>

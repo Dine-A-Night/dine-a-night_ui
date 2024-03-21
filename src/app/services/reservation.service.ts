@@ -74,4 +74,13 @@ export class ReservationService {
             .get(url)
             .pipe(map((res) => res['reservations'] as Reservations));
     }
+
+    createReservation(restaurantId: string, reservation: Reservation) {
+        const url = `${this.API_URL}/restaurants/${restaurantId}/reservations`;
+        const headers = this.authService.getAuthHeaders();
+
+        return this.http
+            .post(url, reservation, { headers })
+            .pipe(map((res) => res['reservation']));
+    }
 }

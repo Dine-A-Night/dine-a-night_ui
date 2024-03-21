@@ -1,0 +1,12 @@
+<div class="py-3">
+    <h2 class="text-2xl font-bold text-color-primary">Pre Order</h2>
+
+    <div class="min-h-80 py-3">
+        <ng-container *ngIf="menuItems">
+            <menu-item
+                *ngFor="let menuItem of menuItems"
+                [menuItem]="menuItem"
+                [showOrderControls]="true"></menu-item>
+        </ng-container>
+    </div>
+</div>

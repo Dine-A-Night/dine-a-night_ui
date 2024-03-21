@@ -80,6 +80,7 @@ export class UserManagementPageComponent {
                         'Ok',
                         {
                             duration: 3000,
+                            panelClass: ['success-snackbar'],
                         },
                     );
                 },

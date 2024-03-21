@@ -13,11 +13,11 @@
 
 /* Colors */
 $color-primary: white;
-// $color-secondary: rgba(5, 5, 131, 0.862);
-// $color-secondary: #001f3f;
 $color-links: rgba(5, 5, 131, 0.862);
 $color-secondary: #f7d390;
 $color-accent: #d17341;
+$color-success: #1e7e34;
+$color-fail: #1e7e34;
 
 $text-color-primary: black;
 $text-color-light: white;
@@ -215,4 +215,21 @@ a:hover {
     --dial-background-color: #d17341;
     --clock-hand-color: #d17341;
     --button-color: #d17341;
+}
+
+/* Mat Snackbar */
+.mat-mdc-snack-bar-container {
+    &.success-snackbar {
+        --mdc-snackbar-container-color: #1e7e34;
+        --mat-mdc-snack-bar-button-color: #fff;
+        --mdc-snackbar-supporting-text-color: #fff;
+    }
+}
+
+.mat-mdc-snack-bar-container {
+    &.fail-snackbar {
+        --mdc-snackbar-container-color: #dc3545;
+        --mat-mdc-snack-bar-button-color: #fff;
+        --mdc-snackbar-supporting-text-color: #fff;
+    }
 }

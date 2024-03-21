@@ -21,25 +21,41 @@
             >
             <div class="flex justify-between items-center mt-4 pb-2">
                 <p class="text-gray-700">{{ menuItem.unitPrice | currency }}</p>
-                <div class="flex">
-                    <!-- Add the edit button -->
-                    <button
-                        *ngIf="showEditControls"
-                        mat-icon-button
-                        (click)="openEditDialog()"
-                        matTooltip="Edit Menu Item"
-                        color="secondary">
-                        <mat-icon>edit</mat-icon>
-                    </button>
+                <div class="flex items-center gap-2">
+                    <ng-container *ngIf="showOrderControls">
+                        <button
+                            mat-icon-button
+                            (click)="onItemAdded()"
+                            aria-label="Add menu item">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                        <span>{{ itemQuantity }}</span>
+                        <button
+                            mat-icon-button
+                            (click)="onItemRemoved()"
+                            aria-label="Remove menu item">
+                            <mat-icon>remove</mat-icon>
+                        </button>
+                    </ng-container>
 
-                    <button
-                        *ngIf="showEditControls"
-                        mat-icon-button
-                        matTooltip="Delete Menu Item"
-                        color="warn"
-                        (click)="deleteMenuItem()">
-                        <mat-icon>delete</mat-icon>
-                    </button>
+                    <ng-container *ngIf="showEditControls">
+                        <!-- Add the edit button -->
+                        <button
+                            mat-icon-button
+                            (click)="openEditDialog()"
+                            matTooltip="Edit Menu Item"
+                            color="secondary">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+
+                        <button
+                            mat-icon-button
+                            matTooltip="Delete Menu Item"
+                            color="warn"
+                            (click)="deleteMenuItem()">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </ng-container>
                 </div>
             </div>
         </div>
