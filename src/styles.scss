@@ -176,3 +176,28 @@ a:hover {
 .mat-mdc-dialog-content.mdc-dialog__content {
     max-height: 80%;
 }
+
+/* Mat Snackbar */
+.mat-mdc-snack-bar-container {
+    &.success-snackbar {
+        --mdc-snackbar-container-color: #1e7e34;
+        --mat-mdc-snack-bar-button-color: #fff;
+        --mdc-snackbar-supporting-text-color: #fff;
+
+        button {
+            color: white !important;
+        }
+    }
+}
+
+.mat-mdc-snack-bar-container {
+    &.fail-snackbar {
+        --mdc-snackbar-container-color: #dc3545;
+        --mat-mdc-snack-bar-button-color: #fff;
+        --mdc-snackbar-supporting-text-color: #fff;
+    }
+
+    button {
+        color: white !important;
+    }
+}

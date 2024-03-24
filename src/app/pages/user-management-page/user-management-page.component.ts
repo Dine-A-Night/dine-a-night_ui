@@ -77,7 +77,7 @@ export class UserManagementPageComponent {
 
                     this.notificationService.open(
                         'User updated successfully!',
-                        undefined,
+                        'Ok',
                         {
                             duration: 3000,
                         },
@@ -86,7 +86,7 @@ export class UserManagementPageComponent {
                 error: (err) => {
                     this.notificationService.open(
                         "Couldn't update the user!",
-                        undefined,
+                        'Oops',
                         {
                             duration: 3000,
                         },
