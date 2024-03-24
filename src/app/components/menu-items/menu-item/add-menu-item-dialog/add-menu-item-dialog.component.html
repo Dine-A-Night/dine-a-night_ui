@@ -7,9 +7,32 @@
 <mat-dialog-content class="w-200 sm:w-96">
     <form
         #menuItemForm="ngForm"
-        (ngSubmit)="onSave()"
         novalidate>
         <div class="flex flex-col gap-4">
+            <!-- Image Preview -->
+            <div class="flex justify-center">
+                <img
+                    class="h-24 object-cover rounded-lg"
+                    [src]="imageUrl"
+                    alt="Menu Item Image" />
+            </div>
+
+            <!-- Image Uploader -->
+            <div class="flex justify-center">
+                <file-selector
+                    [accept]="'image/*'"
+                    (filesSelected)="imageSelected($event)">
+                    <button
+                        #fileSelector
+                        type="button"
+                        mat-flat-button
+                        color="accent">
+                        <mat-icon>upload</mat-icon>
+                        Upload Item Image
+                    </button>
+                </file-selector>
+            </div>
+
             <mat-form-field>
                 <mat-label>Item Name</mat-label>
                 <input
@@ -62,7 +85,6 @@
                     >Description is required.</mat-error
                 >
             </mat-form-field>
-            <!-- Add more form fields for other properties of the menu item -->
         </div>
         <mat-dialog-actions [align]="'end'">
             <button
@@ -74,10 +96,11 @@
             <button
                 mat-flat-button
                 color="accent"
-                type="submit"
-                [disabled]="menuItemForm.invalid"
-                ><mat-icon>save</mat-icon
-                >{{ isEdit ? 'Update' : 'Create' }} Menu Item</button
+                type="button"
+                (click)="onSave()"
+                [disabled]="menuItemForm.invalid">
+                <mat-icon>save</mat-icon>{{ isEdit ? 'Update' : 'Create' }} Menu
+                Item</button
             >
         </mat-dialog-actions>
     </form>
