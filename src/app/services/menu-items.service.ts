@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, concatMap, from, map } from 'rxjs';
+import { Observable, concat, concatMap, forkJoin, from, map } from 'rxjs';
 import { MenuItem } from '../models/menu-item';
 import { AuthService } from './auth.service';
 import { environment } from 'src/environments/environment';
@@ -46,30 +46,25 @@ export class MenuItemsService {
 
         return this.http
             .put<MenuItem>(url, updatedMenuItem, { headers })
-            .pipe(map((res: any) => res));
+            .pipe(map((res: any) => res['menuItem']));
     }
 
     deleteMenuItem(menuItemId: string): Observable<any> {
         const url = `${this.API_URL}/menuitems/${menuItemId}`;
         const headers = this.authService.getAuthHeaders();
 
-        return this.http.delete(url, { headers });
+        return forkJoin([
+            this.fileUploadService.deleteFile(
+                this.getMenuItemPhotoPath(menuItemId),
+            ),
+            this.http.delete(url, { headers }),
+        ]);
     }
 
     uploadMenuPhoto(menuItemId: string, image: File): Observable<string> {
         const pathname = this.getMenuItemPhotoPath(menuItemId);
 
-        const imageUrl$ = from(
-            this.fileUploadService.uploadFile(pathname, image),
-        );
-        return imageUrl$.pipe(
-            concatMap((imageUrl) => {
-                return this.updateMenuItem(menuItemId, {
-                    imageUri: imageUrl,
-                });
-            }),
-            map((res: any) => res.imageUri),
-        );
+        return from(this.fileUploadService.uploadFile(pathname, image));
     }
 
     private getMenuItemPhotoPath(menuItemId: string): string {

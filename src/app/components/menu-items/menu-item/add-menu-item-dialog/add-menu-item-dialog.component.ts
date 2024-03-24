@@ -4,6 +4,7 @@ import { MenuItemsService } from '../../../../services/menu-items.service';
 import { MenuItem } from '../../../../models/menu-item';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { isDefNotNull } from 'src/app/utils/helper-functions';
+import { Observable, concatMap, map, of, switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-add-menu-item-dialog',
@@ -13,7 +14,9 @@ import { isDefNotNull } from 'src/app/utils/helper-functions';
 export class AddMenuItemDialogComponent implements OnInit {
     isEdit: boolean = false;
     menuItem: MenuItem = new MenuItem();
-    showEdit: boolean = true;
+
+    selectedImage: File;
+    selectedImageUrl: string;
 
     constructor(
         public dialogRef: MatDialogRef<AddMenuItemDialogComponent>,
@@ -41,12 +44,38 @@ export class AddMenuItemDialogComponent implements OnInit {
         }
     }
 
+    get imageUrl() {
+        return (
+            this.selectedImageUrl ??
+            this.menuItem.imageUri ??
+            MenuItemsService.DEFAULT_MENU_ITEM_IMAGE
+        );
+    }
+
     private createMenuItem(): void {
         const restaurantId = this.data.restaurantId;
         this.menuItemsService
             .addMenuItem(restaurantId, this.menuItem)
+            .pipe(
+                concatMap((newItem) => {
+                    if (this.selectedImage) {
+                        return this.menuItemsService
+                            .uploadMenuPhoto(newItem._id!, this.selectedImage)
+                            .pipe(
+                                map((uploadedImageUrl) => {
+                                    return {
+                                        ...newItem,
+                                        imageUri: uploadedImageUrl,
+                                    };
+                                }),
+                            );
+                    } else {
+                        return of(newItem);
+                    }
+                }),
+            )
             .subscribe({
-                next: (response) => {
+                next: (newItem) => {
                     this.notificationService.open(
                         'Item successfully created',
                         'Ok',
@@ -54,7 +83,7 @@ export class AddMenuItemDialogComponent implements OnInit {
                             duration: 3000,
                         },
                     );
-                    this.dialogRef.close(response);
+                    this.dialogRef.close(newItem);
                 },
                 error: (error) => {
                     this.notificationService.open(
@@ -73,81 +102,70 @@ export class AddMenuItemDialogComponent implements OnInit {
             return;
         }
 
-        this.menuItemsService
-            .updateMenuItem(this.menuItem._id, this.menuItem)
-            .subscribe({
-                next: (response) => {
-                    this.notificationService.open(
-                        'Item successfully updated',
-                        'Ok',
-                        {
-                            duration: 3000,
-                        },
-                    );
-                    this.dialogRef.close(response['menuItem'] as MenuItem);
-                },
-                error: (error) => {
-                    this.notificationService.open(
-                        'Failed to update the item',
-                        'Oops',
-                    );
-                    console.error(error);
-                },
-            });
+        if (this.selectedImage) {
+            // Upload the new image to firebase
+            this.menuItemsService
+                .uploadMenuPhoto(this.menuItem._id, this.selectedImage)
+                .pipe(
+                    concatMap((uploadedImageUrl) => {
+                        this.menuItem.imageUri = uploadedImageUrl;
+
+                        return this.menuItemsService.updateMenuItem(
+                            this.menuItem._id!, // We already checked for menu item id above
+                            this.menuItem,
+                        );
+                    }),
+                )
+                .subscribe({
+                    next: (response) => {
+                        this.notificationService.open(
+                            'Item successfully updated',
+                            'Ok',
+                            {
+                                duration: 3000,
+                            },
+                        );
+                        this.dialogRef.close(response);
+                    },
+                    error: (error) => {
+                        this.notificationService.open(
+                            'Failed to update the item',
+                            'Oops',
+                        );
+                        console.error(error);
+                    },
+                });
+        } else {
+            this.menuItemsService
+                .updateMenuItem(this.menuItem._id, this.menuItem)
+                .subscribe({
+                    next: (response) => {
+                        this.notificationService.open(
+                            'Item successfully updated',
+                            'Ok',
+                            {
+                                duration: 3000,
+                            },
+                        );
+                        this.dialogRef.close(response);
+                    },
+                    error: (error) => {
+                        this.notificationService.open(
+                            'Failed to update the item',
+                            'Oops',
+                        );
+                        console.error(error);
+                    },
+                });
+        }
     }
 
-    uploadMenuPhoto(event) {
+    async imageSelected(event) {
         const files = event; // Get the selected files
 
-        const imageFile = [...files].filter((file) =>
-            file.type.startsWith('image/'),
-        )[0];
+        const imageFile = files[0] as File;
 
-        if (isDefNotNull(imageFile)) {
-            if (this.isEdit) {
-                // Update existing menu item
-                if (!this.menuItem || !this.menuItem._id) {
-                    console.error('Menu item ID is missing.');
-                    return;
-                }
-
-                this.menuItemsService
-                    .uploadMenuPhoto(this.menuItem._id, imageFile)
-                    .subscribe({
-                        next: (imageUrl) => {
-                            this.menuItem = {
-                                ...this.menuItem,
-                                imageUri: imageUrl,
-                            };
-
-                            this.notificationService.open(
-                                'Successfully uploaded menu photo',
-                                'Ok',
-                                {
-                                    duration: 3000,
-                                },
-                            );
-                        },
-                        error: (err: any) => {
-                            this.notificationService.open(
-                                `Failed to upload menu photo: ${err.message}`,
-                                'Oops',
-                                {
-                                    duration: 3000,
-                                },
-                            );
-                        },
-                    });
-            } else {
-                // Create new menu item
-                console.error('Cannot upload photo before creating the item.');
-                return;
-            }
-        } else {
-            this.notificationService.open(
-                'Make sure you select an image file for upload!',
-                'Ok',
-            );
-        }
+        this.selectedImage = imageFile;
+        this.selectedImageUrl = URL.createObjectURL(imageFile);
     }
 }
