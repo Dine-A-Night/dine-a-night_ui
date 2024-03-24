@@ -136,6 +136,7 @@
                     <button
                         *ngIf="!isEdit"
                         mat-flat-button
+                        type="button"
                         color="accent"
                         [disableRipple]="true"
                         [disabled]="createDisabled"
@@ -147,6 +148,7 @@
                         #cancelButton
                         *ngIf="isEdit"
                         mat-button
+                        type="button"
                         [mat-dialog-close]="restaurant"
                         class="border">
                         <mat-icon>clear</mat-icon>
@@ -155,6 +157,7 @@
                     <button
                         *ngIf="isEdit"
                         mat-flat-button
+                        type="button"
                         color="accent"
                         [disableRipple]="true"
                         [disabled]="createDisabled"

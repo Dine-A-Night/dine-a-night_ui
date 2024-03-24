@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Subject, debounceTime } from 'rxjs';
+import { Subject, Subscription, debounceTime } from 'rxjs';
 import { Restaurant } from 'src/app/models/restaurant.model';
 import { ProfileUser, UserRole } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
@@ -13,7 +13,7 @@ import { AddMenuItemDialogComponent } from './menu-item/add-menu-item-dialog/add
     templateUrl: './menu-items.component.html',
     styleUrls: ['./menu-items.component.scss'],
 })
-export class MenuItemsComponent implements OnInit {
+export class MenuItemsComponent implements OnInit, OnDestroy {
     @Input() restaurant: Restaurant;
     menuItems: MenuItem[] = [];
     filteredMenuItems: MenuItem[] = [];
@@ -21,6 +21,8 @@ export class MenuItemsComponent implements OnInit {
     showEditControls = false;
 
     searchTextUpdated: Subject<any> = new Subject<any>();
+
+    userSubscription: Subscription;
 
     constructor(
         private menuItemsService: MenuItemsService,
@@ -35,11 +37,18 @@ export class MenuItemsComponent implements OnInit {
             this.filterMenuItems();
         });
 
-        this.userService.currentUser$.subscribe((user: ProfileUser) => {
-            this.showEditControls =
-                user.role === UserRole.ADMIN &&
-                user.uid === this.restaurant.ownerId;
-        });
+        this.userSubscription = this.userService.currentUser$.subscribe(
+            (user: ProfileUser) => {
+                this.showEditControls =
+                    user.role === UserRole.ADMIN &&
+                    user.uid === this.restaurant.ownerId;
+            },
+        );
+    }
+
+    ngOnDestroy(): void {
+        debugger;
+        this.userSubscription?.unsubscribe();
     }
 
     fetchMenuItems(): void {
