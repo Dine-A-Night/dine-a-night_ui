@@ -47,7 +47,6 @@ export class MenuItemsComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        debugger;
         this.userSubscription?.unsubscribe();
     }
 
