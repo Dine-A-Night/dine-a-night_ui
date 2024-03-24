@@ -23,7 +23,7 @@ export class AddMenuItemDialogComponent implements OnInit {
     ngOnInit(): void {
         if (this.data && this.data.menuItem) {
             this.isEdit = true;
-            this.menuItem = this.data.menuItem;
+            this.menuItem = new MenuItem(this.data.menuItem);
         }
     }
 
@@ -82,7 +82,7 @@ export class AddMenuItemDialogComponent implements OnInit {
                             duration: 3000,
                         },
                     );
-                    this.dialogRef.close(response);
+                    this.dialogRef.close(response['menuItem'] as MenuItem);
                 },
                 error: (error) => {
                     this.notificationService.open(

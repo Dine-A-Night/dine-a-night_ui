@@ -71,7 +71,11 @@ export class MenuItemComponent {
             },
         });
 
-        dialogRef.afterClosed().subscribe((result) => {});
+        dialogRef.afterClosed().subscribe((updatedItem) => {
+            if (updatedItem) {
+                this.menuItem = updatedItem;
+            }
+        });
     }
 
     get itemImage() {

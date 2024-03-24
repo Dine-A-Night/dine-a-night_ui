@@ -65,7 +65,7 @@ export class AppAddressFormComponent implements OnInit {
             const autocomplete = new google.maps.places.Autocomplete(
                 this.addressInputField.nativeElement,
                 {
-                    componentRestrictions: { country: ['CA', 'US'] },
+                    componentRestrictions: { country: ['CA'] }, // Only support canadian addresses
                     types: ['establishment'], // 'establishment' / 'address' / 'geocode'
                 },
             );
