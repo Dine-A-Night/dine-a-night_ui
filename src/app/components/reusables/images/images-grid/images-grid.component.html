@@ -15,10 +15,5 @@
 </div>
 
 <ng-template #NoImagesMessage>
-    <div class="w-full flex justify-center items-center py-20">
-        <h2 class="flex items-center gap-3 text-xl">
-            No Images Available
-            <mat-icon [inline]="true">error_outline</mat-icon>
-        </h2>
-    </div>
+    <informational-text [text]="'No Images Available'"></informational-text>
 </ng-template>

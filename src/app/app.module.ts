@@ -74,6 +74,7 @@ import { CustomerReservationsPageComponent } from './pages/reservations/customer
 import { RestaurantReservationsPageComponent } from './pages/reservations/restaurant-reservations-page/restaurant-reservations-page.component';
 
 import { MatSortModule } from '@angular/material/sort';
+import { InformationalTextComponent } from './components/reusables/informational-text/informational-text.component';
 
 @NgModule({
     declarations: [
@@ -116,6 +117,7 @@ import { MatSortModule } from '@angular/material/sort';
         CreateReservationSummaryComponent,
         RestaurantReservationsPageComponent,
         CustomerReservationsPageComponent,
+        InformationalTextComponent,
     ],
     imports: [
         BrowserModule,
