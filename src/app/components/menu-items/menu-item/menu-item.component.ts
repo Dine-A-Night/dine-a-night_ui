@@ -21,6 +21,8 @@ export class MenuItemComponent {
     @Input() itemQuantity = 0;
     @Output() itemQuantityChange = new EventEmitter<number>();
 
+    MAX_ITEM_QUANTITY = 10;
+
     menuItemsService = inject(MenuItemsService);
     notificationService = inject(MatSnackBar);
     dialog = inject(MatDialog);
@@ -89,9 +91,10 @@ export class MenuItemComponent {
     }
 
     onItemAdded() {
-        ++this.itemQuantity;
-
-        this.itemQuantityChange.emit(this.itemQuantity);
+        if (this.itemQuantity < this.MAX_ITEM_QUANTITY) {
+            ++this.itemQuantity;
+            this.itemQuantityChange.emit(this.itemQuantity);
+        }
     }
 
     onItemRemoved() {

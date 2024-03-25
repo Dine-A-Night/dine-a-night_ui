@@ -15,6 +15,8 @@ export class ReservationService {
     authService = inject(AuthService);
     http = inject(HttpClient);
 
+    static PRICE_PER_MINUTE = 10; // Cents
+
     getTableTypes(): Observable<TableType[]> {
         const url = `${this.API_URL}/tabletypes`;
 

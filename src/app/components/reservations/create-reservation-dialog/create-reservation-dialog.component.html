@@ -10,6 +10,7 @@
         [orientation]="(stepperOrientation | async)!"
         [linear]="false"
         [(selectedIndex)]="selectedStepIndex"
+        (selectionChange)="onStepperSelectionChanged($event)"
         #stepper>
         <mat-step
             [stepControl]="reservationDurationForm"
@@ -140,7 +141,9 @@
         </mat-step>
 
         <mat-step label="Order Beforehand">
-            <preorder-form [menuItems]="menuItems"></preorder-form>
+            <preorder-form
+                [menuItems]="menuItems"
+                (orderLineChange)="onOrderLineChanged($event)"></preorder-form>
             <div class="flex justify-between">
                 <button
                     mat-flat-button
@@ -159,9 +162,14 @@
 
         <mat-step label="Reservation Summary">
             <div class="min-h-80 py-3">
-                <h2 class="text-2xl font-bold text-color-primary"
-                    >Confirm Reservation</h2
-                >
+                <create-reservation-summary
+                    *ngIf="currentUser && reservation"
+                    [reservation]="reservation"
+                    [(specialRequests)]="specialRequests"
+                    (specialRequestsChange)="
+                        reservation.specialRequests = $event
+                    "
+                    [user]="currentUser"></create-reservation-summary>
             </div>
             <button
                 mat-flat-button
