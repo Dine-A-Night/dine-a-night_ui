@@ -15,7 +15,7 @@ import { ReservationService } from 'src/app/services/reservation.service';
     templateUrl: './create-reservation-summary.component.html',
     styleUrls: ['./create-reservation-summary.component.scss'],
 })
-export class CreateReservationSummaryComponent implements OnChanges {
+export class CreateReservationSummaryComponent {
     @Input() reservation: Reservation;
     @Input() user: ProfileUser;
 
@@ -24,10 +24,6 @@ export class CreateReservationSummaryComponent implements OnChanges {
 
     onSpecialRequestsChanged() {
         this.specialRequestsChange.emit(this.specialRequests);
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        console.log(this.reservation);
     }
 
     get selectedTableInfo() {
