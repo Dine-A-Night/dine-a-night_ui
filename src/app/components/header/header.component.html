@@ -100,7 +100,14 @@
                     Explore Restaurants</button
                 >
                 <button
-                    *ngIf="user()?.role === 'Admin'"
+                    *ngIf="isCurrentRole(UserRole.CUSTOMER)"
+                    [routerLink]="['/reservations']"
+                    mat-menu-item>
+                    <mat-icon>table_chart</mat-icon>
+                    View Reservations</button
+                >
+                <button
+                    *ngIf="isCurrentRole(UserRole.ADMIN)"
                     [routerLink]="['/manage-restaurants']"
                     mat-menu-item>
                     <mat-icon>fastfood</mat-icon>
@@ -178,10 +185,18 @@
                 Profile
             </a>
             <a
-                *ngIf="user()?.role === 'Admin'"
+                *ngIf="isCurrentRole(UserRole.CUSTOMER)"
+                [routerLink]="['/reservations']"
+                (click)="toggleSideMenu()"
+                class="flex items-center gap-2 p-2 hover:no-underline bg-sky-100 hover:bg-sky-200 cursor-pointer focus:bg-sky-200 text-color-primary"
+                matRipple>
+                <mat-icon>table_chart</mat-icon>
+                View Reservations
+            </a>
+            <a
+                *ngIf="isCurrentRole(UserRole.ADMIN)"
                 [routerLink]="['/manage-restaurants']"
                 (click)="toggleSideMenu()"
-                href="#"
                 class="flex items-center gap-2 p-2 hover:no-underline bg-sky-100 hover:bg-sky-200 cursor-pointer focus:bg-sky-200 text-color-primary"
                 matRipple>
                 <mat-icon>fastfood</mat-icon>

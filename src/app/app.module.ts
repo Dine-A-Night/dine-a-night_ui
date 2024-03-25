@@ -69,6 +69,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { PreorderFormComponent } from './components/reservations/preorder-form/preorder-form.component';
 import { CreateReservationSummaryComponent } from './components/reservations/create-reservation-dialog/create-reservation-summary/create-reservation-summary.component';
 
+import { MatTableModule } from '@angular/material/table';
+import { CustomerReservationsPageComponent } from './pages/reservations/customer-reservations-page/customer-reservations-page.component';
+import { RestaurantReservationsPageComponent } from './pages/reservations/restaurant-reservations-page/restaurant-reservations-page.component';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -108,6 +112,8 @@ import { CreateReservationSummaryComponent } from './components/reservations/cre
         CreateReservationDialogComponent,
         PreorderFormComponent,
         CreateReservationSummaryComponent,
+        RestaurantReservationsPageComponent,
+        CustomerReservationsPageComponent,
     ],
     imports: [
         BrowserModule,
@@ -140,6 +146,7 @@ import { CreateReservationSummaryComponent } from './components/reservations/cre
         NgxMaterialTimepickerModule,
         MatDatepickerModule,
         MatNativeDateModule,
+        MatTableModule,
     ],
     providers: [{ provide: MAT_DIALOG_DATA, useValue: {} }], // Provide an empty object as a default value],
     bootstrap: [AppComponent],

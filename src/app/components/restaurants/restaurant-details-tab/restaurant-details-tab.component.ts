@@ -16,6 +16,7 @@ import { RestaurantLayoutBuilderComponent } from '../restaurant-layout-builder/r
 import { UserService } from 'src/app/services/user.service';
 import { UserRole } from 'src/app/models/user.model';
 import { CreateReservationDialogComponent } from '../../reservations/create-reservation-dialog/create-reservation-dialog.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'restaurant-details-tab',
@@ -32,6 +33,8 @@ export class RestaurantDetailsTabComponent implements OnInit {
     notificationService = inject(MatSnackBar);
     userService = inject(UserService);
     dialog = inject(MatDialog);
+    router = inject(Router);
+    activatedRoute = inject(ActivatedRoute);
 
     ngOnInit(): void {}
 
@@ -164,4 +167,10 @@ export class RestaurantDetailsTabComponent implements OnInit {
     }
 
     //#endregion
+
+    onShowReservationClick() {
+        this.router.navigate(['reservations'], {
+            relativeTo: this.activatedRoute,
+        });
+    }
 }

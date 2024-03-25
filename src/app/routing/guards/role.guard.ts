@@ -8,6 +8,7 @@ import { UserService } from 'src/app/services/user.service';
 export function roleGuard(
     roleName: UserRole,
     redirectUrl: string,
+    errorMessaage: string = `Only ${roleName}s are authorized to access the feature!`,
 ): CanActivateFn {
     return async () => {
         const userService = inject(UserService);
@@ -22,10 +23,7 @@ export function roleGuard(
 
         if (!accessApproved) {
             router.navigateByUrl(redirectUrl);
-            notificationService.open(
-                `Only ${roleName}s are authorized to access the feature!`,
-                'Ok',
-            );
+            notificationService.open(errorMessaage, 'Ok');
         }
 
         return accessApproved;

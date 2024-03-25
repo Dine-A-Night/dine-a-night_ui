@@ -3,7 +3,7 @@ import { Component, OnInit, Signal } from '@angular/core';
 import { Observable, firstValueFrom, map, tap } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ProfileUser } from 'src/app/models/user.model';
+import { ProfileUser, UserRole } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -26,6 +26,8 @@ export class HeaderComponent implements OnInit {
         private authService: AuthService,
         private userService: UserService,
     ) {}
+
+    UserRole = UserRole;
 
     async ngOnInit() {}
 
@@ -53,6 +55,10 @@ export class HeaderComponent implements OnInit {
         return this.user()
             ? `${this.user()?.firstName} ${this.user()?.lastName}`
             : '';
+    }
+
+    isCurrentRole(role: UserRole) {
+        return this.userService.currentUser()?.role === role;
     }
 
     logout() {
