@@ -23,18 +23,33 @@
                 <p class="text-gray-700">{{ menuItem.unitPrice | currency }}</p>
                 <div class="flex items-center gap-2">
                     <ng-container *ngIf="showOrderControls">
+                        <!-- Remove Button -->
                         <button
-                            mat-icon-button
-                            (click)="onItemAdded()"
-                            aria-label="Add menu item">
-                            <mat-icon>add</mat-icon>
-                        </button>
-                        <span>{{ itemQuantity }}</span>
-                        <button
+                            [disableRipple]="true"
                             mat-icon-button
                             (click)="onItemRemoved()"
                             aria-label="Remove menu item">
                             <mat-icon>remove</mat-icon>
+                        </button>
+
+                        <span>{{ itemQuantity }}</span>
+
+                        <!-- Add Button -->
+                        <button
+                            [disableRipple]="true"
+                            mat-icon-button
+                            [matTooltip]="
+                                itemQuantity === MAX_ITEM_QUANTITY
+                                    ? 'Please contact the restaurant for bulk order'
+                                    : ''
+                            "
+                            [ngClass]="{
+                                'text-red-500':
+                                    itemQuantity === MAX_ITEM_QUANTITY
+                            }"
+                            (click)="onItemAdded()"
+                            aria-label="Add menu item">
+                            <mat-icon>add</mat-icon>
                         </button>
                     </ng-container>
 

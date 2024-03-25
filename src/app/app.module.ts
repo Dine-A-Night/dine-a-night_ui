@@ -60,13 +60,14 @@ import { RestaurantDetailsPageComponent } from './pages/restaurant-details-page/
 import { UserManagementPageComponent } from './pages/user-management-page/user-management-page.component';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { CreateReservationDialogComponent } from './components/reservations/create-reservation-dialog/create-reservation-dialog.component';
 import { TableCellRendererComponent } from './components/restaurants/restaurant-layout-builder/restaurant-layout/table-cell-renderer/table-cell-renderer.component';
 import { MetersToKmsPipe } from './pipes/meters-to-kms.pipe';
-import { CreateReservationDialogComponent } from './components/reservations/create-reservation-dialog/create-reservation-dialog.component';
-import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { PreorderFormComponent } from './components/reservations/preorder-form/preorder-form.component';
+import { CreateReservationSummaryComponent } from './components/reservations/create-reservation-dialog/create-reservation-summary/create-reservation-summary.component';
 
 @NgModule({
     declarations: [
@@ -106,6 +107,7 @@ import { PreorderFormComponent } from './components/reservations/preorder-form/p
         MetersToKmsPipe,
         CreateReservationDialogComponent,
         PreorderFormComponent,
+        CreateReservationSummaryComponent,
     ],
     imports: [
         BrowserModule,

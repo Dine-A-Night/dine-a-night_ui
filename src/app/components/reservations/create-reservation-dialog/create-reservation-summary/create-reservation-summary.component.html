@@ -1,0 +1,199 @@
+<h2 class="text-2xl text-color-primary">Confirm Reservation</h2>
+
+<div
+    *ngIf="reservation"
+    class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-color-primary border rounded-lg p-3 my-3">
+    <!-- Reservation Details -->
+    <div>
+        <h2 class="text-lg flex items-center gap-2"
+            >Table & Timings
+            <mat-icon class="hidden md:block">access_time</mat-icon></h2
+        >
+
+        <dl class="divide-y divide-gray-100">
+            <!-- Customer -->
+            <div class="px-2 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900"
+                    >Customer</dt
+                >
+                <dd
+                    class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
+                    >{{ user.firstName }} {{ user.lastName }}</dd
+                >
+            </div>
+
+            <!-- Selected Table -->
+            <div class="px-2 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900"
+                    >Table</dt
+                >
+                <dd
+                    class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
+                    >{{ selectedTableInfo }}</dd
+                >
+            </div>
+
+            <!-- Reservation Date -->
+            <div class="px-2 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900"
+                    >Reservation Date</dt
+                >
+                <dd
+                    class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
+                    >{{
+                        reservation.startDateTime
+                            ? (reservation.startDateTime | date: 'fullDate')
+                            : 'Time not selected'
+                    }}</dd
+                >
+            </div>
+
+            <!-- Start Time -->
+            <div class="px-2 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900"
+                    >Start Time</dt
+                >
+                <dd
+                    class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
+                    >{{
+                        reservation.startDateTime
+                            ? (reservation.startDateTime | date: 'shortTime')
+                            : ' Start time not selected'
+                    }}</dd
+                >
+            </div>
+
+            <!-- End Time -->
+            <div class="px-2 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900"
+                    >End Time</dt
+                >
+                <dd
+                    class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
+                    >{{
+                        reservation.endDateTime
+                            ? (reservation.endDateTime | date: 'shortTime')
+                            : ' End time not selected'
+                    }}</dd
+                >
+            </div>
+
+            <!-- Special Requests -->
+            <div
+                *ngIf="reservation"
+                class="px-2 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt
+                    id="special-requests-label"
+                    class="text-sm font-medium leading-6 text-gray-900"
+                    >Special Requests</dt
+                >
+                <dd
+                    class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                    <mat-form-field>
+                        <textarea
+                            aria-labelledby="special-requests-label"
+                            [(ngModel)]="specialRequests"
+                            (ngModelChange)="onSpecialRequestsChanged()"
+                            placeholder="I would like..."
+                            matInput></textarea>
+                    </mat-form-field>
+                </dd>
+            </div>
+        </dl>
+    </div>
+
+    <!-- Order Details -->
+    <div>
+        <h2 class="text-lg flex items-center gap-2"
+            >Preorder & Pricing
+            <mat-icon class="hidden md:block">attach_money</mat-icon></h2
+        >
+
+        <dl class="divide-y divide-gray-100">
+            <!-- Reservation Charges -->
+            <div class="px-2 py-3 grid grid-cols-5 gap-4 px-0">
+                <dt
+                    class="text-sm font-medium leading-6 col-span-3 sm:col-span-4 text-gray-900 flex items-center gap-1"
+                    >Reservation Charges
+                    <mat-icon
+                        [matTooltip]="
+                            'Security charges if customer does not show up'
+                        "
+                        >info</mat-icon
+                    ></dt
+                >
+                <dd
+                    class="mt-1 text-sm leading-6 text-gray-700 col-span-2 sm:col-span-1 mt-0"
+                    >{{
+                        reservation.getReservationPrice()
+                            | currency: 'CAD' : 'symbol-narrow' : '1.2-2'
+                    }}</dd
+                >
+            </div>
+
+            <!-- Order Lines -->
+            <ng-container *ngIf="reservation.preOrder">
+                <div
+                    *ngFor="let orderLine of reservation.preOrder.orderLines"
+                    class="px-2 py-3 grid grid-cols-5 gap-4 px-0">
+                    <dt
+                        class="text-sm font-medium leading-6 col-span-3 sm:col-span-4 text-gray-900"
+                        >{{ orderLine.getInvoiceDescription() }}</dt
+                    >
+                    <dd
+                        class="mt-1 text-sm leading-6 text-gray-700 col-span-2 sm:col-span-1 mt-0"
+                        >{{
+                            orderLine.getPrice()
+                                | currency: 'CAD' : 'symbol-narrow' : '1.2-2'
+                        }}</dd
+                    >
+                </div>
+            </ng-container>
+
+            <!-- Subtotal -->
+            <div class="px-2 py-3 grid grid-cols-5 gap-4 px-0">
+                <dt
+                    class="text-sm font-medium leading-6 col-span-3 sm:col-span-4 text-gray-900 flex items-center gap-1">
+                    Subtotal
+                </dt>
+                <dd
+                    class="mt-1 text-sm leading-6 text-gray-700 col-span-2 sm:col-span-1 mt-0"
+                    >{{
+                        reservation.getSubtotal()
+                            | currency: 'CAD' : 'symbol-narrow' : '1.2-2'
+                    }}</dd
+                >
+            </div>
+
+            <!-- Tax -->
+            <div class="px-2 py-3 grid grid-cols-5 gap-4 px-0">
+                <dt
+                    class="text-sm font-medium leading-6 col-span-3 sm:col-span-4 text-gray-900 flex items-center gap-1">
+                    Taxes
+                </dt>
+                <dd
+                    class="mt-1 text-sm leading-6 text-gray-700 col-span-2 sm:col-span-1 mt-0"
+                    >{{
+                        reservation.getTaxPrice()
+                            | currency: 'CAD' : 'symbol-narrow' : '1.2-2'
+                    }}</dd
+                >
+            </div>
+
+            <!-- Total -->
+            <div class="px-2 py-3 grid grid-cols-5 gap-4 px-0">
+                <dt
+                    class="text-sm font-medium leading-6 col-span-3 sm:col-span-4 text-gray-900 flex items-center gap-1">
+                    Total
+                </dt>
+                <dd
+                    class="mt-1 text-sm leading-6 text-gray-700 col-span-2 sm:col-span-1 mt-0"
+                    >{{
+                        reservation.getTotalPrice()
+                            | currency: 'CAD' : 'symbol-narrow' : '1.2-2'
+                    }}</dd
+                >
+            </div>
+        </dl>
+    </div>
+</div>

@@ -1,5 +1,8 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { StepperOrientation } from '@angular/cdk/stepper';
+import {
+    StepperOrientation,
+    StepperSelectionEvent,
+} from '@angular/cdk/stepper';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
@@ -22,6 +25,9 @@ import { isDefNotNull } from 'src/app/utils/helper-functions';
 import { ConfirmDialogComponent } from '../../reusables/confirm-dialog/confirm-dialog.component';
 import { MenuItem } from 'src/app/models/menu-item';
 import { MenuItemsService } from 'src/app/services/menu-items.service';
+import { Order, OrderLine } from 'src/app/models/order.model';
+import { User } from 'firebase/auth';
+import { ProfileUser } from 'src/app/models/user.model';
 
 @Component({
     selector: 'create-reservation-dialog',
@@ -41,6 +47,8 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
     currentReservations: Reservations;
 
     selectedStepIndex = ReservationStepIndex.TIME_AND_TABLE;
+
+    currentUser: ProfileUser | null;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: CreateReservationDialogParams,
@@ -62,6 +70,8 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.currentUser = this.userService.currentUser();
+
         this.initForms();
 
         this.reservationService
@@ -157,39 +167,9 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
     get formDirty() {
         return (
             this.reservationDurationForm.dirty ||
-            isDefNotNull(this.selectedTable)
+            isDefNotNull(this.selectedTable) ||
+            this.preOrder.hasOrderLines()
         );
-    }
-
-    private convertTimeStringToDate(timeString: string, date: Date) {
-        if (timeString) {
-            const convertedDate = new Date(date);
-
-            // Regular expression to match time string in the format "11:15 pm"
-            const regex = /^(\d{1,2}):(\d{2})\s*(am|pm)?$/i;
-            const match = timeString.match(regex);
-
-            if (match) {
-                let hours = parseInt(match[1], 10);
-                const minutes = parseInt(match[2], 10);
-                const period = match[3]?.toLowerCase(); // "am" or "pm" if present
-
-                // Convert hours to 24-hour format if needed
-                if (period === 'pm' && hours < 12) {
-                    hours += 12;
-                } else if (period === 'am' && hours === 12) {
-                    hours = 0; // midnight
-                }
-
-                convertedDate.setHours(hours);
-                convertedDate.setMinutes(minutes);
-                convertedDate.setSeconds(0); // Optional: Set seconds to zero
-
-                return convertedDate;
-            }
-        }
-
-        return null; // Return null if the time string doesn't match the expected format
     }
 
     get saveDisabled() {
@@ -236,9 +216,13 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
         startDateTime: Date,
         endDateTime: Date,
     ) {
-        return !(
-            reservation.endDateTime <= startDateTime ||
-            reservation.startDateTime >= endDateTime
+        return (
+            reservation.startDateTime &&
+            reservation.endDateTime &&
+            !(
+                reservation.endDateTime <= startDateTime ||
+                reservation.startDateTime >= endDateTime
+            )
         );
     }
 
@@ -258,6 +242,72 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
             this.reservationDurationForm.controls['reservationDate'].value;
 
         return this.convertTimeStringToDate(endDateTime, reservationDate);
+    }
+
+    private convertTimeStringToDate(timeString: string, date: Date) {
+        if (timeString) {
+            const convertedDate = new Date(date);
+
+            // Regular expression to match time string in the format "11:15 pm"
+            const regex = /^(\d{1,2}):(\d{2})\s*(am|pm)?$/i;
+            const match = timeString.match(regex);
+
+            if (match) {
+                let hours = parseInt(match[1], 10);
+                const minutes = parseInt(match[2], 10);
+                const period = match[3]?.toLowerCase(); // "am" or "pm" if present
+
+                // Convert hours to 24-hour format if needed
+                if (period === 'pm' && hours < 12) {
+                    hours += 12;
+                } else if (period === 'am' && hours === 12) {
+                    hours = 0; // midnight
+                }
+
+                convertedDate.setHours(hours);
+                convertedDate.setMinutes(minutes);
+                convertedDate.setSeconds(0); // Optional: Set seconds to zero
+
+                return convertedDate;
+            }
+        }
+
+        return null; // Return null if the time string doesn't match the expected format
+    }
+
+    //#endregion
+
+    //#region Preorder
+
+    preOrder: Order = new Order({});
+
+    onOrderLineChanged(orderLine: OrderLine) {
+        this.preOrder.addOrderLine(orderLine);
+    }
+
+    //#endregion
+
+    //#region Reservation Summary
+
+    reservation: Reservation;
+    specialRequests: string = '';
+
+    onStepperSelectionChanged(event: StepperSelectionEvent) {
+        if (event.selectedIndex === ReservationStepIndex.SUMMARY) {
+            // Should not be effected by item/reservation price changes
+            this.preOrder.totalPrice = this.preOrder.getTotalPrice();
+
+            // Generate the reservation object
+            this.reservation = new Reservation({
+                userId: this.currentUser?.uid!,
+                startDateTime: this.startDateTime ?? null,
+                endDateTime: this.endDateTime ?? null,
+                isCancelled: false,
+                tables: this.selectedTable ? [this.selectedTable] : [],
+                preOrder: this.preOrder.hasOrderLines() ? this.preOrder : null,
+                specialRequests: this.specialRequests,
+            });
+        }
     }
 
     //#endregion
@@ -287,17 +337,8 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
         if (this.selectedStepIndex !== ReservationStepIndex.SUMMARY) {
             this.selectedStepIndex = ReservationStepIndex.SUMMARY;
         } else {
-            const userId = this.userService.currentUser()?.uid!;
-
-            const reservation = new Reservation({
-                startDateTime: this.startDateTime!,
-                endDateTime: this.endDateTime!,
-                isCancelled: false,
-                preOrder: null,
-                tables: [this.selectedTable!],
-                userId,
-                specialRequests: '',
-            });
+            debugger;
+            const reservation = new Reservation(this.reservation);
 
             this.reservationService
                 .createReservation(this.restaurant._id, reservation)
