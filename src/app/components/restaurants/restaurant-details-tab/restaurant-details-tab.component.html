@@ -22,7 +22,7 @@
             Build Layout
         </button>
         <button
-            *ngIf="canMakeReservation"
+            *ngIf="canMakeReservation; else NoLayoutInfo"
             mat-flat-button
             class="mt-2"
             (click)="onMakeReservationClick()"
@@ -75,3 +75,15 @@
         </section>
     </section>
 </ng-container>
+
+<ng-template #NoLayoutInfo>
+    <p
+        class="flex items-center"
+        *ngIf="
+            !restaurant.hasValidLayout() &&
+            currentUser?.role === UserRole.CUSTOMER
+        ">
+        <mat-icon class="text-yellow-600">info</mat-icon>
+        This restaurant hasn't setup its layout
+    </p>
+</ng-template>

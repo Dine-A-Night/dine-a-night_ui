@@ -1,3 +1,4 @@
+import { isDefNotNull } from '../utils/helper-functions';
 import { ProfileUser } from './user.model';
 
 export type Restaurants = Restaurant[];
@@ -29,6 +30,10 @@ export class Restaurant {
         this.cuisines = data?.cuisines ?? [];
         this.reviewCount = data?.reviewCount ?? 0;
         this.rating = data?.rating ?? 0;
+    }
+
+    hasValidLayout() {
+        return isDefNotNull(this.layout);
     }
 }
 
