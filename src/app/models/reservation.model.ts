@@ -8,6 +8,7 @@ export class Reservation {
     isCancelled: boolean;
     startDateTime: Date | null;
     endDateTime: Date | null;
+    restaurantId?: string;
     preOrder?: Order | null;
     specialRequests: string;
 
@@ -20,6 +21,7 @@ export class Reservation {
         this.endDateTime = options.endDateTime;
         this.preOrder = options.preOrder ?? null;
         this.specialRequests = options.specialRequests ?? '';
+        this.restaurantId = options.restaurantId ?? null;
     }
 
     static PRICE_PER_MINUTE = 50; // Cents

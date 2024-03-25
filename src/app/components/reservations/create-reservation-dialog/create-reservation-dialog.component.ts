@@ -12,9 +12,13 @@ import {
 } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, Subscription, map } from 'rxjs';
+import { MenuItem } from 'src/app/models/menu-item';
+import { Order, OrderLine } from 'src/app/models/order.model';
 import { Reservation, Reservations } from 'src/app/models/reservation.model';
 import { Restaurant } from 'src/app/models/restaurant.model';
 import { Table } from 'src/app/models/table.model';
+import { ProfileUser } from 'src/app/models/user.model';
+import { MenuItemsService } from 'src/app/services/menu-items.service';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { UserService } from 'src/app/services/user.service';
 import {
@@ -23,11 +27,6 @@ import {
 } from 'src/app/utils/custom-validators';
 import { isDefNotNull } from 'src/app/utils/helper-functions';
 import { ConfirmDialogComponent } from '../../reusables/confirm-dialog/confirm-dialog.component';
-import { MenuItem } from 'src/app/models/menu-item';
-import { MenuItemsService } from 'src/app/services/menu-items.service';
-import { Order, OrderLine } from 'src/app/models/order.model';
-import { User } from 'firebase/auth';
-import { ProfileUser } from 'src/app/models/user.model';
 
 @Component({
     selector: 'create-reservation-dialog',
@@ -75,7 +74,7 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
         this.initForms();
 
         this.reservationService
-            .getRestaurantReservations(this.restaurant._id)
+            .getRestaurantReservations(this.restaurant._id, true)
             .subscribe({
                 next: (reservations) => {
                     this.currentReservations = reservations;
@@ -337,7 +336,6 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
         if (this.selectedStepIndex !== ReservationStepIndex.SUMMARY) {
             this.selectedStepIndex = ReservationStepIndex.SUMMARY;
         } else {
-            debugger;
             const reservation = new Reservation(this.reservation);
 
             this.reservationService
