@@ -73,6 +73,8 @@ import { MatTableModule } from '@angular/material/table';
 import { CustomerReservationsPageComponent } from './pages/reservations/customer-reservations-page/customer-reservations-page.component';
 import { RestaurantReservationsPageComponent } from './pages/reservations/restaurant-reservations-page/restaurant-reservations-page.component';
 
+import { MatSortModule } from '@angular/material/sort';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -147,6 +149,7 @@ import { RestaurantReservationsPageComponent } from './pages/reservations/restau
         MatDatepickerModule,
         MatNativeDateModule,
         MatTableModule,
+        MatSortModule,
     ],
     providers: [{ provide: MAT_DIALOG_DATA, useValue: {} }], // Provide an empty object as a default value],
     bootstrap: [AppComponent],

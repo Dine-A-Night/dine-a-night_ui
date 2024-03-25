@@ -10,6 +10,7 @@ export class Reservation {
     endDateTime: Date | null;
     restaurantId?: string;
     preOrder?: Order | null;
+    totalPrice: number;
     specialRequests: string;
 
     constructor(options: any) {
@@ -22,9 +23,14 @@ export class Reservation {
         this.preOrder = options.preOrder ?? null;
         this.specialRequests = options.specialRequests ?? '';
         this.restaurantId = options.restaurantId ?? null;
+        this.totalPrice = options.totalPrice ?? null;
     }
 
     static PRICE_PER_MINUTE = 50; // Cents
+
+    isHistorical() {
+        return this.startDateTime && this.startDateTime > new Date(Date.now());
+    }
 
     getReservationPrice() {
         const startTime = this.startDateTime?.getTime() ?? 0;

@@ -40,18 +40,22 @@ export class ReservationService {
         return this.http.get(url.toString(), { headers }).pipe(
             map((res) => res['reservations'] as Reservations),
             map((reservations) =>
-                reservations.map(
-                    (reservation) =>
-                        new Reservation({
-                            ...reservation,
-                            startDateTime: reservation.startDateTime
-                                ? new Date(reservation.startDateTime)
-                                : null,
-                            endDateTime: reservation.endDateTime
-                                ? new Date(reservation.endDateTime)
-                                : null,
-                        }),
-                ),
+                reservations.map((reservation) => {
+                    reservation = new Reservation({
+                        ...reservation,
+                        startDateTime: reservation.startDateTime
+                            ? new Date(reservation.startDateTime)
+                            : null,
+                        endDateTime: reservation.endDateTime
+                            ? new Date(reservation.endDateTime)
+                            : null,
+                    });
+
+                    // TODO: Remove after API implements this
+                    reservation.totalPrice = reservation.getTotalPrice();
+
+                    return reservation;
+                }),
             ),
         );
     }
