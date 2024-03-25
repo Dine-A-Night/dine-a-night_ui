@@ -11,6 +11,7 @@
 
     <!-- Reservations Table -->
     <table
+        *ngIf="reservations?.length; else NoRowsTemplate"
         mat-table
         matSort
         [dataSource]="dataSource"
@@ -119,3 +120,7 @@
             *matRowDef="let reservation; columns: displayedColumns"></tr>
     </table>
 </div>
+
+<ng-template #NoRowsTemplate>
+    <informational-text [text]="'No Reservations Yet'"></informational-text>
+</ng-template>
