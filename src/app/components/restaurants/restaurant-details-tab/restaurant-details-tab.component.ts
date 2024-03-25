@@ -35,8 +35,17 @@ export class RestaurantDetailsTabComponent implements OnInit {
 
     ngOnInit(): void {}
 
+    UserRole = UserRole;
+
     get canMakeReservation() {
-        return this.userService.currentUser()?.role === UserRole.CUSTOMER;
+        return (
+            this.currentUser?.role === UserRole.CUSTOMER &&
+            this.restaurant?.hasValidLayout()
+        );
+    }
+
+    get currentUser() {
+        return this.userService.currentUser();
     }
 
     onEditClick(): void {
@@ -69,10 +78,10 @@ export class RestaurantDetailsTabComponent implements OnInit {
                 .uploadCoverPhoto(this.restaurant._id, imageFile)
                 .subscribe({
                     next: (imageUrl) => {
-                        this.restaurant = {
+                        this.restaurant = new Restaurant({
                             ...this.restaurant,
                             coverPhotoUri: imageUrl,
-                        };
+                        });
                         this.restaurantUpdated.emit(this.restaurant);
 
                         this.notificationService.open(

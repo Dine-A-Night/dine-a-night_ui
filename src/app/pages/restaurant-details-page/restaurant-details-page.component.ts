@@ -43,7 +43,7 @@ export class RestaurantDetailsPageComponent implements OnInit, OnDestroy {
     }
 
     restaurantUpdated(restaurant: Restaurant) {
-        this.restaurant = { ...restaurant };
+        this.restaurant = new Restaurant(restaurant);
     }
 
     get coverImage(): string {

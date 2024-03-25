@@ -50,6 +50,6 @@ export class RestaurantImagesComponent {
         )!;
 
         this.restaurant.photoUris?.splice(deleteAt, 1);
-        this.restaurant = { ...this.restaurant };
+        this.restaurant = new Restaurant(this.restaurant);
     }
 }

@@ -73,7 +73,13 @@ export class RestaurantsService {
 
         return this.http
             .get<any>(url, { headers })
-            .pipe(map((res) => res.restaurants));
+            .pipe(
+                map((res) =>
+                    res.restaurants.map(
+                        (restaurant) => new Restaurant(restaurant),
+                    ),
+                ),
+            );
     }
 
     getCuisinesList() {
@@ -88,7 +94,9 @@ export class RestaurantsService {
     getRestaurantById(id: string) {
         const url = `${this.API_URL}/restaurants/${id}`;
 
-        return this.http.get(url).pipe(map((res) => res['restaurant']));
+        return this.http
+            .get(url)
+            .pipe(map((res) => new Restaurant(res['restaurant'])));
     }
 
     createRestaurant(restaurant: Restaurant): Observable<Restaurant> {
