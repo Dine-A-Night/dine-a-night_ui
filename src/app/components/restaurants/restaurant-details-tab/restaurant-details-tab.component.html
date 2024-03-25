@@ -1,7 +1,7 @@
 <ng-container *ngIf="restaurant">
     <!-- Controls -->
     <section
-        class="container-90-vw py-3 flex flex-wrap justify-center sm:justify-end items-center gap-6 sm:gap-10">
+        class="container-90-vw py-3 flex flex-wrap justify-center sm:justify-end items-center gap-4 sm:gap-10">
         <file-selector
             (filesSelected)="uploadCoverPhoto($event)"
             *ngIf="showEdit">
@@ -20,6 +20,14 @@
             color="accent">
             <mat-icon>build</mat-icon>
             Build Layout
+        </button>
+        <button
+            *ngIf="showEdit"
+            mat-flat-button
+            (click)="onShowReservationClick()"
+            color="accent">
+            <mat-icon>table_chart</mat-icon>
+            View Reservations
         </button>
         <button
             *ngIf="canMakeReservation; else NoLayoutInfo"

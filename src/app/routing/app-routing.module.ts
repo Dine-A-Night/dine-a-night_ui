@@ -11,6 +11,8 @@ import { RestaurantDetailsPageComponent } from '../pages/restaurant-details-page
 import { authGuard } from './guards/auth.guard';
 import { roleGuard } from './guards/role.guard';
 import { UserRole } from '../models/user.model';
+import { CustomerReservationsPageComponent } from '../pages/reservations/customer-reservations-page/customer-reservations-page.component';
+import { RestaurantReservationsPageComponent } from '../pages/reservations/restaurant-reservations-page/restaurant-reservations-page.component';
 
 const routes: Routes = [
     {
@@ -55,6 +57,32 @@ const routes: Routes = [
         pathMatch: 'full',
         component: RestaurantAddEditComponent,
         canActivate: [authGuard, roleGuard(UserRole.ADMIN, '/userProfile')],
+    },
+    {
+        path: 'reservations',
+        pathMatch: 'full',
+        component: CustomerReservationsPageComponent,
+        canActivate: [
+            authGuard,
+            roleGuard(
+                UserRole.CUSTOMER,
+                '/explore-restaurants',
+                'Only Customers have access to this feature',
+            ),
+        ],
+    },
+    {
+        path: 'explore-restaurants/:id/reservations',
+        pathMatch: 'full',
+        component: RestaurantReservationsPageComponent,
+        canActivate: [
+            authGuard,
+            roleGuard(
+                UserRole.ADMIN,
+                '/explore-restaurants',
+                'You need to be the restaurant owner to access this info',
+            ),
+        ],
     },
     {
         path: '',

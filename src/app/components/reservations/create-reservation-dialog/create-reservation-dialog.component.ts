@@ -167,7 +167,8 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
         return (
             this.reservationDurationForm.dirty ||
             isDefNotNull(this.selectedTable) ||
-            this.preOrder.hasOrderLines()
+            this.preOrder.hasOrderLines() ||
+            this.specialRequests.length
         );
     }
 
