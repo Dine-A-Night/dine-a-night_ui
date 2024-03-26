@@ -14,6 +14,7 @@ export class ReservationViewModel {
     preOrder?: Order | null;
     specialRequests: string;
     restaurant: ReservationRestaurant;
+    totalPrice: number;
 
     constructor(options: any) {
         this._id = options._id ?? null;
@@ -25,6 +26,7 @@ export class ReservationViewModel {
         this.preOrder = options.preOrder ?? null;
         this.specialRequests = options.specialRequests ?? '';
         this.restaurant = options.restaurant ?? null;
+        this.totalPrice = options.totalPrice ?? null;
     }
 
     static PRICE_PER_MINUTE = 50; // Cents
