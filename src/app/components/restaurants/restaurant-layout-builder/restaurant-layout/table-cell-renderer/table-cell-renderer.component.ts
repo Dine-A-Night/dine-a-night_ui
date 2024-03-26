@@ -3,7 +3,6 @@ import { TableTypeEvalues } from './../../../../../models/table.model';
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Table, TableType } from 'src/app/models/table.model';
-import { ReservationService } from 'src/app/services/reservation.service';
 
 @Component({
     selector: 'table-cell-renderer',
@@ -21,7 +20,6 @@ export class TableCellRendererComponent {
 
     // Services
     private sanitizer = inject(DomSanitizer);
-    private reservationService = inject(ReservationService);
 
     getSanitizerBypassedHtml(rawHtml: string) {
         return rawHtml ? this.sanitizer.bypassSecurityTrustHtml(rawHtml) : null;

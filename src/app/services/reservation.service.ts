@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, map, of } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { Reservation, Reservations } from '../models/reservation.model';
-import { TableType, Tables } from '../models/table.model';
+import { TableType } from '../models/table.model';
+import { ReservationViewModel } from '../view-models/reservation-view.model';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -42,6 +43,41 @@ export class ReservationService {
             map((reservations) =>
                 reservations.map((reservation) => {
                     reservation = new Reservation({
+                        ...reservation,
+                        startDateTime: reservation.startDateTime
+                            ? new Date(reservation.startDateTime)
+                            : null,
+                        endDateTime: reservation.endDateTime
+                            ? new Date(reservation.endDateTime)
+                            : null,
+                    });
+
+                    // TODO: Remove after API implements this
+                    reservation.totalPrice = reservation.getTotalPrice();
+
+                    return reservation;
+                }),
+            ),
+        );
+    }
+
+    getUserReservations(
+        userId: string,
+        getHistorical: boolean = false,
+    ): Observable<ReservationViewModel[]> {
+        const url = new URL(`${this.API_URL}/users/${userId}/reservations`);
+        const headers = this.authService.getAuthHeaders();
+
+        const params = new URLSearchParams();
+        params.append('historical', String(getHistorical));
+
+        url.search = params.toString();
+
+        return this.http.get(url.toString(), { headers }).pipe(
+            map((res) => res['reservations'] as ReservationViewModel[]),
+            map((reservations) =>
+                reservations.map((reservation) => {
+                    reservation = new ReservationViewModel({
                         ...reservation,
                         startDateTime: reservation.startDateTime
                             ? new Date(reservation.startDateTime)
