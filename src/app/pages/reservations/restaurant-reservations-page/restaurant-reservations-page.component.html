@@ -1,124 +1,134 @@
 <div
-    class="container-90-vw py-5"
+    class="py-5"
     *ngIf="restaurant">
-    <h2 class="font-bold text-3xl">
+    <h2 class="font-bold text-3xl container-90-vw">
         {{ restaurant.name }}
     </h2>
 
-    <h3 class="text-2xl flex flex-wrap items-center gap-2 mt-2">
-        Reservations
-    </h3>
+    <!-- Cover Image -->
+    <section
+        class="h-96 bg-cover bg-center backdrop-opacity-10 my-2"
+        style="background-image: url('{{ restaurantCoverImage }}');">
+    </section>
 
-    <!-- Reservations Table -->
-    <table
-        *ngIf="reservations?.length; else NoRowsTemplate"
-        mat-table
-        matSort
-        [dataSource]="dataSource"
-        class="mat-elevation-z8 mt-3">
-        <!--- Note that these columns can be defined in any order.
-              The actual rendered columns are set as a property on the row definition" -->
+    <div
+        *ngIf="reservations"
+        class="container-90-vw">
+        <h3 class="text-2xl flex flex-wrap items-center gap-2">
+            Reservations
+        </h3>
 
-        <!-- Position Column -->
-        <ng-container matColumnDef="number">
-            <th
-                mat-header-cell
-                *matHeaderCellDef>
-                No.
-            </th>
-            <td
-                mat-cell
-                *matCellDef="let reservation; let i = index">
-                {{ i + 1 }}
-            </td>
-        </ng-container>
+        <!-- Reservations Table -->
+        <table
+            *ngIf="reservations.length; else NoRowsTemplate"
+            mat-table
+            matSort
+            [dataSource]="dataSource"
+            class="mat-elevation-z8 mt-3">
+            <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
 
-        <!-- Customer Name Column -->
-        <ng-container matColumnDef="userId">
-            <th
-                mat-sort-header
-                mat-header-cell
-                *matHeaderCellDef>
-                Customer
-            </th>
-            <!-- Update to user's name once API is done -->
-            <td
-                mat-cell
-                *matCellDef="let reservation">
-                {{ reservation.userId }}
-            </td>
-        </ng-container>
+            <!-- Position Column -->
+            <ng-container matColumnDef="number">
+                <th
+                    mat-header-cell
+                    *matHeaderCellDef>
+                    No.
+                </th>
+                <td
+                    mat-cell
+                    *matCellDef="let reservation; let i = index">
+                    {{ i + 1 }}
+                </td>
+            </ng-container>
 
-        <!-- Reservation Date -->
-        <ng-container matColumnDef="reservationDate">
-            <th
-                mat-sort-header="startDateTime"
-                mat-header-cell
-                *matHeaderCellDef>
-                Reservation Date
-            </th>
-            <td
-                mat-cell
-                *matCellDef="let reservation">
-                {{ reservation.startDateTime | date: 'fullDate' }}
-            </td>
-        </ng-container>
+            <!-- Customer Name Column -->
+            <ng-container matColumnDef="userId">
+                <th
+                    mat-sort-header
+                    mat-header-cell
+                    *matHeaderCellDef>
+                    Customer
+                </th>
+                <!-- Update to user's name once API is done -->
+                <td
+                    mat-cell
+                    *matCellDef="let reservation">
+                    {{ reservation.userId }}
+                </td>
+            </ng-container>
 
-        <!-- Start Time -->
-        <ng-container matColumnDef="startDateTime">
-            <th
-                mat-header-cell
-                *matHeaderCellDef>
-                Start Time
-            </th>
-            <td
-                mat-cell
-                *matCellDef="let reservation">
-                {{ reservation.startDateTime | date: 'shortTime' }}
-            </td>
-        </ng-container>
+            <!-- Reservation Date -->
+            <ng-container matColumnDef="reservationDate">
+                <th
+                    mat-sort-header="startDateTime"
+                    mat-header-cell
+                    *matHeaderCellDef>
+                    Reservation Date
+                </th>
+                <td
+                    mat-cell
+                    *matCellDef="let reservation">
+                    {{ reservation.startDateTime | date: 'fullDate' }}
+                </td>
+            </ng-container>
 
-        <!-- End Time -->
-        <ng-container matColumnDef="endDateTime">
-            <th
-                mat-header-cell
-                *matHeaderCellDef>
-                End Time
-            </th>
-            <td
-                mat-cell
-                *matCellDef="let reservation">
-                {{ reservation.endDateTime | date: 'shortTime' }}
-            </td>
-        </ng-container>
+            <!-- Start Time -->
+            <ng-container matColumnDef="startDateTime">
+                <th
+                    mat-header-cell
+                    *matHeaderCellDef>
+                    Start Time
+                </th>
+                <td
+                    mat-cell
+                    *matCellDef="let reservation">
+                    {{ reservation.startDateTime | date: 'shortTime' }}
+                </td>
+            </ng-container>
 
-        <!-- End Time -->
-        <ng-container matColumnDef="totalPrice">
-            <th
-                mat-sort-header
-                mat-header-cell
-                *matHeaderCellDef>
-                Total Price
-            </th>
-            <td
-                mat-cell
-                *matCellDef="let reservation">
-                {{
-                    reservation.totalPrice
-                        | currency: 'CAD' : 'symbol-narrow' : '1.2-2'
-                }}
-            </td>
-        </ng-container>
+            <!-- End Time -->
+            <ng-container matColumnDef="endDateTime">
+                <th
+                    mat-header-cell
+                    *matHeaderCellDef>
+                    End Time
+                </th>
+                <td
+                    mat-cell
+                    *matCellDef="let reservation">
+                    {{ reservation.endDateTime | date: 'shortTime' }}
+                </td>
+            </ng-container>
 
-        <tr
-            mat-header-row
-            *matHeaderRowDef="displayedColumns"></tr>
-        <tr
-            [routerLink]="'/explore-restaurants'"
-            class="cursor-pointer hover:border-y-2 border-orange-500"
-            mat-row
-            *matRowDef="let reservation; columns: displayedColumns"></tr>
-    </table>
+            <!-- End Time -->
+            <ng-container matColumnDef="totalPrice">
+                <th
+                    mat-sort-header
+                    mat-header-cell
+                    *matHeaderCellDef>
+                    Total Price
+                </th>
+                <td
+                    mat-cell
+                    *matCellDef="let reservation">
+                    {{
+                        reservation.totalPrice
+                            | currency: 'CAD' : 'symbol-narrow' : '1.2-2'
+                    }}
+                </td>
+            </ng-container>
+
+            <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+                [routerLink]="'/explore-restaurants'"
+                class="cursor-pointer hover:border-y-2 border-orange-500 hover:bg-orange-100"
+                mat-row
+                *matRowDef="let reservation; columns: displayedColumns"></tr>
+        </table>
+    </div>
 </div>
 
 <ng-template #NoRowsTemplate>

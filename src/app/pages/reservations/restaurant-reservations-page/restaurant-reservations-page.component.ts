@@ -26,7 +26,11 @@ export class RestaurantReservationsPageComponent implements OnInit {
     reservations: Reservations;
 
     // Table
-    @ViewChild(MatSort) sort: MatSort;
+    @ViewChild(MatSort) set matSort(ms: MatSort) {
+        this.dataSource = new MatTableDataSource(this.reservations);
+        this.dataSource.sort = ms;
+    }
+
     dataSource: MatTableDataSource<Reservation>;
 
     displayedColumns = [
@@ -43,6 +47,13 @@ export class RestaurantReservationsPageComponent implements OnInit {
 
         this.fetchRestaurantInfo(restaurantId);
         this.fetchReservations(restaurantId);
+    }
+
+    get restaurantCoverImage() {
+        return (
+            this.restaurant.coverPhotoUri ||
+            RestaurantsService.DEFAULT_COVER_PHOTO_URI
+        );
     }
 
     fetchRestaurantInfo(restaurantId: string) {
@@ -67,9 +78,6 @@ export class RestaurantReservationsPageComponent implements OnInit {
             .subscribe({
                 next: (reservations) => {
                     this.reservations = reservations;
-
-                    this.dataSource = new MatTableDataSource(this.reservations);
-                    this.dataSource.sort = this.sort;
                 },
                 error: (err) => {
                     console.error(err);
