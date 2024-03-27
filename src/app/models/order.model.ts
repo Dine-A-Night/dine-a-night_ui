@@ -12,7 +12,12 @@ export class Order {
         this._id = options._id;
         this.reservationId = options.reservationId;
         this.totalPrice = options.totalPrice;
-        this.orderLines = options.orderLines ?? [];
+        this.orderLines = options.orderLines
+            ? options.orderLines.map(
+                  (orderline) =>
+                      new OrderLine(orderline.item, orderline.quantity),
+              )
+            : [];
     }
 
     hasOrderLines(): boolean {

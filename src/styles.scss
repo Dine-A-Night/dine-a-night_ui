@@ -11,6 +11,11 @@
 
 @import "custom-fonts.scss";
 
+/* Core Grid CSS */
+@import "ag-grid-community/styles/ag-grid.css";
+/* Quartz Theme Specific CSS */
+@import "ag-grid-community/styles/ag-theme-quartz.css";
+
 /* Colors */
 $color-primary: white;
 $color-links: rgba(5, 5, 131, 0.862);
@@ -18,6 +23,8 @@ $color-secondary: #f7d390;
 $color-accent: #d17341;
 $color-success: #1e7e34;
 $color-fail: #1e7e34;
+
+$color-accent-light: rgb(252, 229, 186);
 
 $text-color-primary: black;
 $text-color-light: white;
@@ -215,4 +222,14 @@ a:hover {
     --dial-background-color: #d17341;
     --clock-hand-color: #d17341;
     --button-color: #d17341;
+}
+
+/* Gui Grid */
+.dine-a-night_grid-row {
+    cursor: pointer;
+}
+
+.dine-a-night_grid-row:hover {
+    background-color: $color-accent-light !important;
+    border-block: 2px solid $color-accent !important;
 }

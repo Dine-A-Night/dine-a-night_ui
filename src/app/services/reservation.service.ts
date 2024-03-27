@@ -6,6 +6,7 @@ import { Reservation, Reservations } from '../models/reservation.model';
 import { TableType } from '../models/table.model';
 import { ReservationViewModel } from '../view-models/reservation-view.model';
 import { AuthService } from './auth.service';
+import { Order } from '../models/order.model';
 
 @Injectable({
     providedIn: 'root',
@@ -50,6 +51,9 @@ export class ReservationService {
                         endDateTime: reservation.endDateTime
                             ? new Date(reservation.endDateTime)
                             : null,
+                        preOrder: reservation.preOrder
+                            ? new Order(reservation.preOrder)
+                            : null,
                     });
 
                     // TODO: Remove after API implements this
@@ -77,13 +81,19 @@ export class ReservationService {
             map((res) => res['reservations'] as ReservationViewModel[]),
             map((reservations) =>
                 reservations.map((reservation) => {
+                    const startDateTime = reservation.startDateTime
+                        ? new Date(reservation.startDateTime)
+                        : null;
+                    const endDateTime = reservation.endDateTime
+                        ? new Date(reservation.endDateTime)
+                        : null;
+
                     reservation = new ReservationViewModel({
                         ...reservation,
-                        startDateTime: reservation.startDateTime
-                            ? new Date(reservation.startDateTime)
-                            : null,
-                        endDateTime: reservation.endDateTime
-                            ? new Date(reservation.endDateTime)
+                        startDateTime: startDateTime,
+                        endDateTime: endDateTime,
+                        preOrder: reservation.preOrder
+                            ? new Order(reservation.preOrder)
                             : null,
                     });
 

@@ -1,7 +1,7 @@
 export const environment = {
     production: false,
-    // apiUrl: 'http://localhost:8080/api',
-    apiUrl: 'https://dine-a-nightapi-production.up.railway.app/api',
+    apiUrl: 'http://localhost:8080/api',
+    // apiUrl: 'https://dine-a-nightapi-production.up.railway.app/api',
     googleMapsApiKey: 'AIzaSyB3OyeF8Ab7V6ZRxp884uDYq6pTXYL8aCQ',
     firebase: {
         apiKey: 'AIzaSyD_PLolGrL446AFEikZouRS2sF1elV8qjY',
