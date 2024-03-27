@@ -49,6 +49,7 @@ export class ReAuthenticateDialogComponent {
                     'Oops',
                     {
                         duration: 3000,
+                        panelClass: ['fail-snackbar'],
                     },
                 );
                 this.dialogRef.close(null);

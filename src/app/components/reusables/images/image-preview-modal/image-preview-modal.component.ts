@@ -52,6 +52,7 @@ export class ImagePreviewModalComponent {
                                     'Ok',
                                     {
                                         duration: 3000,
+                                        panelClass: ['success-snackbar'],
                                     },
                                 );
                             },
@@ -59,6 +60,9 @@ export class ImagePreviewModalComponent {
                                 this.notificationService.open(
                                     `Failed to delete the image: ${err.message}`,
                                     'Oops',
+                                    {
+                                        panelClass: ['fail-snackbar'],
+                                    },
                                 );
                             },
                         });

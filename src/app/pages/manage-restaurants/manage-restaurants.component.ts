@@ -42,6 +42,7 @@ export class ManageRestaurantsComponent {
                     'Ok',
                     {
                         duration: 4000,
+                        panelClass: ['success-snackbar'],
                     },
                 );
                 this.isLoading = false;
@@ -65,6 +66,7 @@ export class ManageRestaurantsComponent {
                     'Ok',
                     {
                         duration: 4000,
+                        panelClass: ['fail-snackbar'],
                     },
                 );
                 this.isLoading = false;

@@ -52,6 +52,7 @@ export class MenuItemComponent {
                                 'Ok',
                                 {
                                     duration: 3000,
+                                    panelClass: ['success-snackbar'],
                                 },
                             );
                             this.itemDeleted.emit(menuItemId);
@@ -60,6 +61,9 @@ export class MenuItemComponent {
                             this.notificationService.open(
                                 'Failed to delete the item',
                                 'Oops',
+                                {
+                                    panelClass: ['fail-snackbar'],
+                                },
                             );
                             console.error('Error deleting menu item:', error);
                         },

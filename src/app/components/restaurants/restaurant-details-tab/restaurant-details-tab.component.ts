@@ -92,6 +92,7 @@ export class RestaurantDetailsTabComponent implements OnInit {
                             'Ok',
                             {
                                 duration: 3000,
+                                panelClass: ['success-snackbar'],
                             },
                         );
                     },
@@ -101,6 +102,7 @@ export class RestaurantDetailsTabComponent implements OnInit {
                             'Oops',
                             {
                                 duration: 3000,
+                                panelClass: ['fail-snackbar'],
                             },
                         );
                     },

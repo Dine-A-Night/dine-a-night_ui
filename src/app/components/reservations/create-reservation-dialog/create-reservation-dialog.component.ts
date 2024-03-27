@@ -86,6 +86,9 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
                     this.notificationService.open(
                         "Couldn't fetch existing reservations data!",
                         'Oops',
+                        {
+                            panelClass: ['fail-snackbar'],
+                        },
                     );
                 },
             });

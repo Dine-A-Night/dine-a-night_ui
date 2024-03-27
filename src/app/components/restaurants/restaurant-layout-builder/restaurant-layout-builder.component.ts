@@ -68,6 +68,7 @@ export class RestaurantLayoutBuilderComponent {
                         'Ok',
                         {
                             duration: 3000,
+                            panelClass: ['success-snackbar'],
                         },
                     );
 
@@ -78,6 +79,9 @@ export class RestaurantLayoutBuilderComponent {
                     this.notificationService.open(
                         'Failed to update the layout',
                         'Oops',
+                        {
+                            panelClass: ['fail-snackbar'],
+                        },
                     );
                 },
             });

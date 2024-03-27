@@ -62,13 +62,15 @@ export class AddReviewFormComponent implements OnInit {
                 this.notificationService.open(
                     'Review successfully added',
                     'Ok',
-                    { duration: 3000 },
+                    { duration: 3000, panelClass: ['success-snackbar'] },
                 );
             },
             error: (err: any) => {
                 console.error(err);
 
-                this.notificationService.open('Failed to add review', 'Oops');
+                this.notificationService.open('Failed to add review', 'Oops', {
+                    panelClass: ['fail-snackbar'],
+                });
             },
         });
     }

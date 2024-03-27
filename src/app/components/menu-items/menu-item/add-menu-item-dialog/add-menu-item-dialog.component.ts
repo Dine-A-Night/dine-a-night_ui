@@ -81,6 +81,7 @@ export class AddMenuItemDialogComponent implements OnInit {
                         'Ok',
                         {
                             duration: 3000,
+                            panelClass: ['success-snackbar'],
                         },
                     );
                     this.dialogRef.close(newItem);
@@ -89,6 +90,9 @@ export class AddMenuItemDialogComponent implements OnInit {
                     this.notificationService.open(
                         'Failed to create the item',
                         'Oops',
+                        {
+                            panelClass: ['fail-snackbar'],
+                        },
                     );
                     console.error(error);
                 },
@@ -123,6 +127,7 @@ export class AddMenuItemDialogComponent implements OnInit {
                             'Ok',
                             {
                                 duration: 3000,
+                                panelClass: ['success-snackbar'],
                             },
                         );
                         this.dialogRef.close(response);
@@ -131,6 +136,9 @@ export class AddMenuItemDialogComponent implements OnInit {
                         this.notificationService.open(
                             'Failed to update the item',
                             'Oops',
+                            {
+                                panelClass: ['fail-snackbar'],
+                            },
                         );
                         console.error(error);
                     },
@@ -145,6 +153,7 @@ export class AddMenuItemDialogComponent implements OnInit {
                             'Ok',
                             {
                                 duration: 3000,
+                                panelClass: ['success-snackbar'],
                             },
                         );
                         this.dialogRef.close(response);
@@ -153,6 +162,9 @@ export class AddMenuItemDialogComponent implements OnInit {
                         this.notificationService.open(
                             'Failed to update the item',
                             'Oops',
+                            {
+                                panelClass: ['fail-snackbar'],
+                            },
                         );
                         console.error(error);
                     },

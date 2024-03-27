@@ -42,6 +42,9 @@ export class ReviewsComponent implements OnChanges {
                     this.notificationService.open(
                         'Failed to fetch Reviews!',
                         'Oops',
+                        {
+                            panelClass: ['fail-snackbar'],
+                        },
                     );
                 },
             });

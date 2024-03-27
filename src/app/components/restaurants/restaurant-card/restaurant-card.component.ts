@@ -46,6 +46,7 @@ export class RestaurantCardComponent {
                                     'Ok',
                                     {
                                         duration: 3000,
+                                        panelClass: ['success-snackbar'],
                                     },
                                 );
 
@@ -59,6 +60,7 @@ export class RestaurantCardComponent {
                                     'Oops',
                                     {
                                         duration: 3000,
+                                        panelClass: ['fail-snackbar'],
                                     },
                                 );
 

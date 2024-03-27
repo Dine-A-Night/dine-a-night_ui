@@ -128,6 +128,9 @@ export class RestaurantAddEditComponent implements OnInit {
                 this.notificationService.open(
                     `${newRestaurant.name} has been added to your list of restaurants`,
                     'Yayy',
+                    {
+                        panelClass: ['success-snackbar'],
+                    },
                 );
                 this.router.navigate(['/manage-restaurants']);
             },
@@ -135,6 +138,9 @@ export class RestaurantAddEditComponent implements OnInit {
                 this.notificationService.open(
                     `Failed to create RestaurantL ${err.message}`,
                     'Noooooo',
+                    {
+                        panelClass: ['fail-snackbar'],
+                    },
                 );
             },
         });
@@ -160,6 +166,9 @@ export class RestaurantAddEditComponent implements OnInit {
                 this.notificationService.open(
                     `${updatedRestaurant.name} has been successfully updated!`,
                     'Yayy',
+                    {
+                        panelClass: ['success-snackbar'],
+                    },
                 );
 
                 this.restaurant = res.restaurant;
@@ -172,6 +181,7 @@ export class RestaurantAddEditComponent implements OnInit {
                 this.notificationService.open(
                     `Failed to update RestaurantL ${err.message}`,
                     'Noooooo',
+                    { panelClass: ['fail-snackbar'] },
                 );
             },
         });

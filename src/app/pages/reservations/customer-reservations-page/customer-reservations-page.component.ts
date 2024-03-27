@@ -204,6 +204,9 @@ export class CustomerReservationsPageComponent implements OnDestroy {
                 this.notificationService.open(
                     'Failed to fetch reservations',
                     'Oops',
+                    {
+                        panelClass: ['fail-snackbar'],
+                    },
                 );
             },
         });

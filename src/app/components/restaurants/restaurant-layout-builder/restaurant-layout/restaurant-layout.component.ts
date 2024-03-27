@@ -107,6 +107,9 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
                 this.notificationService.open(
                     'Failed to fetch existing tables',
                     'Oops',
+                    {
+                        panelClass: ['fail-snackbar'],
+                    },
                 );
             },
         });

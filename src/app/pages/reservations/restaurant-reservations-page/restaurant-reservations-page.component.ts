@@ -209,6 +209,9 @@ export class RestaurantReservationsPageComponent implements OnInit {
                 this.notificationService.open(
                     'Failed to get restaurant info',
                     'Oops',
+                    {
+                        panelClass: ['fail-snackbar'],
+                    },
                 );
             },
         });
@@ -229,6 +232,9 @@ export class RestaurantReservationsPageComponent implements OnInit {
                     this.notificationService.open(
                         'Failed to fetch reservations',
                         'Oops',
+                        {
+                            panelClass: ['fail-snackbar'],
+                        },
                     );
                 },
             });

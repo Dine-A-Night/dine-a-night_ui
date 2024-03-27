@@ -32,6 +32,7 @@ export class RestaurantImagesComponent {
                         'Ok',
                         {
                             duration: 3000,
+                            panelClass: ['success-snackbar'],
                         },
                     );
                 },
@@ -39,6 +40,9 @@ export class RestaurantImagesComponent {
                     this.notificationService.open(
                         'Failed to upload the image!',
                         'Oops',
+                        {
+                            panelClass: ['fail-snackbar'],
+                        },
                     );
                 },
             });

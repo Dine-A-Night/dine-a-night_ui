@@ -97,7 +97,7 @@ export class ReviewComponent implements AfterViewChecked, OnChanges {
                     this.notificationService.open(
                         'Review updated successfully!',
                         'Ok',
-                        { duration: 3000 },
+                        { duration: 3000, panelClass: ['success-snackbar'] },
                     );
                 },
                 error: (err: any) => {
@@ -105,7 +105,7 @@ export class ReviewComponent implements AfterViewChecked, OnChanges {
                     this.notificationService.open(
                         `Failed to update the review: ${err.message}`,
                         'Oops',
-                        { duration: 3000 },
+                        { duration: 3000, panelClass: ['fail-snackbar'] },
                     );
                 },
             });
@@ -133,6 +133,7 @@ export class ReviewComponent implements AfterViewChecked, OnChanges {
                                     'Ok',
                                     {
                                         duration: 3000,
+                                        panelClass: ['success-snackbar'],
                                     },
                                 );
                             },
@@ -142,6 +143,9 @@ export class ReviewComponent implements AfterViewChecked, OnChanges {
                                 this.notificationService.open(
                                     "Review couldn't be deleted",
                                     'Oops',
+                                    {
+                                        panelClass: ['fail-snackbar'],
+                                    },
                                 );
                             },
                         });

@@ -90,6 +90,7 @@ export class UserManagementPageComponent {
                         'Oops',
                         {
                             duration: 3000,
+                            panelClass: ['fail-snackbar'],
                         },
                     );
                     console.error(err);
@@ -137,6 +138,7 @@ export class UserManagementPageComponent {
                                     'Ok',
                                     {
                                         duration: 3000,
+                                        panelClass: ['success-snackbar'],
                                     },
                                 );
 
@@ -148,6 +150,7 @@ export class UserManagementPageComponent {
                                     'Oops',
                                     {
                                         duration: 3000,
+                                        panelClass: ['fail-snackbar'],
                                     },
                                 );
                                 console.error(err);
@@ -161,6 +164,7 @@ export class UserManagementPageComponent {
                         'Oops',
                         {
                             duration: 3000,
+                            panelClass: ['fail-snackbar'],
                         },
                     );
                     console.error(err);
@@ -198,6 +202,7 @@ export class UserManagementPageComponent {
                         undefined,
                         {
                             duration: 3000,
+                            panelClass: ['success-snackbar'],
                         },
                     );
                     // location.reload();
@@ -209,6 +214,7 @@ export class UserManagementPageComponent {
                         undefined,
                         {
                             duration: 3000,
+                            panelClass: ['fail-snackbar'],
                         },
                     );
                     console.error(err);
