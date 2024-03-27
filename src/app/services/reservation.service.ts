@@ -28,7 +28,7 @@ export class ReservationService {
     getRestaurantReservations(
         restaurantId: string,
         getHistorical: boolean = false,
-    ): Observable<Reservations> {
+    ): Observable<ReservationViewModel[]> {
         const url = new URL(
             `${this.API_URL}/restaurants/${restaurantId}/reservations`,
         );
@@ -40,10 +40,10 @@ export class ReservationService {
         url.search = params.toString();
 
         return this.http.get(url.toString(), { headers }).pipe(
-            map((res) => res['reservations'] as Reservations),
+            map((res) => res['reservations'] as ReservationViewModel[]),
             map((reservations) =>
                 reservations.map((reservation) => {
-                    reservation = new Reservation({
+                    reservation = new ReservationViewModel({
                         ...reservation,
                         startDateTime: reservation.startDateTime
                             ? new Date(reservation.startDateTime)

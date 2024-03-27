@@ -135,6 +135,7 @@ export class CustomerReservationsPageComponent implements OnDestroy {
                 cellRendererParams: {
                     dateFormat: 'fullDate',
                 } as DateCellRendererParams,
+                sort: 'asc',
             },
             {
                 headerName: 'Start Time',
@@ -166,10 +167,6 @@ export class CustomerReservationsPageComponent implements OnDestroy {
         ];
     }
 
-    onRowSelected() {
-        // this.router.navigate([`/reservations/${reservation._id}`]);
-    }
-
     filterReservations(reservationState: ReservationState) {
         // this.filteredReservations = this.reservations.filter(reservation => )
         console.log(reservationState);
@@ -189,12 +186,6 @@ export class CustomerReservationsPageComponent implements OnDestroy {
             );
         } else {
             this.filteredReservations = this.reservations;
-        }
-
-        if (this.filterReservations.length) {
-            this.gridApi.hideOverlay();
-        } else {
-            this.gridApi.showNoRowsOverlay();
         }
     }
 
