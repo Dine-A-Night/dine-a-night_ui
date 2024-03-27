@@ -9,6 +9,7 @@ export class ReservationViewModel {
     user: ProfileUser;
     tables: Tables;
     isCancelled: boolean;
+    reservationDate: Date;
     startDateTime: Date | null;
     endDateTime: Date | null;
     preOrder?: Order | null;
@@ -27,9 +28,22 @@ export class ReservationViewModel {
         this.specialRequests = options.specialRequests ?? '';
         this.restaurant = options.restaurant ?? null;
         this.totalPrice = options.totalPrice ?? null;
+
+        if (this.startDateTime) {
+            const reservationDate = new Date(this.startDateTime);
+            reservationDate.setHours(0);
+            reservationDate.setMinutes(0);
+            reservationDate.setSeconds(0);
+
+            this.reservationDate = reservationDate;
+        }
     }
 
     static PRICE_PER_MINUTE = 50; // Cents
+
+    isHistorical() {
+        return this.endDateTime && this.endDateTime < new Date(Date.now());
+    }
 
     getReservationPrice() {
         const startTime = this.startDateTime?.getTime() ?? 0;

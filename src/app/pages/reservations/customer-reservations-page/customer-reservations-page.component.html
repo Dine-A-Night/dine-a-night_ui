@@ -1,156 +1,37 @@
-<div
-    *ngIf="reservations"
-    class="container-90-vw py-5">
+<div class="container-90-vw py-5">
     <h3 class="text-2xl flex flex-wrap items-center gap-2">
         Your Reservations
     </h3>
 
+    <mat-form-field class="mt-3">
+        <mat-label>Reservation State</mat-label>
+        <mat-select
+            [(ngModel)]="selectedReservationState"
+            (ngModelChange)="filterReservations($event)">
+            <mat-option
+                *ngFor="let state of reservationStateValues"
+                [value]="state">
+                {{ state }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
     <!-- Reservations Table -->
-    <div class="max-w-screen overflow-x-auto">
-        <table
-            *ngIf="reservations.length; else NoRowsTemplate"
-            mat-table
-            matSort
-            [dataSource]="dataSource"
-            class="mat-elevation-z8 mt-3">
-            <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-
-            <!-- Position Column -->
-            <ng-container matColumnDef="restaurantCoverPhoto">
-                <th
-                    class="w-48"
-                    mat-header-cell
-                    *matHeaderCellDef>
-                    <!-- This is a hack so the image does not shrink too much -->
-                    <span class="invisible"
-                        >Restaurant Image................</span
-                    >
-                </th>
-                <td
-                    mat-cell
-                    *matCellDef="let reservation; let i = index">
-                    <img
-                        class="w-36 h-24"
-                        [src]="getRestaurantCoverPhoto(reservation.restaurant)"
-                        alt="Image for restaurant {{
-                            reservation.restaurant.name
-                        }}" />
-                </td>
-            </ng-container>
-
-            <!-- Customer Name Column -->
-            <ng-container matColumnDef="restaurantName">
-                <th
-                    mat-sort-header
-                    mat-header-cell
-                    *matHeaderCellDef>
-                    Restaurant
-                </th>
-                <!-- Update to user's name once API is done -->
-                <td
-                    class="font-bold"
-                    mat-cell
-                    *matCellDef="let reservation">
-                    {{ reservation.restaurant.name }}
-                </td>
-            </ng-container>
-
-            <!-- Wait for API to populate this -->
-            <!-- Table -->
-            <!--
-            <ng-container matColumnDef="restaurantName">
-                <th
-                    mat-sort-header
-                    mat-header-cell
-                    *matHeaderCellDef>
-                    Table
-                </th>
-                <td
-                    class="font-bold"
-                    mat-cell
-                    *matCellDef="let reservation">
-                    
-                    {{ reservation.tables[0] }}
-                    <table-cell-renderer [table]=""></table-cell-renderer>
-                </td>
-            </ng-container>
-            -->
-
-            <!-- Reservation Date -->
-            <ng-container matColumnDef="reservationDate">
-                <th
-                    mat-sort-header="startDateTime"
-                    mat-header-cell
-                    *matHeaderCellDef>
-                    Reservation Date
-                </th>
-                <td
-                    mat-cell
-                    *matCellDef="let reservation">
-                    {{ reservation.startDateTime | date: 'fullDate' }}
-                </td>
-            </ng-container>
-
-            <!-- Start Time -->
-            <ng-container matColumnDef="startDateTime">
-                <th
-                    mat-header-cell
-                    *matHeaderCellDef>
-                    Start Time
-                </th>
-                <td
-                    class="font-bold"
-                    mat-cell
-                    *matCellDef="let reservation">
-                    {{ reservation.startDateTime | date: 'shortTime' }}
-                </td>
-            </ng-container>
-
-            <!-- End Time -->
-            <ng-container matColumnDef="endDateTime">
-                <th
-                    mat-header-cell
-                    *matHeaderCellDef>
-                    End Time
-                </th>
-                <td
-                    mat-cell
-                    *matCellDef="let reservation">
-                    {{ reservation.endDateTime | date: 'shortTime' }}
-                </td>
-            </ng-container>
-
-            <!-- End Time -->
-            <ng-container matColumnDef="totalPrice">
-                <th
-                    mat-sort-header
-                    mat-header-cell
-                    *matHeaderCellDef>
-                    Total Price
-                </th>
-                <td
-                    mat-cell
-                    *matCellDef="let reservation">
-                    {{
-                        reservation.totalPrice
-                            | currency: 'CAD' : 'symbol-narrow' : '1.2-2'
-                    }}
-                </td>
-            </ng-container>
-
-            <tr
-                mat-header-row
-                *matHeaderRowDef="displayedColumns"></tr>
-            <tr
-                [routerLink]="'/explore-restaurants'"
-                class="cursor-pointer hover:border-y-2 border-orange-500 hover:bg-orange-100"
-                mat-row
-                *matRowDef="let reservation; columns: displayedColumns"></tr>
-        </table>
-    </div>
+    <ag-grid-angular
+        *ngIf="filterReservations"
+        class="ag-theme-quartz"
+        style="height: 500px"
+        (gridReady)="onGridReady($event)"
+        [gridOptions]="gridOptions"
+        (firstDataRendered)="onFirstDataRendered($event)"
+        [rowData]="filteredReservations"
+        [columnDefs]="columnDefs">
+    </ag-grid-angular>
 </div>
 
 <ng-template #NoRowsTemplate>
-    <informational-text [text]="'No Reservations Yet'"></informational-text>
+    <informational-text
+        [text]="
+            'No {{ selectedReservationState }} Reservations Yet'
+        "></informational-text>
 </ng-template>

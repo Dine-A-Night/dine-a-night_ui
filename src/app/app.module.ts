@@ -75,6 +75,10 @@ import { RestaurantReservationsPageComponent } from './pages/reservations/restau
 
 import { MatSortModule } from '@angular/material/sort';
 import { InformationalTextComponent } from './components/reusables/informational-text/informational-text.component';
+import { AgGridAngular } from 'ag-grid-angular';
+import { ImageCellRendererComponent } from './components/ag-grid/cell-renderers/image-cell-renderer.component';
+import { DateCellRendererComponent } from './components/ag-grid/cell-renderers/date-cell-renderer.component';
+import { CurrencyCellRendererComponent } from './components/ag-grid/cell-renderers/currency-cell-renderer.component';
 
 @NgModule({
     declarations: [
@@ -118,6 +122,9 @@ import { InformationalTextComponent } from './components/reusables/informational
         RestaurantReservationsPageComponent,
         CustomerReservationsPageComponent,
         InformationalTextComponent,
+        ImageCellRendererComponent,
+        DateCellRendererComponent,
+        CurrencyCellRendererComponent,
     ],
     imports: [
         BrowserModule,
@@ -152,6 +159,7 @@ import { InformationalTextComponent } from './components/reusables/informational
         MatNativeDateModule,
         MatTableModule,
         MatSortModule,
+        AgGridAngular,
     ],
     providers: [{ provide: MAT_DIALOG_DATA, useValue: {} }], // Provide an empty object as a default value],
     bootstrap: [AppComponent],

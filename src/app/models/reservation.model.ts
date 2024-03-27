@@ -29,7 +29,7 @@ export class Reservation {
     static PRICE_PER_MINUTE = 50; // Cents
 
     isHistorical() {
-        return this.startDateTime && this.startDateTime > new Date(Date.now());
+        return this.endDateTime && this.endDateTime > new Date(Date.now());
     }
 
     getReservationPrice() {
@@ -56,3 +56,9 @@ export class Reservation {
 }
 
 export type Reservations = Reservation[];
+
+export enum ReservationState {
+    UPCOMING = 'Upcoming',
+    CANCELLED = 'Cancelled',
+    HISTORICAL = 'Historical',
+}
