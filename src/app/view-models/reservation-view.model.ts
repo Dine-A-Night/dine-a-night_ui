@@ -22,9 +22,13 @@ export class ReservationViewModel {
         this.user = options.user;
         this.tables = options.tables;
         this.isCancelled = options.isCancelled;
-        this.startDateTime = options.startDateTime;
-        this.endDateTime = options.endDateTime;
-        this.preOrder = options.preOrder ?? null;
+        this.startDateTime = options.startDateTime
+            ? new Date(options.startDateTime)
+            : null;
+        this.endDateTime = options.endDateTime
+            ? new Date(options.endDateTime)
+            : null;
+        this.preOrder = options.preOrder ? new Order(options.preOrder) : null;
         this.specialRequests = options.specialRequests ?? '';
         this.restaurant = options.restaurant ?? null;
         this.totalPrice = options.totalPrice ?? null;
