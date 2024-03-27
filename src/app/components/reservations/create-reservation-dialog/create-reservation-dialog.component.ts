@@ -27,6 +27,7 @@ import {
 } from 'src/app/utils/custom-validators';
 import { isDefNotNull } from 'src/app/utils/helper-functions';
 import { ConfirmDialogComponent } from '../../reusables/confirm-dialog/confirm-dialog.component';
+import { ReservationViewModel } from 'src/app/view-models/reservation-view.model';
 
 @Component({
     selector: 'create-reservation-dialog',
@@ -43,7 +44,7 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
     reservationDurationForm: FormGroup;
     reservationDurationFormChangesSub: Subscription;
 
-    currentReservations: Reservations;
+    currentReservations: ReservationViewModel[];
 
     selectedStepIndex = ReservationStepIndex.TIME_AND_TABLE;
 
@@ -185,7 +186,7 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
     selectedTable: Table | null = null;
 
     getUnavailableTableIds(
-        reservations: Reservations,
+        reservations: ReservationViewModel[],
         startDateTime: Date | null,
         endDateTime: Date | null,
     ): string[] {
@@ -212,7 +213,7 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
     }
 
     private isReservationConflicting(
-        reservation: Reservation,
+        reservation: ReservationViewModel,
         startDateTime: Date,
         endDateTime: Date,
     ) {
