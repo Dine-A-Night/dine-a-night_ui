@@ -94,6 +94,7 @@ export class RestaurantReservationsPageComponent implements OnInit {
         this.columnDefs = [
             {
                 headerName: '#',
+                maxWidth: 20,
                 valueGetter: (
                     params: ValueGetterParams<ReservationViewModel>,
                 ) => {

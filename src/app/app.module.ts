@@ -79,6 +79,7 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { ImageCellRendererComponent } from './components/ag-grid/cell-renderers/image-cell-renderer.component';
 import { DateCellRendererComponent } from './components/ag-grid/cell-renderers/date-cell-renderer.component';
 import { CurrencyCellRendererComponent } from './components/ag-grid/cell-renderers/currency-cell-renderer.component';
+import { ReservationDetailsPageComponent } from './pages/reservations/reservation-details-page/reservation-details-page.component';
 
 @NgModule({
     declarations: [
@@ -125,6 +126,7 @@ import { CurrencyCellRendererComponent } from './components/ag-grid/cell-rendere
         ImageCellRendererComponent,
         DateCellRendererComponent,
         CurrencyCellRendererComponent,
+        ReservationDetailsPageComponent,
     ],
     imports: [
         BrowserModule,

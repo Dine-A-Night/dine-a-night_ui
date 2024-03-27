@@ -13,6 +13,7 @@ import { roleGuard } from './guards/role.guard';
 import { UserRole } from '../models/user.model';
 import { CustomerReservationsPageComponent } from '../pages/reservations/customer-reservations-page/customer-reservations-page.component';
 import { RestaurantReservationsPageComponent } from '../pages/reservations/restaurant-reservations-page/restaurant-reservations-page.component';
+import { ReservationDetailsPageComponent } from '../pages/reservations/reservation-details-page/reservation-details-page.component';
 
 const routes: Routes = [
     {
@@ -70,6 +71,12 @@ const routes: Routes = [
                 'Only Customers have access to this feature',
             ),
         ],
+    },
+    {
+        path: 'reservations/:id',
+        pathMatch: 'full',
+        component: ReservationDetailsPageComponent,
+        canActivate: [authGuard],
     },
     {
         path: 'explore-restaurants/:id/reservations',
