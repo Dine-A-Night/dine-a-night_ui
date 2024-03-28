@@ -40,11 +40,30 @@
             >Restaurants Near You</h2
         >
         <!-- Flex container for all cards, set to horizontal layout -->
-        <div class="flex flex-col">
+        <div
+            *ngIf="
+                filteredRestaurants?.length;
+                else EmptyRestaurantsPlaceholder
+            "
+            class="flex flex-col">
             <!-- Loop through each filtered restaurant -->
             <restaurant-detailed-card
                 *ngFor="let restaurant of filteredRestaurants"
                 [restaurant]="restaurant"></restaurant-detailed-card>
         </div>
+
+        <ng-template #EmptyRestaurantsPlaceholder>
+            <informational-text
+                *ngIf="!isLoading"
+                [text]="'No Restaurants Found'"></informational-text>
+
+            <div class="py-24">
+                <loading-spinner
+                    *ngIf="isLoading"
+                    [label]="'Fetching Nearby Restaurants'"
+                    [fullHeight]="false"
+                    [spinnerType]="SpinnerType.PAN"></loading-spinner>
+            </div>
+        </ng-template>
     </section>
 </div>

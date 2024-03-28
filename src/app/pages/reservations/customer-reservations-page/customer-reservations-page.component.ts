@@ -135,7 +135,7 @@ export class CustomerReservationsPageComponent implements OnDestroy {
                 cellRendererParams: {
                     dateFormat: 'fullDate',
                 } as DateCellRendererParams,
-                sort: 'asc',
+                sort: 'desc',
             },
             {
                 headerName: 'Start Time',

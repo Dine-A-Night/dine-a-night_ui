@@ -28,6 +28,7 @@ import {
 import { isDefNotNull } from 'src/app/utils/helper-functions';
 import { ConfirmDialogComponent } from '../../reusables/confirm-dialog/confirm-dialog.component';
 import { ReservationViewModel } from 'src/app/view-models/reservation-view.model';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'create-reservation-dialog',
@@ -60,6 +61,7 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
         private fb: FormBuilder,
         private userService: UserService,
         private menuItemsService: MenuItemsService,
+        private router: Router,
     ) {
         this.restaurant = new Restaurant(data.restaurant);
         this.getMenuItems();
@@ -356,6 +358,7 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
                             },
                         );
 
+                        this.router.navigate(['/reservations']);
                         this.dialogRef.close();
                     },
                     error: (err) => {

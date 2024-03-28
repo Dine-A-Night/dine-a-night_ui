@@ -1,3 +1,4 @@
+import { SpinnerType } from './../../../reusables/loading-spinner/loading-spinner.component';
 import {
     CdkDragDrop,
     moveItemInArray,
@@ -38,6 +39,7 @@ export class RestaurantLayoutComponent implements OnInit, OnChanges {
     @Output() tablesUpdated = new EventEmitter<Tables>();
 
     tables: Tables = [];
+    SpinnerType = SpinnerType;
 
     restaurantLayout: RestaurantLayout;
     layoutRows: number = 5;
