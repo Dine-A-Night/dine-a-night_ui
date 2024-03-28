@@ -27,7 +27,10 @@
     <!-- Layout -->
     <div
         class="border overflow-x-auto"
-        *ngIf="restaurantLayout && layoutColumns && layoutRows && tableTypes"
+        *ngIf="
+            restaurantLayout && layoutColumns && layoutRows && tableTypes;
+            else LoadingSpinner
+        "
         cdkDropListGroup>
         <!-- Rows -->
         <div
@@ -69,3 +72,10 @@
         *ngIf="selectionDisabled && !editMode"
         class="absolute inset-0 z-1200 opacity-50 bg-slate-50"></div>
 </div>
+
+<ng-template #LoadingSpinner>
+    <loading-spinner
+        [label]="'Fetching available tables'"
+        [spinnerType]="SpinnerType.PAN"
+        [fullHeight]="true"></loading-spinner>
+</ng-template>

@@ -125,7 +125,7 @@ export class RestaurantReservationsPageComponent implements OnInit {
                 cellRendererParams: {
                     dateFormat: 'fullDate',
                 } as DateCellRendererParams,
-                sort: 'asc',
+                sort: 'desc',
             },
             {
                 headerName: 'Start Time',

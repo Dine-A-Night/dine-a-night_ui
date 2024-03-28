@@ -9,5 +9,12 @@
                 (itemQuantityChange)="onItemQuantityChanged(menuItem, $event)"
                 [showOrderControls]="true"></menu-item>
         </ng-container>
+
+        <ng-container *ngIf="!menuItems?.length">
+            <informational-text
+                [text]="
+                    'This restaurant hasn\'t setup menu items'
+                "></informational-text>
+        </ng-container>
     </div>
 </div>

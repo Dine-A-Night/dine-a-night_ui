@@ -7,6 +7,7 @@ import {
     distinctUntilChanged,
     filter,
 } from 'rxjs';
+import { SpinnerType } from 'src/app/components/reusables/loading-spinner/loading-spinner.component';
 import { Cuisine, Restaurant } from 'src/app/models/restaurant.model';
 import {
     RestaurantFilters,
@@ -43,6 +44,8 @@ export class ExploreRestaurantsPageComponent implements OnInit, OnDestroy {
     searchTextChanged = new Subject<string>();
     routerSub: Subscription;
     searchTextSubscription: Subscription;
+
+    SpinnerType = SpinnerType;
 
     ngOnInit() {
         const filters = this.activatedRoute.snapshot
@@ -125,12 +128,10 @@ export class ExploreRestaurantsPageComponent implements OnInit, OnDestroy {
                     this.errorMessage =
                         'Invalid response format. Expected an array of cuisines.';
                 }
-                this.isLoading = false;
             },
             error: (error) => {
                 this.errorMessage =
                     'Error fetching cuisines. Please try again later.';
-                this.isLoading = false;
             },
         });
     }
