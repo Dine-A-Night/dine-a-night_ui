@@ -73,8 +73,29 @@
 
         <mat-divider />
 
-        <section class="py-4 text-justify sm:text-start">
-            <p>{{ restaurant.description }}</p>
+        <section class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <p class="py-4 text-justify sm:text-start">{{
+                restaurant.description
+            }}</p>
+
+            <div
+                id="google-maps"
+                class="w-auto"
+                *ngIf="apiLoaded() && mapCenter; else mapsLoading">
+                <google-map
+                    [width]="'100%'"
+                    [zoom]="mapZoom"
+                    [center]="mapCenter"
+                    [options]="mapOptions">
+                    <map-marker
+                        *ngIf="mapMarker.position"
+                        [position]="mapMarker.position"
+                        [label]="mapMarker.label"
+                        [title]="mapMarker.title"
+                        [options]="mapMarker.options">
+                    </map-marker
+                ></google-map>
+            </div>
         </section>
 
         <!-- Menu Items -->
@@ -94,4 +115,10 @@
         <mat-icon class="text-yellow-600">info</mat-icon>
         This restaurant hasn't setup its layout
     </p>
+</ng-template>
+
+<ng-template #mapsLoading>
+    <loading-spinner
+        [label]="'Loading Maps Preview'"
+        [spinnerType]="spinnerType"></loading-spinner>
 </ng-template>
