@@ -257,8 +257,10 @@
     </section>
 
     <!-- Table Preview -->
-    <restaurant-layout
-        [restaurant]="restaurant"
-        [selectionDisabled]="true"
-        [selectedTable]="reservation.tables[0]"></restaurant-layout>
+    <section *ngIf="reservation">
+        <restaurant-layout
+            [restaurant]="restaurant"
+            [selectionDisabled]="true"
+            [selectedTable]="reservation.tables[0]"></restaurant-layout>
+    </section>
 </section>
