@@ -65,7 +65,9 @@ export class RestaurantReservationsPageComponent implements OnInit {
     onRowClicked(event: RowClickedEvent<ReservationViewModel>) {
         const reservationId = event.data?._id;
 
-        console.log(event);
+        if (reservationId) {
+            this.router.navigate(['/reservations', reservationId]);
+        }
     }
 
     setupGrid() {
@@ -88,7 +90,7 @@ export class RestaurantReservationsPageComponent implements OnInit {
                 type: 'fitGridWidth',
             },
             overlayNoRowsTemplate: 'No Reservations to Show',
-            onRowClicked: this.onRowClicked,
+            onRowClicked: this.onRowClicked.bind(this),
         };
 
         this.columnDefs = [
@@ -161,8 +163,6 @@ export class RestaurantReservationsPageComponent implements OnInit {
     reservationStateValues = Object.values(ReservationState);
 
     filterReservations(reservationState: ReservationState) {
-        console.log(reservationState);
-
         if (reservationState === ReservationState.CANCELLED) {
             this.filteredReservations = this.reservations.filter(
                 (reservation) => reservation.isCancelled,

@@ -82,7 +82,9 @@ export class CustomerReservationsPageComponent implements OnDestroy {
     onRowClicked(event: RowClickedEvent<ReservationViewModel>) {
         const reservationId = event.data?._id;
 
-        console.log(event);
+        if (reservationId) {
+            this.router.navigate(['/reservations', reservationId]);
+        }
     }
 
     setupGrid() {
@@ -104,7 +106,7 @@ export class CustomerReservationsPageComponent implements OnDestroy {
                 type: 'fitGridWidth',
             },
             overlayNoRowsTemplate: 'No Reservations to Show',
-            onRowClicked: this.onRowClicked,
+            onRowClicked: this.onRowClicked.bind(this),
         };
 
         this.columnDefs = [
@@ -168,9 +170,6 @@ export class CustomerReservationsPageComponent implements OnDestroy {
     }
 
     filterReservations(reservationState: ReservationState) {
-        // this.filteredReservations = this.reservations.filter(reservation => )
-        console.log(reservationState);
-
         if (reservationState === ReservationState.CANCELLED) {
             this.filteredReservations = this.reservations.filter(
                 (reservation) => reservation.isCancelled,
