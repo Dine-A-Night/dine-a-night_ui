@@ -48,8 +48,8 @@ export class MenuItemsComponent implements OnInit, OnDestroy {
         this.userSubscription = this.userService.currentUser$.subscribe(
             (user: ProfileUser) => {
                 this.showEditControls =
-                    user.role === UserRole.ADMIN &&
-                    user.uid === this.restaurant.ownerId;
+                    user?.role === UserRole.ADMIN &&
+                    user?.uid === this.restaurant.ownerId;
             },
         );
     }
