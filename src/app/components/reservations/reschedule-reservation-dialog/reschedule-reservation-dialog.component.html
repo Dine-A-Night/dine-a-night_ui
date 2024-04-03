@@ -1,0 +1,25 @@
+<h2 class="text-3xl font-bold text-center py-5 bg-slate-950 text-color-light"
+    >Reschedule Reservation<mat-icon class="mx-2">date_range</mat-icon>
+</h2>
+
+<mat-dialog-content class="h-full"> </mat-dialog-content>
+
+<mat-dialog-actions
+    class="absolute right-0 bottom-0 flex flex-wrap"
+    [align]="'end'">
+    <button
+        [disableRipple]="true"
+        mat-dialog-close
+        mat-raised-button>
+        <mat-icon>cancel</mat-icon>
+        Cancel
+    </button>
+
+    <button
+        [disableRipple]="true"
+        mat-raised-button
+        color="accent">
+        <mat-icon>today</mat-icon>
+        Reserve Table
+    </button>
+</mat-dialog-actions>

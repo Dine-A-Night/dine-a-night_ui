@@ -2,7 +2,9 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { RescheduleReservationDialogComponent } from 'src/app/components/reservations/reschedule-reservation-dialog/reschedule-reservation-dialog.component';
 import { ConfirmDialogComponent } from 'src/app/components/reusables/confirm-dialog/confirm-dialog.component';
+import { SpinnerType } from 'src/app/components/reusables/loading-spinner/loading-spinner.component';
 import { Restaurant } from 'src/app/models/restaurant.model';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { RestaurantsService } from 'src/app/services/restaurants.service';
@@ -23,6 +25,8 @@ export class ReservationDetailsPageComponent implements OnInit {
 
     reservation: ReservationViewModel;
     restaurant: Restaurant;
+
+    spinnerType = SpinnerType.PAN;
 
     ngOnInit(): void {
         const reservationId = this.activatedRoute.snapshot.params['id'];
@@ -65,7 +69,7 @@ export class ReservationDetailsPageComponent implements OnInit {
         const table = this.reservation.tables[0];
 
         return table
-            ? `${table.tableType.name} (${table.tableType.capacity})`
+            ? `${table.tableType.name} (${table.tableType.capacity} people)`
             : '';
     }
 
@@ -114,6 +118,23 @@ export class ReservationDetailsPageComponent implements OnInit {
                                 },
                             });
                     }
+                }
+            });
+    }
+
+    onRescheduleReservationClick() {
+        this.dialog
+            .open(RescheduleReservationDialogComponent, {
+                data: {
+                    reservation: this.reservation,
+                    restaurant: this.restaurant,
+                },
+                panelClass: ['dine-a-night-modal_large'],
+            })
+            .afterClosed()
+            .subscribe((result) => {
+                if (result) {
+                    console.log('Rescheduling Reservation');
                 }
             });
     }

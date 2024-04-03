@@ -10,22 +10,35 @@
 </section>
 
 <!-- Body -->
-<section class="container-90-vw py-2">
+<section
+    *ngIf="reservation; else LoadingSpinner"
+    class="container-90-vw py-2">
     <!-- Controls -->
-    <section class="py-2 flex justify-end items-center flex-wrap gap-3">
-        <button
-            mat-flat-button
-            color="accent">
-            <mat-icon>access_time</mat-icon>
-            Reschedule
-        </button>
-        <button
-            mat-flat-button
-            color="warn"
-            (click)="onCancel()">
-            <mat-icon>clear</mat-icon>
-            Cancel
-        </button>
+    <section
+        class="flex justify-between items-center flex-wrap"
+        *ngIf="!(reservation.isHistorical() || reservation.isCancelled)">
+        <a
+            class="text-xl font-bold cursor-pointer"
+            [routerLink]="['/explore-restaurants', reservation.restaurant._id]"
+            >{{ reservation.restaurant.name }}</a
+        >
+
+        <div class="py-2 flex justify-end items-center flex-wrap gap-3">
+            <button
+                mat-flat-button
+                color="accent"
+                (click)="onRescheduleReservationClick()">
+                <mat-icon>access_time</mat-icon>
+                Reschedule
+            </button>
+            <button
+                mat-flat-button
+                color="warn"
+                (click)="onCancel()">
+                <mat-icon>clear</mat-icon>
+                Cancel
+            </button>
+        </div>
     </section>
 
     <!-- Details -->
@@ -81,7 +94,7 @@
                 </div>
 
                 <!-- Selected Table -->
-                <!-- <div class="px-2 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <div class="px-2 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt class="text-sm font-medium leading-6 text-gray-900"
                         >Table</dt
                     >
@@ -89,7 +102,21 @@
                         class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
                         >{{ selectedTableInfo }}</dd
                     >
-                </div> -->
+                </div>
+
+                <!-- Reservation Status -->
+                <div class="px-2 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-sm font-medium leading-6 text-gray-900"
+                        >Reservation Status</dt
+                    >
+                    <dd
+                        class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                        <ng-container
+                            *ngTemplateOutlet="
+                                ReservationStatus
+                            "></ng-container>
+                    </dd>
+                </div>
 
                 <!-- Reservation Date -->
                 <div class="px-2 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -264,3 +291,29 @@
             [selectedTable]="reservation.tables[0]"></restaurant-layout>
     </section>
 </section>
+
+<ng-template #LoadingSpinner>
+    <loading-spinner
+        [spinnerType]="spinnerType"
+        [label]="'Loading Reservation'"></loading-spinner>
+</ng-template>
+
+<ng-template #ReservationStatus>
+    <p
+        class="inline font-bold bg-red-500 text-color-light py-1 px-2 rounded-full"
+        *ngIf="reservation.isCancelled"
+        >Cancelled</p
+    >
+
+    <p
+        class="inline font-bold bg-yellow-400 py-1 px-2 rounded-full"
+        *ngIf="!reservation.isCancelled && reservation.isHistorical()"
+        >Historical</p
+    >
+
+    <p
+        class="inline font-bold bg-green-500 text-color-light py-1 px-2 rounded-full"
+        *ngIf="!reservation.isCancelled && !reservation.isHistorical()"
+        >Upcoming</p
+    >
+</ng-template>
