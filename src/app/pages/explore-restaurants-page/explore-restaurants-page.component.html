@@ -34,11 +34,21 @@
 
     <!-- Nearby Restaurants -->
     <section class="min-h-screen bg-grey rounded-lg p-4 mt-8">
-        <h2 class="text-3xl font-semibold mb-4"
-            ><ng-container *ngIf="selectedCuisine"
-                >{{ selectedCuisineName }} </ng-container
-            >Restaurants Near You</h2
-        >
+        <h2
+            *ngIf="searchTerm.length === 0"
+            class="text-3xl font-semibold my-2">
+            <ng-container *ngIf="selectedCuisine">
+                {{ selectedCuisineName }}
+            </ng-container>
+            Restaurants Near You
+        </h2>
+
+        <p
+            *ngIf="searchTerm.length"
+            class="my-2 text-slate-600 font-bold text-lg">
+            Showing results for: "{{ searchTerm }}"
+        </p>
+
         <!-- Flex container for all cards, set to horizontal layout -->
         <div
             *ngIf="
