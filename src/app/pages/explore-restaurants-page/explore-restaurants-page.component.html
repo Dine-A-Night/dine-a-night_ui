@@ -21,14 +21,42 @@
         <h2 class="text-3xl font-semibold mb-4"
             >What are you in the mood for?</h2
         >
-        <div
-            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            <!-- Loop through cuisines and generate a card for each -->
-            <cuisine-card
-                *ngFor="let cuisine of cuisinesList"
-                (click)="filterByCuisine(cuisine)"
-                [isSelected]="selectedCuisine === cuisine._id"
-                [cuisine]="cuisine"></cuisine-card>
+        <div class="relative">
+            <div
+                #cuisinesScrollContainer
+                class="scroll-container scroll-smooth"
+                (window:resize)="onCuisineContainerResize()">
+                <!-- Loop through cuisines and generate a card for each -->
+                <cuisine-card
+                    *ngFor="let cuisine of cuisinesList"
+                    (click)="filterByCuisine(cuisine)"
+                    [isSelected]="selectedCuisine === cuisine._id"
+                    [cuisine]="cuisine"></cuisine-card>
+            </div>
+
+            <!-- Scroll Buttons -->
+            <button
+                *ngIf="showLeftCuisineScrollButton"
+                mat-fab
+                matSuffix
+                type="button"
+                title="Scroll Left"
+                [attr.aria-label]="'Scroll Left'"
+                (click)="onLeftScrollClick($event)"
+                class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 bg-accent w-8 h-8 text-md">
+                <mat-icon>keyboard_arrow_left</mat-icon>
+            </button>
+            <button
+                *ngIf="showRightCuisineScrollButton"
+                mat-fab
+                matSuffix
+                type="button"
+                title="Scroll Left"
+                [attr.aria-label]="'Scroll Left'"
+                (click)="onRightScrollClick($event)"
+                class="absolute top-1/2 -translate-y-1/2 right-0 translate-x-1/2 bg-accent w-8 h-8 text-md">
+                <mat-icon>keyboard_arrow_right</mat-icon>
+            </button>
         </div>
     </section>
 

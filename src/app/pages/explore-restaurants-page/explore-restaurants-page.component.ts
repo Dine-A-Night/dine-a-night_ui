@@ -1,4 +1,11 @@
-import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import {
     Subject,
@@ -39,6 +46,7 @@ export class ExploreRestaurantsPageComponent implements OnInit, OnDestroy {
         private restaurantsService: RestaurantsService,
         private router: Router,
         private activatedRoute: ActivatedRoute,
+        private cd: ChangeDetectorRef,
     ) {}
 
     searchTextChanged = new Subject<string>();
@@ -46,6 +54,54 @@ export class ExploreRestaurantsPageComponent implements OnInit, OnDestroy {
     searchTextSubscription: Subscription;
 
     SpinnerType = SpinnerType;
+
+    //#region Cuisines Scroll
+
+    @ViewChild('cuisinesScrollContainer') cuisinesScrollContainer: ElementRef;
+
+    onCuisineContainerResize() {
+        this.cd.detectChanges();
+    }
+
+    private CUISINES_CONTAINER_SCROLL_STEP = 150;
+
+    get showLeftCuisineScrollButton() {
+        return this.cuisinesScrollContainer?.nativeElement.scrollLeft > 0;
+    }
+
+    get showRightCuisineScrollButton() {
+        return (
+            this.cuisinesScrollContainer?.nativeElement.scrollLeft <
+            this.cuisinesScrollContainer?.nativeElement.scrollLeftMax
+        );
+    }
+
+    onRightScrollClick(event) {
+        const currentScrollLeft =
+            this.cuisinesScrollContainer?.nativeElement.scrollLeft ?? 0;
+        const availableScroll =
+            this.cuisinesScrollContainer?.nativeElement.scrollLeftMax -
+            this.cuisinesScrollContainer?.nativeElement.scrollLeft;
+
+        this.cuisinesScrollContainer.nativeElement.scrollLeft =
+            availableScroll > this.CUISINES_CONTAINER_SCROLL_STEP
+                ? currentScrollLeft + this.CUISINES_CONTAINER_SCROLL_STEP
+                : currentScrollLeft + availableScroll;
+    }
+
+    onLeftScrollClick(event) {
+        const currentScrollLeft =
+            this.cuisinesScrollContainer?.nativeElement.scrollLeft ?? 0;
+        const availableScroll =
+            this.cuisinesScrollContainer?.nativeElement.scrollLeft;
+
+        this.cuisinesScrollContainer.nativeElement.scrollLeft =
+            availableScroll > this.CUISINES_CONTAINER_SCROLL_STEP
+                ? currentScrollLeft - this.CUISINES_CONTAINER_SCROLL_STEP
+                : currentScrollLeft - availableScroll;
+    }
+
+    //#endregion
 
     ngOnInit() {
         const filters = this.activatedRoute.snapshot
