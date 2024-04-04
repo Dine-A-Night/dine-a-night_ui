@@ -1,24 +1,23 @@
 <div
-    class="w-full sm:w-auto transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-sm cursor-pointer border">
+    class="w-full sm:w-auto hover:shadow-md cursor-pointer border border-gray-400 rounded-xl">
     <a
         class="block no-underline"
         [ngClass]="{
             'text-black': !isSelected,
             'text-color-accent': isSelected
         }">
-        <div class="relative overflow-hidden h-60">
+        <div class="relative overflow-hidden h-36">
             <!-- Use cuisine image if available, else use a placeholder -->
             <img
                 [src]="cuisine.imageUrl || ''"
                 alt="Cuisine Image"
-                class="w-full h-full object-cover" />
+                class="w-full h-full object-cover rounded-t-xl" />
         </div>
-        <div class="p-6 text-center h-24">
-            <!-- Display cuisine name -->
-            <h4
-                class="block mb-2 font-sans text-2xl font-semibold text-blue-gray-900"
-                >{{ cuisine.name }}</h4
-            >
-        </div>
+
+        <!-- Display cuisine name -->
+        <h4
+            class="block mb-2 text-center font-sans text-lg font-semibold text-blue-gray-900 py-3"
+            >{{ cuisine.name }}</h4
+        >
     </a>
 </div>
