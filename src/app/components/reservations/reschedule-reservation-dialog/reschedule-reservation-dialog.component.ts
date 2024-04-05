@@ -113,11 +113,17 @@ export class RescheduleReservationDialogComponent implements OnInit {
     }
 
     get saveDisabled() {
-        return this.reservationDurationForm.invalid || this.slotUnavailable;
+        return (
+            this.reservationDurationForm.invalid ||
+            this.slotUnavailable ||
+            this.rescheduleProcessing
+        );
     }
 
     onRescheduleClick() {
         if (this.reservation._id && this.startDateTime && this.endDateTime) {
+            this.rescheduleProcessing = true;
+
             this.reservationService
                 .rescheduleReservation(
                     this.reservation._id,
@@ -131,9 +137,11 @@ export class RescheduleReservationDialogComponent implements OnInit {
                             'Ok',
                             {
                                 duration: 3000,
+                                panelClass: ['success-snackbar'],
                             },
                         );
 
+                        this.rescheduleProcessing = false;
                         this.dialogRef.close(reservation);
                     },
                     error: (err) => {
@@ -142,7 +150,11 @@ export class RescheduleReservationDialogComponent implements OnInit {
                         this.notificationService.open(
                             'Failed to reschedule',
                             'Oops',
+                            {
+                                panelClass: ['fail-snackbar'],
+                            },
                         );
+                        this.rescheduleProcessing = false;
                     },
                 });
         }
