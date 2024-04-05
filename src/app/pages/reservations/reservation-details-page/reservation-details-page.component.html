@@ -25,6 +25,7 @@
 
         <div class="py-2 flex justify-end items-center flex-wrap gap-3">
             <button
+                *ngIf="showRescheduleReservationsButton"
                 mat-flat-button
                 color="accent"
                 (click)="onRescheduleReservationClick()">

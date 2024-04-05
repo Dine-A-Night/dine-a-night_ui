@@ -2,7 +2,34 @@
     >Reschedule Reservation<mat-icon class="mx-2">date_range</mat-icon>
 </h2>
 
-<mat-dialog-content class="h-full"> </mat-dialog-content>
+<mat-dialog-content class="h-full">
+    <reservation-duration-form
+        [reservationDurationForm]="reservationDurationForm"
+        [startAt]="startAt"></reservation-duration-form>
+
+    <div
+        *ngIf="slotUnavailable"
+        class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 my-2 rounded relative"
+        role="alert">
+        <strong class="font-bold">Oops! </strong>
+        <span class="block sm:inline"
+            >This slot is already reserved. Please choose a different
+            time.</span
+        >
+    </div>
+
+    <restaurant-layout
+        [selectionDisabled]="true"
+        [restaurant]="restaurant"
+        [unavailableTableIds]="
+            getUnavailableTableIds(
+                currentReservations,
+                startDateTime,
+                endDateTime
+            )
+        "
+        [selectedTable]="reservation.tables[0]"></restaurant-layout>
+</mat-dialog-content>
 
 <mat-dialog-actions
     class="absolute right-0 bottom-0 flex flex-wrap"
@@ -16,10 +43,12 @@
     </button>
 
     <button
+        [disabled]="saveDisabled"
         [disableRipple]="true"
         mat-raised-button
+        (click)="onRescheduleClick()"
         color="accent">
         <mat-icon>today</mat-icon>
-        Reserve Table
+        Reschedule
     </button>
 </mat-dialog-actions>
