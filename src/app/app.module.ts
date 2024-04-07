@@ -80,6 +80,8 @@ import { ImageCellRendererComponent } from './components/ag-grid/cell-renderers/
 import { DateCellRendererComponent } from './components/ag-grid/cell-renderers/date-cell-renderer.component';
 import { CurrencyCellRendererComponent } from './components/ag-grid/cell-renderers/currency-cell-renderer.component';
 import { ReservationDetailsPageComponent } from './pages/reservations/reservation-details-page/reservation-details-page.component';
+import { ReservationDurationFormComponent } from './components/reservations/create-reservation-dialog/reservation-duration-form/reservation-duration-form.component';
+import { RescheduleReservationDialogComponent } from './components/reservations/reschedule-reservation-dialog/reschedule-reservation-dialog.component';
 
 @NgModule({
     declarations: [
@@ -127,6 +129,8 @@ import { ReservationDetailsPageComponent } from './pages/reservations/reservatio
         DateCellRendererComponent,
         CurrencyCellRendererComponent,
         ReservationDetailsPageComponent,
+        ReservationDurationFormComponent,
+        RescheduleReservationDialogComponent,
     ],
     imports: [
         BrowserModule,

@@ -75,9 +75,7 @@ export class CustomerReservationsPageComponent implements OnDestroy {
         this.gridApi = event.api;
     }
 
-    onFirstDataRendered(event: FirstDataRenderedEvent) {
-        console.log(event);
-    }
+    onFirstDataRendered(event: FirstDataRenderedEvent) {}
 
     onRowClicked(event: RowClickedEvent<ReservationViewModel>) {
         const reservationId = event.data?._id;

@@ -19,100 +19,11 @@
                 <h2 class="text-xl font-bold text-color-primary mb-2"
                     >Reservation Timing</h2
                 >
-                <form
-                    [formGroup]="reservationDurationForm"
-                    class="flex flex-wrap gap-5">
-                    <mat-form-field class="w-full lg:flex-1 mb-4">
-                        <mat-label>Reservation Date</mat-label>
-                        <input
-                            formControlName="reservationDate"
-                            autocomplete="off"
-                            matInput
-                            readonly
-                            [min]="startAt"
-                            [value]="startAt"
-                            [matDatepicker]="datePicker" />
-                        <mat-hint>MM/DD/YYYY</mat-hint>
-                        <mat-datepicker-toggle
-                            matIconSuffix
-                            [for]="datePicker"></mat-datepicker-toggle>
-                        <mat-datepicker
-                            [startAt]="startAt"
-                            #datePicker></mat-datepicker>
+                <reservation-duration-form
+                    [reservationDurationForm]="
+                        reservationDurationForm
+                    "></reservation-duration-form>
 
-                        <mat-error
-                            *ngIf="
-                                reservationDurationForm.get('reservationDate')
-                                    ?.errors?.['required']
-                            "
-                            >Reservation Date is Required</mat-error
-                        >
-                    </mat-form-field>
-
-                    <mat-form-field class="w-full sm:flex-1 mb-4">
-                        <mat-label>Start Time</mat-label>
-
-                        <input
-                            formControlName="startDateTime"
-                            autocomplete="off"
-                            readonly
-                            matInput
-                            [ngxTimepicker]="startTimePicker" />
-                        <ngx-material-timepicker
-                            [timepickerClass]="'dine-a-night_time-picker'"
-                            #startTimePicker></ngx-material-timepicker>
-
-                        <mat-hint>HH:MM AM/PM</mat-hint>
-
-                        <mat-error
-                            *ngIf="
-                                reservationDurationForm.get('startDateTime')
-                                    ?.errors?.['required']
-                            "
-                            >Start Date is Required</mat-error
-                        >
-
-                        <mat-error
-                            *ngIf="
-                                reservationDurationForm.get('startDateTime')
-                                    ?.errors?.['DateBeforeValidator']
-                            "
-                            >Cannot be after end time</mat-error
-                        >
-                    </mat-form-field>
-
-                    <mat-form-field class="w-full sm:flex-1 mb-4">
-                        <mat-label>End Time</mat-label>
-
-                        <input
-                            formControlName="endDateTime"
-                            autocomplete="off"
-                            readonly
-                            matInput
-                            [ngxTimepicker]="endTimePicker" />
-                        <ngx-material-timepicker
-                            [timepickerClass]="'dine-a-night_time-picker'"
-                            #endTimePicker></ngx-material-timepicker>
-
-                        <mat-hint>HH:MM AM/PM</mat-hint>
-
-                        <mat-error
-                            *ngIf="
-                                reservationDurationForm.get('endDateTime')
-                                    ?.errors?.['required']
-                            "
-                            >End Date is Required</mat-error
-                        >
-
-                        <mat-error
-                            *ngIf="
-                                reservationDurationForm.get('endDateTime')
-                                    ?.errors?.['DateAfterValidator']
-                            "
-                            >Cannot be before Start Time</mat-error
-                        >
-                    </mat-form-field>
-                </form>
                 <h2 class="text-xl font-bold mb-2 text-color-primary"
                     >Seating Scheme</h2
                 >

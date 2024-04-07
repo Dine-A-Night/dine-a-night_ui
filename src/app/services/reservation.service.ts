@@ -126,6 +126,26 @@ export class ReservationService {
             .pipe(map((res) => res['reservation']));
     }
 
+    rescheduleReservation(
+        reservationId: string,
+        startDateTime: Date,
+        endDateTime: Date,
+    ) {
+        const url = `${this.API_URL}/reservations/${reservationId}/reschedule`;
+        const headers = this.authService.getAuthHeaders();
+
+        return this.http
+            .put(
+                url,
+                {
+                    startDateTime,
+                    endDateTime,
+                },
+                { headers },
+            )
+            .pipe(map((res) => res['reservation']));
+    }
+
     cancelReservation(reservationId: string) {
         const url = `${this.API_URL}/reservations/${reservationId}/cancel`;
         const headers = this.authService.getAuthHeaders();

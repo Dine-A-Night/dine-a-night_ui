@@ -51,6 +51,8 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
 
     currentUser: ProfileUser | null;
 
+    reservationInProcess = false;
+
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: CreateReservationDialogParams,
         public dialogRef: MatDialogRef<CreateReservationDialogComponent>,
@@ -179,7 +181,11 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
     }
 
     get saveDisabled() {
-        return this.reservationDurationForm.invalid || !this.selectedTable;
+        return (
+            this.reservationDurationForm.invalid ||
+            !this.selectedTable ||
+            this.reservationInProcess
+        );
     }
 
     get selectionDisabled() {
@@ -345,6 +351,8 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
         } else {
             const reservation = new Reservation(this.reservation);
 
+            this.reservationInProcess = true;
+
             this.reservationService
                 .createReservation(this.restaurant._id, reservation)
                 .subscribe({
@@ -358,6 +366,8 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
                             },
                         );
 
+                        this.reservationInProcess = false;
+
                         this.router.navigate(['/reservations']);
                         this.dialogRef.close();
                     },
@@ -369,6 +379,8 @@ export class CreateReservationDialogComponent implements OnInit, OnDestroy {
                                 panelClass: ['fail-snackbar'],
                             },
                         );
+
+                        this.reservationInProcess = false;
                     },
                 });
         }
