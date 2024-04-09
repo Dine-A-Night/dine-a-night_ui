@@ -1,0 +1,15 @@
+# docker-compose.yml
+
+services:
+  # Dine-A-Night Web Application UI
+  dine-a-night:
+    container_name: dine-a-night
+    # Use a proper init process (tini)
+    init: true
+    # Build the Docker Image using the Dockerfile
+    # and current directory as the build context
+    build: .
+
+    # Ports to publish
+    ports:
+      - "4200:80"
