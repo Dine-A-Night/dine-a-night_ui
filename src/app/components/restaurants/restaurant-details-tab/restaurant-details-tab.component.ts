@@ -129,6 +129,9 @@ export class RestaurantDetailsTabComponent implements OnInit {
             this.notificationService.open(
                 'Make sure you select an image file for upload!',
                 'Ok',
+                {
+                    panelClass: ['info-snackbar'],
+                },
             );
         }
     }

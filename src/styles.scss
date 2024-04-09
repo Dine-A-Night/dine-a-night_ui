@@ -209,6 +209,18 @@ a:hover {
     }
 }
 
+.mat-mdc-snack-bar-container {
+    &.info-snackbar {
+        --mdc-snackbar-container-color: #3540dc;
+        --mat-mdc-snack-bar-button-color: #fff;
+        --mdc-snackbar-supporting-text-color: #fff;
+    }
+
+    button {
+        color: white !important;
+    }
+}
+
 /* ngx-timepicker  */
 .timepicker-overlay {
     z-index: 1100 !important;
@@ -222,14 +234,4 @@ a:hover {
     --dial-background-color: #d17341;
     --clock-hand-color: #d17341;
     --button-color: #d17341;
-}
-
-/* Gui Grid */
-.dine-a-night_grid-row {
-    cursor: pointer;
-}
-
-.dine-a-night_grid-row:hover {
-    background-color: $color-accent-light !important;
-    border-block: 2px solid $color-accent !important;
 }

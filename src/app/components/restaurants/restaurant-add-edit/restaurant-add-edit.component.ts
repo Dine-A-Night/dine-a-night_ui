@@ -88,7 +88,9 @@ export class RestaurantAddEditComponent implements OnInit {
                 this.cuisinesList = list;
             },
             error: (err) => {
-                this.notificationService.open(`Error: ${err.message}`, 'Ok');
+                this.notificationService.open(`Error: ${err.message}`, 'Ok', {
+                    panelClass: ['fail-snackbar'],
+                });
             },
         });
 

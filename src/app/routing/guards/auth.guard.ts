@@ -16,6 +16,9 @@ export const authGuard: CanActivateFn = async () => {
         notificationService.open(
             'You need to sign-in to access this feature',
             'Ok',
+            {
+                panelClass: ['info-snackbar'],
+            },
         );
     }
 
