@@ -78,19 +78,33 @@ export class RegisterComponent {
                 this.openSnackBar(
                     `Successfully created user ${res.user?.displayName}`,
                     'Ok',
+                    'success-snackbar',
                 );
             } else {
-                this.openSnackBar(`Couldn't create the user!`, 'Try Again!');
+                this.openSnackBar(
+                    `Couldn't create the user!`,
+                    'Try Again!',
+                    'fail-snackbar',
+                );
             }
         } catch (err: any) {
             console.error(err);
-            this.openSnackBar(`Couldn't create the user!`, 'Try Again!');
+            this.openSnackBar(
+                `Couldn't create the user!`,
+                'Try Again!',
+                'fail-snackbar',
+            );
         }
     }
 
-    openSnackBar(message: string, action: string) {
+    openSnackBar(
+        message: string,
+        action: string,
+        panelClass = 'info-snackbar',
+    ) {
         this._snackBar.open(message, action, {
             duration: 5000,
+            panelClass: [panelClass],
         });
     }
 

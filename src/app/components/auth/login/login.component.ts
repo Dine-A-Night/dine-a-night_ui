@@ -44,20 +44,27 @@ export class LoginComponent implements OnInit {
                 this.openSnackBar(
                     `Successfully logged in as ${res.user?.displayName}`,
                     'Ok',
+                    'success-snackbar',
                 );
             } else {
                 this.openSnackBar(
                     `Incorrect Credentials/User not found`,
                     'Try Again!',
+                    'fail-snackbar',
                 );
             }
         } catch (err: any) {
-            this.openSnackBar('Invalid Credentials', 'Oops');
+            this.openSnackBar('Invalid Credentials', 'Oops', 'fail-snackbar');
         }
     }
-    openSnackBar(message: string, action: string) {
+    openSnackBar(
+        message: string,
+        action: string,
+        panelClass = 'info-snackbar',
+    ) {
         this._snackBar.open(message, action, {
             duration: 5000,
+            panelClass: [panelClass],
         });
     }
 
