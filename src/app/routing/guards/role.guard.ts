@@ -23,7 +23,9 @@ export function roleGuard(
 
         if (!accessApproved) {
             router.navigateByUrl(redirectUrl);
-            notificationService.open(errorMessaage, 'Ok');
+            notificationService.open(errorMessaage, 'Ok', {
+                panelClass: ['info-snackbar'],
+            });
         }
 
         return accessApproved;
