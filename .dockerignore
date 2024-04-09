@@ -1,0 +1,12 @@
+# Files to ignore from the build context
+.github/
+.vscode/
+
+.git/
+.gitignore
+.prettier*
+README.md
+
+# No generated artifacts
+dist/
+node_modules/
