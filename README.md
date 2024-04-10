@@ -1,5 +1,13 @@
 # DineANight.UI
 
+**Dine-a-Night** is a user-friendly virtual reservation and review system poised to revolutionize the restaurant experience in Toronto. Our goal is to enhance restaurant operations and provide customers with an enriched dining experience. By incorporating features that allow the guest to choose which table they want to reserve, displaying guest reviews, and allowing restaurants to be able to perform complex analysis on their reservations, Dine-a-Night will help restaurants offer a seamless dining experience.
+
+![Dine-A-Night Landing Page](https://github.com/Dine-A-Night/dine-a-night_ui/assets/78865303/382b18b0-ff92-4830-9488-154cf2ac1db8)
+
+## Project Architecture
+
+![Project Architecture - Deployment Diagram](https://github.com/Dine-A-Night/dine-a-night_ui/assets/78865303/e80f8e05-8ef5-4c4d-b85d-a24e445c4e36)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.12.
 
 ## Development server
