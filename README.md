@@ -6,7 +6,7 @@
 
 ## Project Architecture
 
-![Project Architecture - Deployment Diagram](https://github.com/Dine-A-Night/dine-a-night_ui/assets/78865303/e80f8e05-8ef5-4c4d-b85d-a24e445c4e36)
+![Project Architecture - Deployment Diagram](https://github.com/Dine-A-Night/dine-a-night_ui/assets/78865303/5f08a0ef-73b1-4716-b954-a82dfda9a99e)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.12.
 
