@@ -1,13 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, map, of } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { Order } from '../models/order.model';
 import { Reservation } from '../models/reservation.model';
 import { TableType } from '../models/table.model';
 import { ReservationViewModel } from './../view-models/reservation-view.model';
 import { AuthService } from './auth.service';
-import { ProfileUser, UserRole } from '../models/user.model';
 
 @Injectable({
     providedIn: 'root',

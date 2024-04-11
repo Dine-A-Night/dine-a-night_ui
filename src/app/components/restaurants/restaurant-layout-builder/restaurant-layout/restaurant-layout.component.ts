@@ -1,4 +1,3 @@
-import { SpinnerType } from './../../../reusables/loading-spinner/loading-spinner.component';
 import {
     CdkDragDrop,
     moveItemInArray,
@@ -24,6 +23,7 @@ import {
 } from 'src/app/models/table.model';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { RestaurantsService } from 'src/app/services/restaurants.service';
+import { SpinnerType } from './../../../reusables/loading-spinner/loading-spinner.component';
 
 @Component({
     selector: 'restaurant-layout',

@@ -1,17 +1,6 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-    Reservation,
-    ReservationState,
-    Reservations,
-} from 'src/app/models/reservation.model';
-import { Restaurant } from 'src/app/models/restaurant.model';
-import { ReservationService } from 'src/app/services/reservation.service';
-import { RestaurantsService } from 'src/app/services/restaurants.service';
-import { ReservationViewModel } from 'src/app/view-models/reservation-view.model';
 import {
     ColDef,
     FirstDataRenderedEvent,
@@ -21,13 +10,17 @@ import {
     RowClickedEvent,
     ValueGetterParams,
 } from 'ag-grid-community';
-import { ImageCellRendererComponent } from 'src/app/components/ag-grid/cell-renderers/image-cell-renderer.component';
+import { CurrencyCellRendererComponent } from 'src/app/components/ag-grid/cell-renderers/currency-cell-renderer.component';
 import {
     DateCellRendererComponent,
     DateCellRendererParams,
 } from 'src/app/components/ag-grid/cell-renderers/date-cell-renderer.component';
-import { CurrencyCellRendererComponent } from 'src/app/components/ag-grid/cell-renderers/currency-cell-renderer.component';
+import { ReservationState } from 'src/app/models/reservation.model';
+import { Restaurant } from 'src/app/models/restaurant.model';
+import { ReservationService } from 'src/app/services/reservation.service';
+import { RestaurantsService } from 'src/app/services/restaurants.service';
 import { isDefNotNull } from 'src/app/utils/helper-functions';
+import { ReservationViewModel } from 'src/app/view-models/reservation-view.model';
 
 @Component({
     selector: 'restaurant-reservations-page',

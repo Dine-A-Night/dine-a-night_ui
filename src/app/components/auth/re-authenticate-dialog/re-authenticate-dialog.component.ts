@@ -1,11 +1,9 @@
-import { Component, Inject, inject } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { firstValueFrom, take } from 'rxjs';
-import { UserService } from 'src/app/services/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { EmailAuthProvider } from 'firebase/auth';
 import { AuthService } from 'src/app/services/auth.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
     selector: 're-authenticate-dialog',

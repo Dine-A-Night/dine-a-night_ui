@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Coordinates, RestaurantLocation } from '../models/restaurant.model';
 import { Observable } from 'rxjs';
+import { Coordinates, RestaurantLocation } from '../models/restaurant.model';
 import { MINUTES_TO_MILLISECONDS } from '../utils/static-helpers';
 
 @Injectable({

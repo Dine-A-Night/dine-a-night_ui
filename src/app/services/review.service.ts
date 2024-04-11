@@ -1,9 +1,9 @@
-import { Injectable, inject } from '@angular/core';
-import { environment } from 'src/environments/environment.development';
-import { AuthService } from './auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { Observable, map, switchMap } from 'rxjs';
+import { environment } from 'src/environments/environment.development';
 import { Review, Reviews } from '../models/review.model';
-import { Observable, map, of, switchMap } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
     providedIn: 'root',

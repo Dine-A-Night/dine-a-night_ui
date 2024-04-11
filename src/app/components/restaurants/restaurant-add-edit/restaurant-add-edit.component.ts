@@ -6,7 +6,7 @@ import {
     ViewChild,
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import {
@@ -15,12 +15,12 @@ import {
     Restaurant,
     RestaurantLocation,
 } from 'src/app/models/restaurant.model';
+import { GeolocationService } from 'src/app/services/geolocation.service';
 import { RestaurantsService } from 'src/app/services/restaurants.service';
 import { UserService } from 'src/app/services/user.service';
+import { idsToObjects } from 'src/app/utils/helper-functions';
 import { POSTAL_CODE_REGEX } from 'src/app/utils/static-helpers';
 import { extractAddressProps } from '../../maps/app-address-form/app-address-form.component';
-import { idsToObjects } from 'src/app/utils/helper-functions';
-import { GeolocationService } from 'src/app/services/geolocation.service';
 
 @Component({
     selector: 'restaurant-add-edit',

@@ -66,22 +66,22 @@ import { TableCellRendererComponent } from './components/restaurants/restaurant-
 import { MetersToKmsPipe } from './pipes/meters-to-kms.pipe';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { PreorderFormComponent } from './components/reservations/preorder-form/preorder-form.component';
 import { CreateReservationSummaryComponent } from './components/reservations/create-reservation-dialog/create-reservation-summary/create-reservation-summary.component';
+import { PreorderFormComponent } from './components/reservations/preorder-form/preorder-form.component';
 
 import { MatTableModule } from '@angular/material/table';
 import { CustomerReservationsPageComponent } from './pages/reservations/customer-reservations-page/customer-reservations-page.component';
 import { RestaurantReservationsPageComponent } from './pages/reservations/restaurant-reservations-page/restaurant-reservations-page.component';
 
 import { MatSortModule } from '@angular/material/sort';
-import { InformationalTextComponent } from './components/reusables/informational-text/informational-text.component';
 import { AgGridAngular } from 'ag-grid-angular';
-import { ImageCellRendererComponent } from './components/ag-grid/cell-renderers/image-cell-renderer.component';
-import { DateCellRendererComponent } from './components/ag-grid/cell-renderers/date-cell-renderer.component';
 import { CurrencyCellRendererComponent } from './components/ag-grid/cell-renderers/currency-cell-renderer.component';
-import { ReservationDetailsPageComponent } from './pages/reservations/reservation-details-page/reservation-details-page.component';
+import { DateCellRendererComponent } from './components/ag-grid/cell-renderers/date-cell-renderer.component';
+import { ImageCellRendererComponent } from './components/ag-grid/cell-renderers/image-cell-renderer.component';
 import { ReservationDurationFormComponent } from './components/reservations/create-reservation-dialog/reservation-duration-form/reservation-duration-form.component';
 import { RescheduleReservationDialogComponent } from './components/reservations/reschedule-reservation-dialog/reschedule-reservation-dialog.component';
+import { InformationalTextComponent } from './components/reusables/informational-text/informational-text.component';
+import { ReservationDetailsPageComponent } from './pages/reservations/reservation-details-page/reservation-details-page.component';
 
 @NgModule({
     declarations: [

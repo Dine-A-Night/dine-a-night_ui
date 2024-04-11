@@ -1,9 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, concat, concatMap, forkJoin, from, map } from 'rxjs';
+import { Observable, forkJoin, from, map } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { MenuItem } from '../models/menu-item';
 import { AuthService } from './auth.service';
-import { environment } from 'src/environments/environment';
 import { FileUploadService } from './file-upload.service';
 
 @Injectable({

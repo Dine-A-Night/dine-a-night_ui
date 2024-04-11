@@ -23,9 +23,9 @@ import { RestaurantsService } from 'src/app/services/restaurants.service';
 import { UserService } from 'src/app/services/user.service';
 import { deepEqual, isDefNotNull } from 'src/app/utils/helper-functions';
 import { CreateReservationDialogComponent } from '../../reservations/create-reservation-dialog/create-reservation-dialog.component';
+import { SpinnerType } from '../../reusables/loading-spinner/loading-spinner.component';
 import { RestaurantAddEditComponent } from '../restaurant-add-edit/restaurant-add-edit.component';
 import { RestaurantLayoutBuilderComponent } from '../restaurant-layout-builder/restaurant-layout-builder.component';
-import { SpinnerType } from '../../reusables/loading-spinner/loading-spinner.component';
 
 @Component({
     selector: 'restaurant-details-tab',

@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs';
 import { RescheduleReservationDialogComponent } from 'src/app/components/reservations/reschedule-reservation-dialog/reschedule-reservation-dialog.component';
 import { ConfirmDialogComponent } from 'src/app/components/reusables/confirm-dialog/confirm-dialog.component';
 import { SpinnerType } from 'src/app/components/reusables/loading-spinner/loading-spinner.component';
-import { Reservation } from 'src/app/models/reservation.model';
 import { Restaurant } from 'src/app/models/restaurant.model';
 import { ProfileUser, UserRole } from 'src/app/models/user.model';
 import { ReservationService } from 'src/app/services/reservation.service';

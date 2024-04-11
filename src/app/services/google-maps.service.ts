@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Observable, catchError, map, of } from 'rxjs';
+import { catchError, map, of } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 
 @Injectable({

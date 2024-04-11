@@ -1,11 +1,4 @@
-import {
-    Component,
-    EventEmitter,
-    Input,
-    OnDestroy,
-    OnInit,
-    Output,
-} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject, Subscription, debounceTime } from 'rxjs';
 import { Restaurant } from 'src/app/models/restaurant.model';
@@ -14,7 +7,6 @@ import { UserService } from 'src/app/services/user.service';
 import { MenuItem } from '../../models/menu-item';
 import { MenuItemsService } from '../../services/menu-items.service';
 import { AddMenuItemDialogComponent } from './menu-item/add-menu-item-dialog/add-menu-item-dialog.component';
-import { OrderLine } from 'src/app/models/order.model';
 
 @Component({
     selector: 'menu-items',

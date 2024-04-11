@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { ImagePreviewModalComponent } from '../image-preview-modal/image-preview-modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ImagePreviewModalComponent } from '../image-preview-modal/image-preview-modal.component';
 
 @Component({
     selector: 'images-grid',

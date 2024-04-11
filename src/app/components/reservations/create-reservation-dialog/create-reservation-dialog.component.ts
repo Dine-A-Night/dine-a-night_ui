@@ -11,10 +11,11 @@ import {
     MatDialogRef,
 } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Observable, Subscription, map } from 'rxjs';
 import { MenuItem } from 'src/app/models/menu-item';
 import { Order, OrderLine } from 'src/app/models/order.model';
-import { Reservation, Reservations } from 'src/app/models/reservation.model';
+import { Reservation } from 'src/app/models/reservation.model';
 import { Restaurant } from 'src/app/models/restaurant.model';
 import { Table } from 'src/app/models/table.model';
 import { ProfileUser } from 'src/app/models/user.model';
@@ -26,9 +27,8 @@ import {
     DateBeforeValidator,
 } from 'src/app/utils/custom-validators';
 import { isDefNotNull } from 'src/app/utils/helper-functions';
-import { ConfirmDialogComponent } from '../../reusables/confirm-dialog/confirm-dialog.component';
 import { ReservationViewModel } from 'src/app/view-models/reservation-view.model';
-import { Router } from '@angular/router';
+import { ConfirmDialogComponent } from '../../reusables/confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector: 'create-reservation-dialog',

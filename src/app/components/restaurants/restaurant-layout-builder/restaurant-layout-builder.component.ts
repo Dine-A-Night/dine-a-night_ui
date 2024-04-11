@@ -1,14 +1,14 @@
-import { Component, EventEmitter, Inject, Output } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {
     MAT_DIALOG_DATA,
     MatDialog,
     MatDialogRef,
 } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Restaurant } from 'src/app/models/restaurant.model';
 import { Tables } from 'src/app/models/table.model';
-import { ConfirmDialogComponent } from '../../reusables/confirm-dialog/confirm-dialog.component';
 import { RestaurantsService } from 'src/app/services/restaurants.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmDialogComponent } from '../../reusables/confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector: 'restaurant-layout-builder',

@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Restaurant } from 'src/app/models/restaurant.model';
-import { ConfirmDialogComponent } from '../../reusables/confirm-dialog/confirm-dialog.component';
-import { RestaurantsService } from 'src/app/services/restaurants.service';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Restaurant } from 'src/app/models/restaurant.model';
+import { RestaurantsService } from 'src/app/services/restaurants.service';
+import { ConfirmDialogComponent } from '../../reusables/confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector: 'restaurant-card',

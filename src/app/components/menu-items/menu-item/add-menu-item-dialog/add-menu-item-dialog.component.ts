@@ -1,10 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MenuItemsService } from '../../../../services/menu-items.service';
-import { MenuItem } from '../../../../models/menu-item';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { isDefNotNull } from 'src/app/utils/helper-functions';
-import { Observable, concatMap, map, of, switchMap } from 'rxjs';
+import { concatMap, map, of } from 'rxjs';
+import { MenuItem } from '../../../../models/menu-item';
+import { MenuItemsService } from '../../../../services/menu-items.service';
 
 @Component({
     selector: 'app-add-menu-item-dialog',
