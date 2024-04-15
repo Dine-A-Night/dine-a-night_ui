@@ -189,6 +189,46 @@ npm start
 
 ![Landing Page](/src/assets/doc-images/image.png)
 
+#### Enabling Google Maps
+
+You will notice that any features involving Google Maps will not function correctly since the API Key setup in environment files only allow requests from Dine-A-Night's production domain.
+
+In order to work on those features locally, you will have to get your own **Google Maps Key**, which can be generated like so.
+
+1. Visit https://mapsplatform.google.com/ and click “Get Started”.
+
+![GoogleMapsPlatform](/src/assets/doc-images/GoogleMapsPlatform.png)
+
+2. Once signed in, you will be taken to Google Cloud Console. Open the **Project Selection** menu.
+
+![ProjectSelection](/src/assets/doc-images/ProjectSelection.png)
+
+3. Click on **New Project** and fill the required details.
+
+![NewProject](/src/assets/doc-images/NewProject.png)
+
+4. Once your project is created, go to **API’s and Services** tab from the left menu, and enable all the maps and places related services. In case of confusion, you can enable all for testing purposes.
+
+![API’s and Services](/src/assets/doc-images/APIsAndServices.png)
+
+5. Next, go to **Keys and Credentials**, and create an Api Key.
+
+![KeysAndCredentials](/src/assets/doc-images/KeysAndCredentials.png)
+
+6. Once created, open its detailed view and we need to add some restrictions.
+
+![DetailedView](/src/assets/doc-images/DetailedView.png)
+
+7. In **Set an application restriction** section, select **Websites** option and add the domains you need to allow. You will only need to add localhost for your local development.
+
+![AppRestriction](/src/assets/doc-images/AppRestriction.png)
+
+8. Finally add this api key to the project’s **environment file** by the name **googleMapsApiKey**.
+
+```
+googleMapsApiKey: 'Your_Key_Here',
+```
+
 ### Docker 🚢
 
 **Dine-A-Night**’s Frontend has also been [Dockerized](https://medium.com/@swalperen3008/what-is-dockerize-and-dockerize-your-project-a-step-by-step-guide-899c48a34df6) so new users can quickly spin up local containers without even knowing a single thing about the project’s tech stack.
