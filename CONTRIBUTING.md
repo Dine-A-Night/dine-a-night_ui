@@ -1,6 +1,6 @@
 <!-- omit in toc -->
 
-# Contributing to til-page-builder
+# Contributing to Dine-A-Night
 
 First off, thanks for taking the time to contribute! ❤️
 
